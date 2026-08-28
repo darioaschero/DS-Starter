@@ -1,0 +1,83 @@
+/* DS-Starter — raw scale tokens. No component meaning, no light-dark() here. */
+
+:root {
+  --ds-space-1: 0.25rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-4: 1rem;
+  --ds-space-5: 1.5rem;
+  --ds-space-6: 2rem;
+  --ds-space-7: 3rem;
+  --ds-space-8: 4rem;
+
+  /* Type scale ≈ ×1.2, hand-rounded to whole px at 16px root; 2 is the body base. */
+  --ds-font-size-1: 0.8125rem;
+  --ds-font-size-2: 1rem;
+  --ds-font-size-3: 1.1875rem;
+  --ds-font-size-4: 1.4375rem;
+  --ds-font-size-5: 1.75rem;
+  --ds-font-size-6: 2.125rem;
+
+  --ds-radius-sm: 0.25rem;
+  --ds-radius-md: 0.5rem;
+  --ds-radius-lg: 0.75rem;
+  --ds-radius-full: 999rem;
+
+  --ds-font-sans: system-ui, sans-serif;
+  --ds-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --ds-font-weight-normal: 400;
+  --ds-font-weight-medium: 500;
+  --ds-font-weight-strong: 600;
+
+  /*
+   * Raw palettes: 12-step scheme-neutral oklch ramps, light-ordered
+   * (1 = near-white, 12 = near-black-ish). Radix-spirit step roles:
+   * 1-2 app/subtle backgrounds · 3-5 tinted component backgrounds ·
+   * 6-8 borders and strong tints · 9-10 solids · 11-12 text.
+   * The dark end is deliberately shaped so dark-scheme aliases can reuse it:
+   * 12 ≈ dark app surface, 11 ≈ dark raised surface, hence light-scheme
+   * secondary text aliases step 10 rather than 11.
+   */
+
+  --ds-gray-1: oklch(0.99 0.002 260);
+  --ds-gray-2: oklch(0.975 0.003 260);
+  --ds-gray-3: oklch(0.95 0.004 260);
+  --ds-gray-4: oklch(0.925 0.005 260);
+  --ds-gray-5: oklch(0.9 0.006 260);
+  --ds-gray-6: oklch(0.865 0.008 260);
+  --ds-gray-7: oklch(0.8 0.01 260);
+  --ds-gray-8: oklch(0.7 0.012 260);
+  --ds-gray-9: oklch(0.57 0.012 260);
+  --ds-gray-10: oklch(0.46 0.011 260);
+  --ds-gray-11: oklch(0.31 0.01 260);
+  --ds-gray-12: oklch(0.21 0.01 260);
+
+  --ds-accent-1: oklch(0.99 0.005 250);
+  --ds-accent-2: oklch(0.975 0.009 250);
+  --ds-accent-3: oklch(0.945 0.018 250);
+  --ds-accent-4: oklch(0.915 0.028 250);
+  --ds-accent-5: oklch(0.88 0.04 250);
+  --ds-accent-6: oklch(0.84 0.055 251);
+  --ds-accent-7: oklch(0.78 0.075 252);
+  --ds-accent-8: oklch(0.68 0.11 253);
+  /* 9 kept at L 0.55 so near-white text stays ≥ 4.5:1 on it in both schemes. */
+  --ds-accent-9: oklch(0.55 0.19 255);
+  --ds-accent-10: oklch(0.5 0.18 256);
+  --ds-accent-11: oklch(0.44 0.16 257);
+  --ds-accent-12: oklch(0.3 0.09 260);
+
+  --ds-danger-1: oklch(0.99 0.005 20);
+  --ds-danger-2: oklch(0.975 0.01 20);
+  --ds-danger-3: oklch(0.945 0.022 21);
+  --ds-danger-4: oklch(0.915 0.035 22);
+  --ds-danger-5: oklch(0.885 0.05 22);
+  --ds-danger-6: oklch(0.845 0.07 23);
+  --ds-danger-7: oklch(0.78 0.09 24);
+  --ds-danger-8: oklch(0.7 0.13 25);
+  /* 9 kept at L 0.55 for the same near-white-text contrast bound as accent-9. */
+  --ds-danger-9: oklch(0.55 0.19 27);
+  --ds-danger-10: oklch(0.5 0.185 27);
+  --ds-danger-11: oklch(0.44 0.16 28);
+  --ds-danger-12: oklch(0.3 0.1 28);
+}

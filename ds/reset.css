@@ -1,0 +1,40 @@
+/* DS-Starter — minimal reset + shared focus baseline. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Components and layout own spacing; UA block margins fight composition. */
+* {
+  margin: 0;
+}
+
+/* Readable default for text not yet covered by a typography role. */
+body {
+  line-height: 1.5;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-inline-size: 100%;
+}
+
+/* Form controls do not inherit typography by default. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Shared focus baseline (conventions §8); values defined in tokens/semantic.css. */
+:where(:focus-visible) {
+  outline: var(--ds-focus-outline);
+  outline-offset: var(--ds-focus-outline-offset);
+}

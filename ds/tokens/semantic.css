@@ -1,0 +1,35 @@
+/* DS-Starter — semantic aliases; the only token file that knows about schemes. */
+
+:root {
+  color-scheme: light dark;
+
+  --ds-surface-1: light-dark(var(--ds-gray-1), var(--ds-gray-12));
+  --ds-surface-2: light-dark(var(--ds-gray-2), var(--ds-gray-11));
+  --ds-text-1: light-dark(var(--ds-gray-12), var(--ds-gray-1));
+  --ds-text-2: light-dark(var(--ds-gray-10), var(--ds-gray-8));
+  --ds-border-1: light-dark(var(--ds-gray-6), var(--ds-gray-10));
+
+  --ds-accent-surface: light-dark(var(--ds-accent-3), var(--ds-accent-12));
+  --ds-accent-text: light-dark(var(--ds-accent-11), var(--ds-accent-7));
+  /* Scheme-invariant pair: accent-9 was tuned so gray-1 text passes in both schemes. */
+  --ds-accent-strong: var(--ds-accent-9);
+  --ds-accent-contrast: var(--ds-gray-1);
+
+  --ds-link-color: light-dark(var(--ds-accent-11), var(--ds-accent-7));
+  --ds-danger-color: light-dark(var(--ds-danger-10), var(--ds-danger-8));
+  --ds-focus-color: light-dark(var(--ds-accent-9), var(--ds-accent-8));
+
+  --ds-disabled-opacity: 0.5;
+
+  --ds-focus-outline: 2px solid var(--ds-focus-color);
+  --ds-focus-outline-offset: 2px;
+}
+
+/* Provisional subtree theme switch (conventions §5.2). */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}

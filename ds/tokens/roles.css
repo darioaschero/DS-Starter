@@ -1,0 +1,10 @@
+/* DS-Starter — typography roles: font-only, each a complete `font` shorthand value. */
+
+:root {
+  --ds-type-label-sm: var(--ds-font-weight-medium) var(--ds-font-size-1) / 1.2 var(--ds-font-sans);
+  --ds-type-label-md: var(--ds-font-weight-medium) var(--ds-font-size-2) / 1.2 var(--ds-font-sans);
+  --ds-type-body-md: var(--ds-font-weight-normal) var(--ds-font-size-2) / 1.5 var(--ds-font-sans);
+  --ds-type-heading-sm: var(--ds-font-weight-strong) var(--ds-font-size-3) / 1.3 var(--ds-font-sans);
+  --ds-type-heading-md: var(--ds-font-weight-strong) var(--ds-font-size-4) / 1.25 var(--ds-font-sans);
+  --ds-type-heading-lg: var(--ds-font-weight-strong) var(--ds-font-size-5) / 1.2 var(--ds-font-sans);
+}
