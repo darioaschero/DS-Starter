@@ -1,0 +1,104 @@
+/* DS-Starter — button. Reference implementation of the component recipe (conventions §6).
+ *
+ * Anatomy:
+ *   <button data-ui="button">
+ *     <svg data-part="icon" aria-hidden="true">…</svg>   optional, decorative, tracks font size
+ *     <span data-part="label">…</span>                    plain text carrier, no styling of its own
+ *   </button>
+ *   Parts are direct children of the root.
+ *
+ * Axes (per-component vocabulary; defaults are implemented ONLY in the base rule):
+ *   data-variant: soft (default) | solid   → owns --_ds-button-variant-bg, --_ds-button-variant-fg
+ *   data-size:    sm | md (default)        → owns --_ds-button-size-font, --_ds-button-size-padding-x,
+ *                                                 --_ds-button-size-height
+ *
+ * Public override API (instance or context; beats axis channels, loses to nothing else):
+ *   --ds-button-bg, --ds-button-fg, --ds-button-font, --ds-button-padding-x, --ds-button-height
+ *   Resolution: public override → axis channel → semantic token (already inside the channel).
+ *   Axis selectors never write these public properties.
+ *
+ * State: hover/active derive a shade by mixing the resolved fg chain over the resolved bg
+ * chain (8% / 12%, oklch) — darkens soft in light scheme, lightens it in dark, and keeps
+ * working for any readable public bg/fg override pair. Disabled dims via --ds-disabled-opacity.
+ * Focus comes from the shared baseline in reset.css; the pill geometry needs no re-tune.
+ *
+ * Note: reset.css sets `font: inherit` on buttons — the font chain below is load-bearing.
+ */
+
+[data-ui="button"] {
+  /* Axis channel defaults — the ONLY implementation of soft + md. */
+  --_ds-button-variant-bg: var(--ds-accent-surface);
+  --_ds-button-variant-fg: var(--ds-accent-text);
+  --_ds-button-size-font: var(--ds-type-label-md);
+  --_ds-button-size-padding-x: var(--ds-space-5);
+  --_ds-button-size-height: 2.75rem;
+
+  /* Resolution: public override → axis channel. */
+  background: var(--ds-button-bg, var(--_ds-button-variant-bg));
+  color: var(--ds-button-fg, var(--_ds-button-variant-fg));
+  font: var(--ds-button-font, var(--_ds-button-size-font));
+  padding-inline: var(--ds-button-padding-x, var(--_ds-button-size-padding-x));
+  min-block-size: var(--ds-button-height, var(--_ds-button-size-height));
+
+  /* Base constants (not axis-configurable) + UA chrome neutralization. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  padding-block: 0;
+  border: none;
+  border-radius: var(--ds-radius-full);
+  cursor: pointer;
+  user-select: none;
+
+  /* Axis: variant — rebinds only variant channels. */
+  &[data-variant="solid"] {
+    --_ds-button-variant-bg: var(--ds-accent-strong);
+    --_ds-button-variant-fg: var(--ds-accent-contrast);
+  }
+
+  &[data-variant="soft"] {
+    /* Default vocabulary marker. No channel rebind. */
+  }
+
+  /* Axis: size — rebinds only size channels. */
+  &[data-size="sm"] {
+    --_ds-button-size-font: var(--ds-type-label-sm);
+    --_ds-button-size-padding-x: var(--ds-space-3);
+    --_ds-button-size-height: 2.25rem;
+  }
+
+  &[data-size="md"] {
+    /* Default vocabulary marker. No channel rebind. */
+  }
+
+  /* State (conventions §7) — shades over the resolved chains so overrides flow through. */
+  &:hover:not(:disabled) {
+    background: color-mix(
+      in oklch,
+      var(--ds-button-bg, var(--_ds-button-variant-bg)),
+      var(--ds-button-fg, var(--_ds-button-variant-fg)) 8%
+    );
+  }
+
+  &:active:not(:disabled) {
+    background: color-mix(
+      in oklch,
+      var(--ds-button-bg, var(--_ds-button-variant-bg)),
+      var(--ds-button-fg, var(--_ds-button-variant-fg)) 12%
+    );
+  }
+
+  &:disabled {
+    opacity: var(--ds-disabled-opacity);
+    cursor: default;
+  }
+
+  /* Parts (direct children; "label" needs no rules of its own). */
+  & > [data-part="icon"] {
+    /* Intentional em: the icon tracks whatever font the size axis or override resolved. */
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+  }
+}

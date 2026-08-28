@@ -1,0 +1,79 @@
+/* DS-Starter — card component.
+ *
+ * Reference implementation for named parts (data-part) and part containment.
+ *
+ * Anatomy (canonical markup: parts are DIRECT CHILDREN of the root):
+ *   [data-ui="card"]          root — any grouping element (<section>, <article>, <div>)
+ *     [data-part="title"]     a real heading, level per document outline
+ *     [data-part="body"]      main content
+ *     [data-part="actions"]   horizontal row of actions
+ *
+ * Axes:
+ *   data-size: sm | md (default) | lg
+ *     owns: --_ds-card-size-padding, --_ds-card-size-gap, --_ds-card-size-title-font
+ *
+ * Public API (resolution: public override → axis channel / base constant):
+ *   --ds-card-bg        background      default var(--ds-surface-2)
+ *   --ds-card-padding   padding         default size channel
+ *   --ds-card-radius    border-radius   default var(--ds-radius-lg)
+ *
+ * Part containment: part rules use direct-child combinators (& > [data-part=…]),
+ * so they cannot reach parts of nested components (a button's label) or parts of
+ * a card nested inside a card. Contract: parts sit as direct children of the card
+ * root; wrap content INSIDE a part, never around one — a wrapped part is
+ * deliberately left unstyled. The @scope alternative was tested and documented
+ * in docs/findings/card.md.
+ *
+ * Parts establish their own typography: a card inside rich text receives no
+ * prose styling, so the card cannot rely on inherited fonts for its parts.
+ */
+
+[data-ui="card"] {
+  /* 1. Axis channel defaults — the base rule is the ONLY implementation of md. */
+  --_ds-card-size-padding: var(--ds-space-5);
+  --_ds-card-size-gap: var(--ds-space-3);
+  --_ds-card-size-title-font: var(--ds-type-heading-sm);
+
+  /* 2. Resolution: public override → axis channel / base constant. */
+  background: var(--ds-card-bg, var(--ds-surface-2));
+  padding: var(--ds-card-padding, var(--_ds-card-size-padding));
+  border-radius: var(--ds-card-radius, var(--ds-radius-lg));
+  border: 1px solid var(--ds-border-1);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_ds-card-size-gap);
+
+  /* 3. Axis selectors rebind ONLY their own channels. */
+  &[data-size="sm"] {
+    --_ds-card-size-padding: var(--ds-space-3);
+    --_ds-card-size-gap: var(--ds-space-2);
+    --_ds-card-size-title-font: var(--ds-type-heading-sm);
+  }
+
+  &[data-size="md"] {
+    /* Default vocabulary marker. No channel rebind. */
+  }
+
+  &[data-size="lg"] {
+    --_ds-card-size-padding: var(--ds-space-6);
+    --_ds-card-size-gap: var(--ds-space-4);
+    --_ds-card-size-title-font: var(--ds-type-heading-md);
+  }
+
+  /* 4. Parts — direct children only (see containment note above). */
+  & > [data-part="title"] {
+    font: var(--_ds-card-size-title-font);
+  }
+
+  & > [data-part="body"] {
+    font: var(--ds-type-body-md);
+  }
+
+  & > [data-part="actions"] {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--ds-space-2);
+  }
+}

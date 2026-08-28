@@ -1,0 +1,160 @@
+/* DS-Starter — rich-text: the semantic adapter from prose HTML to typography
+ * roles, and the reference implementation of @scope containment
+ * (conventions §9, direction §13).
+ *
+ * Root: [data-ui="rich-text"] — typically <article> around rendered Markdown.
+ * Axes: none in this prototype. Parts: none.
+ *
+ * Public override API (font-only; each resolves public override → role):
+ *   --ds-rich-text-h1-font       h1                    → --ds-type-heading-lg
+ *   --ds-rich-text-h2-font       h2                    → --ds-type-heading-md
+ *   --ds-rich-text-heading-font  h3–h6                 → --ds-type-heading-sm
+ *   --ds-rich-text-body-font     p li dd dt blockquote td th
+ *                                                      → --ds-type-body-md
+ *
+ * Containment doctrine:
+ * - Everything lives in ONE @scope block; any nested [data-ui] is a lower
+ *   boundary, so prose selectors cannot reach into embedded components
+ *   (selector containment).
+ * - There is deliberately NO rule on the root itself: @scope stops selectors,
+ *   not inheritance, so the root must contribute nothing inheritable — no
+ *   typography, no color, and no box styling was needed either. Roles are
+ *   mapped per element inside the scope (inheritance containment); what prose
+ *   inherits from the page canvas crosses the boundary unchanged.
+ * - Block elements get complete font roles. Inline semantics only modify the
+ *   current context (weight, style, family, relative size, link color) —
+ *   never a full role, so they stay correct inside headings.
+ * - Every selector is :where()-wrapped — zero specificity throughout (the
+ *   @scope prelude itself adds none, and :scope is never used in subjects).
+ */
+
+@scope ([data-ui="rich-text"]) to (:scope [data-ui]) {
+  /* ---- Block typography: complete font roles ---- */
+
+  :where(h1) {
+    font: var(--ds-rich-text-h1-font, var(--ds-type-heading-lg));
+  }
+
+  :where(h2) {
+    font: var(--ds-rich-text-h2-font, var(--ds-type-heading-md));
+  }
+
+  :where(h3, h4, h5, h6) {
+    font: var(--ds-rich-text-heading-font, var(--ds-type-heading-sm));
+  }
+
+  :where(p, li, dd, dt, blockquote, td, th) {
+    font: var(--ds-rich-text-body-font, var(--ds-type-body-md));
+  }
+
+  /* ---- Inline semantics: modify the current context, never a full role ---- */
+
+  :where(strong) {
+    font-weight: var(--ds-font-weight-strong);
+  }
+
+  :where(em) {
+    font-style: italic;
+  }
+
+  :where(a) {
+    color: var(--ds-link-color);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.15em;
+  }
+
+  /* Inline code only — `pre > code` inherits the pre treatment instead, so
+     block code is not shrunk twice and gets no pill background. */
+  :where(:not(pre) > code) {
+    font-family: var(--ds-font-mono);
+    font-size: 0.9em; /* the sanctioned intentional em (conventions §5) */
+    background: var(--ds-surface-2);
+    padding: 0.1em 0.35em; /* em-based: scales with context, headings included */
+    border-radius: var(--ds-radius-sm);
+  }
+
+  /* ---- Prose rhythm ----
+     The reset zeroes all UA margins; flow spacing is recreated here on
+     following siblings only, so first/last children never pad the container.
+     Subjects are named prose elements — never `*` — so unknown elements
+     (nested component roots included) are never touched. */
+
+  :where(* + p, * + ul, * + ol, * + dl, * + blockquote, * + pre, * + table, * + hr) {
+    margin-block-start: var(--ds-space-4);
+  }
+
+  /* Headings open a section: extra air above… */
+  :where(* + h1, * + h2, * + h3, * + h4, * + h5, * + h6) {
+    margin-block-start: var(--ds-space-6);
+  }
+
+  /* …and hold their first block close (later in source, same zero specificity). */
+  :where(h1, h2, h3, h4, h5, h6) + :where(p, ul, ol, dl, blockquote, pre, table) {
+    margin-block-start: var(--ds-space-2);
+  }
+
+  :where(li + li) {
+    margin-block-start: var(--ds-space-1);
+  }
+
+  :where(dd + dt) {
+    margin-block-start: var(--ds-space-3);
+  }
+
+  /* ---- Blocks beyond typography ---- */
+
+  /* Lists: token indent instead of the UA's 40px; UA markers kept. Nesting
+     adds only this same indent, so nested lists cannot compound spacing. */
+  :where(ul, ol) {
+    padding-inline-start: var(--ds-space-5);
+  }
+
+  :where(dd) {
+    margin-inline-start: var(--ds-space-5);
+  }
+
+  :where(blockquote) {
+    padding-inline-start: var(--ds-space-4);
+    border-inline-start: 3px solid var(--ds-border-1);
+    color: var(--ds-text-2);
+  }
+
+  /* Code blocks: mono family only — size and line-height are deliberately
+     inherited (pre has no font role in this prototype; flagged in findings). */
+  :where(pre) {
+    font-family: var(--ds-font-mono);
+    background: var(--ds-surface-2);
+    padding: var(--ds-space-3);
+    border-radius: var(--ds-radius-md);
+    overflow-x: auto;
+  }
+
+  /* Block code adopts the pre context exactly once: `font: inherit` neutralizes
+     the UA's `code { font-family: monospace }` (and its size quirk), which would
+     otherwise win because the inline-code rule above skips `pre > code`. */
+  :where(pre > code) {
+    font: inherit;
+  }
+
+  :where(hr) {
+    border: 0;
+    border-block-start: 1px solid var(--ds-border-1);
+  }
+
+  /* Tables: row rules only. th re-bolds and start-aligns over its body role
+     (same zero specificity — source order decides). */
+  :where(table) {
+    border-collapse: collapse;
+  }
+
+  :where(th, td) {
+    padding-block: var(--ds-space-2);
+    padding-inline: 0 var(--ds-space-5);
+    border-block-end: 1px solid var(--ds-border-1);
+  }
+
+  :where(th) {
+    font-weight: var(--ds-font-weight-strong);
+    text-align: start;
+  }
+}
