@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter — rich-text fixture</title>
+  <link rel="stylesheet" href="../ds/index.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-surface-1);
+      color: var(--ds-text-1);
+      font: var(--ds-type-body-md);
+      max-inline-size: 64rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="font: var(--ds-type-heading-lg)">Rich text</h1>
+  <p style="margin-block-start: var(--ds-space-2)">
+    <code>data-ui="rich-text"</code> maps semantic prose HTML to typography roles inside
+    <code>@scope (…) to (:scope [data-ui])</code>. The root carries no rule at all, so the
+    component adds nothing inheritable of its own. Note that <code>code</code> on this page,
+    outside any rich-text article, renders with plain UA styling — the scoped rules do not exist out here.
+  </p>
+  <p style="margin-block-start: var(--ds-space-2)"><a href="./index.html">Back to fixture index</a></p>
+
+  <!-- ============ 1. Full prose specimen ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">1 · Full prose specimen</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      One <code>&lt;article data-ui="rich-text"&gt;</code>; everything below is styled only by scoped rules
+      and by inheritance from this page's chrome. The dashed box near the end is the nested selector-bleed probe.
+    </p>
+
+    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+      <article data-ui="rich-text" id="specimen">
+        <h1>Field notes from a paper harbor</h1>
+
+        <p>
+          The tide tables were <strong>unambiguous</strong> about the morning: leave before the
+          seventh bell or wait a full day. We had read <em>almost</em> every entry in
+          <a href="#specimen">the harbormaster's log</a>, and the one line that mattered was set in
+          <code>--ds-type-body-md</code> like everything else around it.
+        </p>
+
+        <p>
+          A second paragraph proves the flow rhythm: paragraphs space themselves from their
+          preceding sibling, never from the container, so the article starts and ends flush
+          with its padding.
+        </p>
+
+        <h2>Charts and provisions</h2>
+        <p>
+          Second-level headings wear <code>heading-md</code>. The paragraph directly under a heading
+          sits closer to it than to the block above.
+        </p>
+
+        <h3>Packing list</h3>
+        <ul>
+          <li>Two spare sail battens and a <strong>sealed</strong> tin of wax</li>
+          <li>
+            Charts for the inner passage, ordered by day:
+            <ol>
+              <li>Harbor mouth to the first shoal</li>
+              <li>Shoal water to the lighthouse reach</li>
+            </ol>
+          </li>
+          <li>A short length of <em>very</em> patient rope</li>
+        </ul>
+
+        <h4>A caution from the log</h4>
+        <blockquote>
+          <p>
+            No skiff has ever been lost to the reach itself — only to the certainty that the
+            reach could be crossed <em>without reading the water first</em>.
+          </p>
+          <p>Entry forty-one, unsigned.</p>
+        </blockquote>
+
+        <h2 id="h2-inline">Mixing <strong>strong</strong> and <code>code()</code> in a heading</h2>
+        <p>
+          Inline semantics never carry a full font role, so the <code>strong</code> above keeps the
+          heading's size and line height, and the inline code shrinks relative to the heading
+          via its intentional <code>0.9em</code>.
+        </p>
+
+        <p>The containment rule itself, as a code block:</p>
+        <pre><code>@scope ([data-ui="rich-text"]) to (:scope [data-ui]) {
+  :where(h2) { font: var(--ds-rich-text-h2-font, var(--ds-type-heading-md)); }
+  :where(p, li, dd, dt, blockquote, td, th) { font: var(--ds-rich-text-body-font, var(--ds-type-body-md)); }
+  /* a deliberately long line to demonstrate that overflowing code scrolls inside the block instead of widening the article */
+}</code></pre>
+
+        <dl>
+          <dt>Reach</dt>
+          <dd>The stretch of open water between the shoal and the lighthouse.</dd>
+          <dt>Seventh bell</dt>
+          <dd>The last favorable tide of the morning watch.</dd>
+        </dl>
+
+        <hr>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Element</th>
+              <th>Role</th>
+              <th>Public override</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>h1</td>
+              <td>heading-lg</td>
+              <td><code>--ds-rich-text-h1-font</code></td>
+            </tr>
+            <tr>
+              <td>h2</td>
+              <td>heading-md</td>
+              <td><code>--ds-rich-text-h2-font</code></td>
+            </tr>
+            <tr>
+              <td>p, li, dd, dt, blockquote, td, th</td>
+              <td>body-md</td>
+              <td><code>--ds-rich-text-body-font</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 2. Selector-bleed probe: nested [data-ui] boundary inside the article.
+             Markup below the caption span is identical to the control probe outside. -->
+        <div style="border: 1px dashed var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
+          <span style="font: var(--ds-type-label-sm); color: var(--ds-text-2)">nested probe — inside the article; must render identically to the control probe below</span>
+          <section data-ui="probe" id="probe-nested">
+            <span data-part="label">Probe label part</span>
+            <h2>Probe heading</h2>
+            <p>Probe paragraph with <a href="#probe-nested">a probe link</a> that must keep UA link styling.</p>
+          </section>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 3. Control probe (outside any rich-text) ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">2 · Control probe</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      Identical markup, outside the article. Computed styles of both probes must match exactly:
+      no selector bleed into the nested one, no inheritable contribution from the rich-text root above it.
+    </p>
+
+    <div style="border: 1px dashed var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
+      <span style="font: var(--ds-type-label-sm); color: var(--ds-text-2)">control probe — outside every rich-text article</span>
+      <section data-ui="probe" id="probe-control">
+        <span data-part="label">Probe label part</span>
+        <h2>Probe heading</h2>
+        <p>Probe paragraph with <a href="#probe-control">a probe link</a> that must keep UA link styling.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- ============ 5. Public-override demo ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">3 · Public override</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      A second rich-text instance sets <code>--ds-rich-text-h2-font: var(--ds-type-heading-lg)</code>
+      on its root; the scoped h2 rule resolves the public override before the role default.
+    </p>
+
+    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+      <article data-ui="rich-text" id="override-demo" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
+        <h2>An h2 wearing heading-lg</h2>
+        <p>
+          Only the h2 mapping changes — this paragraph still resolves
+          <code>--ds-rich-text-body-font</code> to its <code>body-md</code> default.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 6. What crosses the boundary ============ -->
+  <section style="margin-block-start: var(--ds-space-7); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); background: var(--ds-surface-2)">
+    <h2 style="font: var(--ds-type-heading-sm)">What crosses the rich-text boundary</h2>
+    <p style="margin-block-start: var(--ds-space-3)">
+      <strong>Crosses into the article by ordinary inheritance from the page</strong> (this fixture's
+      chrome rule on <code>body</code>): color <code>var(--ds-text-1)</code>; font family, size and
+      weight from <code>var(--ds-type-body-md)</code>; line-height 1.5. Unmapped elements inside the
+      article — the nested probe's contents — show exactly these inherited values plus UA element defaults.
+    </p>
+    <p style="margin-block-start: var(--ds-space-3)">
+      <strong>Contributed by the rich-text root itself: nothing.</strong> The component has no root
+      rule, so nothing inheritable originates at the boundary; every declaration sits on prose
+      elements inside the scope. Evidence: the two probes above compute identically
+      (font-size, font-weight, line-height, color, margin-block-start).
+    </p>
+    <p style="margin-block-start: var(--ds-space-3)">
+      Public <code>--ds-rich-text-*</code> properties inherit like any custom property — including
+      into nested components — but are inert there: only scoped rules read them, and scoped
+      selectors stop at nested <code>[data-ui]</code> boundaries.
+    </p>
+  </section>
+
+</body>
+</html>

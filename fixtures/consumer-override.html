@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter — consumer-override fixture</title>
+  <link rel="stylesheet" href="../ds/index.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-surface-1);
+      color: var(--ds-text-1);
+      font: var(--ds-type-body-md);
+      max-inline-size: 64rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+
+    /* consumer application CSS — deliberately unlayered.
+       This is the specimen under test: ordinary application rules written with no
+       knowledge of the starter's layers, no escalated selectors, no !important
+       (the starter ships none either). They win because every starter declaration
+       lives in a named layer, and unlayered author CSS beats layered author CSS
+       before specificity is even compared. */
+
+    /* Case 1 — direction §14's own example: a class selector (0,1,0) beats the
+       starter's layered pill radius. */
+    .checkout-action {
+      --checkout-radius: 0.375rem;
+      border-radius: var(--checkout-radius);
+    }
+
+    /* Case 2 — bare element selector (0,0,1) beats the layered soft/solid
+       backgrounds. :where(#case-2) is page hygiene only: it confines the demo to
+       one section while adding zero specificity — the selector still totals
+       (0,0,1), exactly like a site-wide `button { … }`. A real consumer
+       coordinates fg with bg, so both are declared. */
+    :where(#case-2) button {
+      background: light-dark(rgb(214 233 220), rgb(38 66 50));
+      color: light-dark(rgb(22 46 32), rgb(214 240 222));
+    }
+
+    /* Case 3 — zero-specificity consumer rule (0,0,0) STILL beats the starter's
+       [data-ui="card"] (0,1,0): layer order decides, not specificity. */
+    :where(.quiet-card) {
+      background: light-dark(rgb(247 240 214), rgb(66 58 34));
+    }
+
+    /* Case 4 — prose retheme: an ordinary descendant rule recolors links inside
+       a rich-text article; the starter's scoped zero-specificity link rule loses
+       on layer order. Reach note: consumer selectors are not bound by the
+       starter's @scope boundaries — this rule would also hit links inside
+       components nested in .marketing. */
+    .marketing a {
+      color: light-dark(rgb(176 62 6), rgb(255 158 92));
+    }
+
+    /* Case 5 — the plain-CSS half of the side-by-side pair; the other half sets
+       --ds-button-bg in markup with the same color. */
+    .consumer-way {
+      background: light-dark(rgb(214 233 220), rgb(38 66 50));
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="font: var(--ds-type-heading-lg)">Consumer override</h1>
+  <p style="margin-block-start: var(--ds-space-2)">
+    The §2 consumer contract: ordinary unlayered application CSS beats the starter with zero
+    tricks — no specificity escalation, no layer knowledge, no <code>!important</code>. Every
+    starter declaration lives in a named <code>ds.*</code> layer (and the starter contains zero
+    <code>!important</code>, verified by grep), so any unlayered author rule wins the cascade at
+    any specificity. Each case renders next to an unmodified control.
+  </p>
+  <p style="margin-block-start: var(--ds-space-2)"><a href="./index.html">Back to fixture index</a></p>
+
+  <!-- Case 1 -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">1 · Class selector beats the pill radius (0,1,0)</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      Direction §14's own example: <code>.checkout-action { border-radius: var(--checkout-radius) }</code>
+      against the starter's layered <code>border-radius: var(--ds-radius-full)</code>.
+    </p>
+    <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
+      <button data-ui="button" data-variant="solid" class="checkout-action" id="case1-test">
+        <span data-part="label">Checkout (6px radius)</span>
+      </button>
+      <button data-ui="button" data-variant="solid" id="case1-control">
+        <span data-part="label">Control (pill)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Case 2 -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">2 · Bare element selector beats layered variants (0,0,1)</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      <code>button { background: …; color: … }</code> — one element selector, no classes — recolors
+      the soft <em>and</em> the solid variant: their declarations live in <code>ds.components</code>
+      and lose to any unlayered rule. Side effect worth knowing: the starter's hover/active rules
+      are layered too, so these buttons no longer shade on hover.
+    </p>
+    <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
+      <div id="case-2" style="display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
+        <button data-ui="button" data-variant="soft" id="case2-soft"><span data-part="label">Soft, recolored</span></button>
+        <button data-ui="button" data-variant="solid" id="case2-solid"><span data-part="label">Solid, recolored</span></button>
+      </div>
+      <button data-ui="button" data-variant="soft" id="case2-control-soft"><span data-part="label">Control soft</span></button>
+      <button data-ui="button" data-variant="solid" id="case2-control-solid"><span data-part="label">Control solid</span></button>
+    </div>
+  </section>
+
+  <!-- Case 3 -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">3 · Zero-specificity consumer rule still wins (0,0,0)</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      <code>:where(.quiet-card) { background: … }</code> has specificity 0,0,0 — <em>lower</em> than
+      the starter's own <code>[data-ui="card"]</code> (0,1,0) — and still wins: unlayered beats
+      layered before specificity is compared. Layer order decides, not specificity.
+    </p>
+    <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
+      <section data-ui="card" class="quiet-card" id="case3-test" style="flex: 1 1 18rem">
+        <h3 data-part="title">Quiet card</h3>
+        <p data-part="body">Amber background from a zero-specificity consumer rule.</p>
+      </section>
+      <section data-ui="card" id="case3-control" style="flex: 1 1 18rem">
+        <h3 data-part="title">Control card</h3>
+        <p data-part="body">Default surface-2.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- Case 4 -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">4 · Prose retheme from plain application CSS</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      <code>.marketing a { color: … }</code> recolors links inside the rich-text article — the
+      starter styles links with a scoped, zero-specificity rule in <code>ds.components</code>, so an
+      ordinary descendant rule beats <code>--ds-link-color</code> styling. Note the reach: consumer
+      selectors ignore the starter's scope boundaries entirely.
+    </p>
+    <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
+      <article data-ui="rich-text" class="marketing" id="case4-test" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
+        <h3>Marketing prose</h3>
+        <p>A paragraph with <a id="case4-link" href="#case4-test">a rethemed link</a> in it.</p>
+      </article>
+      <article data-ui="rich-text" id="case4-control" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
+        <h3>Control prose</h3>
+        <p>A paragraph with <a id="case4-control-link" href="#case4-control">a default link</a> (accent link color).</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Case 5 -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">5 · Contrast: plain CSS vs the starter's public properties</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      The same green, two mechanisms. Left: consumer CSS wins the <code>background</code> property
+      outright — the starter's resolution is bypassed, including its hover/active rules (no shade on
+      hover). Middle: <code>--ds-button-bg</code> feeds the starter's own chain — state shades keep
+      deriving from the override, and as a custom property it also works as an inherited context
+      override on a whole subtree. Rule of thumb: restyling <em>this app's</em> look → plain CSS;
+      feeding a value through the system (state math, subtree theming, no selector available) →
+      public property.
+    </p>
+    <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
+      <button data-ui="button" class="consumer-way" id="case5-css"><span data-part="label">Plain CSS (static hover)</span></button>
+      <button data-ui="button" id="case5-prop" style="--ds-button-bg: light-dark(rgb(214 233 220), rgb(38 66 50))"><span data-part="label">--ds-button-bg (live hover)</span></button>
+      <button data-ui="button" id="case5-control"><span data-part="label">Control soft</span></button>
+    </div>
+  </section>
+
+</body>
+</html>

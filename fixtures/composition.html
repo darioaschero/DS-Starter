@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter — composition fixture</title>
+  <link rel="stylesheet" href="../ds/index.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-surface-1);
+      color: var(--ds-text-1);
+      font: var(--ds-type-body-md);
+      max-inline-size: 64rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="font: var(--ds-type-heading-lg)">Composition</h1>
+  <p style="margin-block-start: var(--ds-space-2)">
+    The direction §18 nested fixture plus adversarial probes distilled from the component tasks:
+    three components composed inside each other, checked for selector bleed, inherited-value bleed,
+    channel collisions, override reach, native disclosure state, and focus visibility. Every case
+    states its <em>intended</em> outcome; the verification battery asserts the computed values.
+  </p>
+  <p style="margin-block-start: var(--ds-space-2)"><a id="nav-back" href="./index.html">Back to fixture index</a></p>
+
+  <!-- ============ A. The §18 nested fixture ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">1 · The §18 nested fixture</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      Rich text → card → buttons + disclosure, as direction §18 specifies. Two things are visible by
+      design: (a) the disclosure's CSS is an M2 stub — <code>details</code> below is intentionally
+      unstyled and must still open and close natively; (b) the card, an unknown element to the
+      prose-rhythm rules, receives <strong>no block margin</strong> from the surrounding prose —
+      embedded components currently sit flush against the paragraph above (rhythm subjects are named
+      prose elements only; spacing embedded components is unowned until the M2 layout primitive).
+    </p>
+    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+      <article data-ui="rich-text" id="a-article">
+        <h2 id="a-h2">Rich-text heading</h2>
+        <p id="a-p1">
+          Introductory Markdown content with <strong id="a-strong">strong text</strong>,
+          <em id="a-em">emphasis</em>, an <a id="a-link" href="#a-article">inline link</a>, and
+          <code id="a-code">inline code</code>.
+        </p>
+        <p id="a-p2">
+          A second paragraph, so the prose rhythm above and below the embedded card is visible.
+        </p>
+        <section data-ui="card" id="a-card">
+          <h3 data-part="title" id="a-title">Card title</h3>
+          <p data-part="body" id="a-body">
+            Card content that must not receive rich-text component styling accidentally.
+          </p>
+          <div data-part="actions" id="a-actions">
+            <button data-ui="button" data-size="sm" data-variant="soft" id="a-btn-sm">
+              <span data-part="label" id="a-btn-sm-label">Secondary action</span>
+            </button>
+            <button data-ui="button" data-size="md" data-variant="solid" id="a-btn-md">
+              <span data-part="label" id="a-btn-md-label">Primary action</span>
+            </button>
+          </div>
+          <details data-ui="disclosure" id="a-details">
+            <summary data-part="trigger" id="a-summary">More information</summary>
+            <div data-part="content" id="a-content">Disclosure content.</div>
+          </details>
+        </section>
+        <p id="a-p3">
+          A closing paragraph after the card: it gets prose rhythm again, because rhythm applies to
+          named prose elements following <em>any</em> sibling.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ B. Adversarial probes ============ -->
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-6)">
+    <h2 style="font: var(--ds-type-heading-md)">2 · Adversarial probes</h2>
+
+    <!-- B1: wrapped part -->
+    <section>
+      <h3 style="font: var(--ds-type-heading-sm)">2.1 · Wrapped part — unstyled by contract</h3>
+      <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+        Part contract (conventions §3): parts are direct children of their component root; a part
+        wrapped in an extra element renders <strong>deliberately unstyled</strong>. Note how quiet
+        the failure is for a title — UA <code>h3</code> (700 / 18.72px) vs heading-sm (600 / 19px) —
+        which is why the contract leans on the future linter rather than on visual breakage.
+      </p>
+      <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
+        <section data-ui="card" id="b1-control" style="flex: 1 1 18rem">
+          <h3 data-part="title" id="b1-control-title">Direct-child title (styled)</h3>
+          <p data-part="body">Control: canonical anatomy.</p>
+        </section>
+        <section data-ui="card" id="b1-card" style="flex: 1 1 18rem">
+          <div>
+            <h3 data-part="title" id="b1-wrapped-title">Wrapped title (unstyled, by contract)</h3>
+          </div>
+          <p data-part="body">The title above sits inside one extra plain <code>div</code>.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- B2: colliding part name -->
+    <section>
+      <h3 style="font: var(--ds-type-heading-sm)">2.2 · Colliding part name inside a nested component</h3>
+      <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+        A <code>span data-part="title"</code> sits <em>inside a button</em> in this card's actions.
+        The card's title rule is a direct-child selector, so the span must not get card title
+        typography (600 / 19px). Discriminating probe: the button carries an inline
+        <code>--ds-button-font: 500 15px / 1.2 serif</code> — if the span computes 15px serif it is
+        merely <em>inheriting</em> from the button; if it computed 600 19px sans, a card rule would
+        be targeting it.
+      </p>
+      <section data-ui="card" id="b2-card" style="margin-block-start: var(--ds-space-3)">
+        <h3 data-part="title" id="b2-real-title">Real card title (600 / 19px)</h3>
+        <p data-part="body">The probe button below intentionally renders in a serif face.</p>
+        <div data-part="actions" id="b2-actions">
+          <button data-ui="button" id="b2-btn" style="--ds-button-font: 500 15px / 1.2 serif">
+            <span data-part="title" id="b2-collide-title">data-part="title" in a button</span>
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <!-- B3: outer public override vs nested instance -->
+    <section>
+      <h3 style="font: var(--ds-type-heading-sm)">2.3 · Outer public override vs nested instance</h3>
+      <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+        The outer card sets <code>--ds-card-bg: var(--ds-accent-surface)</code> inline.
+        <strong>Both</strong> the outer card and the card nested inside it recolor: public override
+        properties are inherited <em>context</em> overrides (conventions §6) — intended behavior,
+        not a leak. The pair on the right is the unmodified control.
+      </p>
+      <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
+        <section data-ui="card" id="b3-outer" style="flex: 1 1 18rem; --ds-card-bg: var(--ds-accent-surface)">
+          <h3 data-part="title">Outer card (override here)</h3>
+          <section data-ui="card" id="b3-inner">
+            <h3 data-part="title">Nested card</h3>
+            <p data-part="body">Recolors too — the override inherits.</p>
+          </section>
+        </section>
+        <section data-ui="card" id="b3-control" style="flex: 1 1 18rem">
+          <h3 data-part="title">Control card</h3>
+          <section data-ui="card" id="b3-control-inner">
+            <h3 data-part="title">Nested control</h3>
+            <p data-part="body">Default surface-2 on both.</p>
+          </section>
+        </section>
+      </div>
+    </section>
+
+    <!-- B4: dual-role element -->
+    <section>
+      <h3 style="font: var(--ds-type-heading-sm)">2.4 · Dual-role element — nested root carrying an outer part name</h3>
+      <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+        A <code>div data-ui="probe" data-part="actions"</code> as a direct child of the card. Chosen
+        contract (T3, direct-child combinators): the outer card <strong>may</strong> style this
+        element as its own part — it gets the actions-row treatment (flex, space-2 gap) even though
+        it is simultaneously the root of a made-up, inert nested component.
+      </p>
+      <section data-ui="card" id="b4-card" style="margin-block-start: var(--ds-space-3)">
+        <h3 data-part="title">Card with a dual-role child</h3>
+        <div data-ui="probe" data-part="actions" id="b4-probe">
+          <span style="border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-1) var(--ds-space-2)">probe child A</span>
+          <span style="border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-1) var(--ds-space-2)">probe child B</span>
+        </div>
+      </section>
+    </section>
+
+    <!-- B5: rich text in rich text -->
+    <section>
+      <h3 style="font: var(--ds-type-heading-sm)">2.5 · Rich text nested in rich text — custom properties cross the boundary</h3>
+      <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+        The outer article sets <code>--ds-rich-text-h2-font: var(--ds-type-heading-lg)</code>
+        inline. The inner article is a scope boundary — outer <em>selectors</em> cannot reach its
+        prose — yet its h2 changes too: the custom property inherits across the boundary and the
+        inner scope's own rule reads it. Observed contract: property inheritance is how theming
+        flows down; <code>@scope</code> contains only selectors.
+      </p>
+      <div style="margin-block-start: var(--ds-space-3); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+        <article data-ui="rich-text" id="b5-outer" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
+          <h2 id="b5-outer-h2">Outer h2 — heading-lg via override</h2>
+          <p>Outer prose. The dashed frame below is a second rich-text instance.</p>
+          <article data-ui="rich-text" id="b5-inner" style="border: 1px dashed var(--ds-border-1); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+            <h2 id="b5-inner-h2">Inner h2 — also heading-lg, by inheritance</h2>
+            <p>Inner prose stays body-md: the override names only the h2 mapping.</p>
+          </article>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ C. Discriminated composition ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">3 · Discriminated composition — the typography-leak test</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      A copy of the §18 structure inside a wrapper that sets
+      <code>--ds-rich-text-body-font: var(--ds-type-label-md)</code> (500 weight, 1.2 line-height —
+      visibly denser than body-md's 400 / 1.5). Prose paragraphs must change; the card's body
+      paragraph and the button labels must not. This discriminates "same computed value by
+      coincidence" from "actually not targeted". One coincidence remains by construction: the md
+      button label computes 500 16px / 1.2 <em>with or without</em> a leak (it equals label-md
+      either way) — the sm label (13px correct vs 16px leaked) is the decisive assertion.
+    </p>
+    <div id="c-wrap" style="margin-block-start: var(--ds-space-4); --ds-rich-text-body-font: var(--ds-type-label-md); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+      <article data-ui="rich-text" id="c-article">
+        <h2 id="c-h2">Rich-text heading</h2>
+        <p id="c-p1">
+          Introductory Markdown content with <strong>strong text</strong>, <em>emphasis</em>, an
+          <a id="c-link" href="#c-article">inline link</a>, and <code>inline code</code> — this
+          paragraph now renders in label-md.
+        </p>
+        <p id="c-p2">A second prose paragraph, also label-md under the wrapper's override.</p>
+        <section data-ui="card" id="c-card">
+          <h3 data-part="title" id="c-title">Card title</h3>
+          <p data-part="body" id="c-body">
+            Card content that must not receive rich-text component styling accidentally — still
+            body-md (400 / 1.5).
+          </p>
+          <div data-part="actions">
+            <button data-ui="button" data-size="sm" data-variant="soft" id="c-btn-sm">
+              <span data-part="label" id="c-btn-sm-label">Secondary action</span>
+            </button>
+            <button data-ui="button" data-size="md" data-variant="solid" id="c-btn-md">
+              <span data-part="label" id="c-btn-md-label">Primary action</span>
+            </button>
+          </div>
+          <details data-ui="disclosure" id="c-details">
+            <summary data-part="trigger" id="c-summary">More information</summary>
+            <div data-part="content" id="c-content">Disclosure content.</div>
+          </details>
+        </section>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ D. Focus walk ============ -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">4 · Focus walk</h2>
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+      Every interactive element on this page, in tab order. Each must show the shared focus ring
+      (2px <code>--ds-focus-color</code>, offset 2px) when reached with the keyboard.
+    </p>
+    <ol style="margin-block-start: var(--ds-space-3); padding-inline-start: var(--ds-space-5); display: grid; gap: var(--ds-space-1)">
+      <li>Header link — back to fixture index (<code>#nav-back</code>)</li>
+      <li>§18 fixture prose link (<code>#a-link</code>)</li>
+      <li>§18 fixture soft sm button (<code>#a-btn-sm</code>)</li>
+      <li>§18 fixture solid md button (<code>#a-btn-md</code>)</li>
+      <li>§18 fixture disclosure summary (<code>#a-summary</code>)</li>
+      <li>Probe 2.2 serif button (<code>#b2-btn</code>)</li>
+      <li>Discriminated prose link (<code>#c-link</code>)</li>
+      <li>Discriminated soft sm button (<code>#c-btn-sm</code>)</li>
+      <li>Discriminated solid md button (<code>#c-btn-md</code>)</li>
+      <li>Discriminated disclosure summary (<code>#c-summary</code>)</li>
+    </ol>
+  </section>
+
+</body>
+</html>

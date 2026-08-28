@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter — fixtures</title>
+  <link rel="stylesheet" href="../ds/index.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-surface-1);
+      color: var(--ds-text-1);
+      font: var(--ds-type-body-md);
+      max-inline-size: 64rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<!-- Body text doubles as the body-md role specimen. -->
+<body>
+
+  <h1 style="font: var(--ds-type-heading-lg)">DS-Starter fixtures</h1>
+
+  <section style="margin-block-start: var(--ds-space-6); display: grid; gap: var(--ds-space-3)">
+    <h2 style="font: var(--ds-type-heading-md)">Pages</h2>
+    <ul style="display: grid; gap: var(--ds-space-1)">
+      <li><a href="./button.html">Button</a> — <small>M1 built</small></li>
+      <li><a href="./card.html">Card</a> — <small>M1 built</small></li>
+      <li><a href="./field.html">Field</a> — <small>M2 stub</small></li>
+      <li><a href="./rich-text.html">Rich text</a> — <small>M1 built</small></li>
+      <li><a href="./stack.html">Stack</a> — <small>M2 stub</small></li>
+      <li><a href="./disclosure.html">Disclosure</a> — <small>M2 stub</small></li>
+      <li><a href="./composition.html">Composition</a> — <small>M1 verification</small></li>
+      <li><a href="./consumer-override.html">Consumer override</a> — <small>M1 verification</small></li>
+    </ul>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Typography roles</h2>
+    <div style="display: grid; gap: var(--ds-space-3)">
+      <p style="font: var(--ds-type-heading-lg)">heading-lg — Grand voyage plans</p>
+      <p style="font: var(--ds-type-heading-md)">heading-md — Grand voyage plans</p>
+      <p style="font: var(--ds-type-heading-sm)">heading-sm — Grand voyage plans</p>
+      <p style="font: var(--ds-type-body-md)">body-md — The five boxing wizards jump quickly over the lazy dog, then settle down for a long paragraph of perfectly ordinary reading text.</p>
+      <p style="font: var(--ds-type-label-md)">label-md — Save changes</p>
+      <p style="font: var(--ds-type-label-sm)">label-sm — Save changes</p>
+    </div>
+    <p><small>This page's own body text is set with <code>--ds-type-body-md</code>.</small></p>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Space scale</h2>
+    <div style="display: grid; grid-template-columns: 6rem 1fr; gap: var(--ds-space-2) var(--ds-space-3); align-items: center">
+      <code>space-1</code><div style="inline-size: var(--ds-space-1); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-2</code><div style="inline-size: var(--ds-space-2); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-3</code><div style="inline-size: var(--ds-space-3); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-4</code><div style="inline-size: var(--ds-space-4); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-5</code><div style="inline-size: var(--ds-space-5); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-6</code><div style="inline-size: var(--ds-space-6); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-7</code><div style="inline-size: var(--ds-space-7); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-8</code><div style="inline-size: var(--ds-space-8); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Radius</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"><code>sm</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md)"><code>md</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg)"><code>lg</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-full)"><code>full</code></div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Semantic colors</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-4); align-items: end">
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-1); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
+        <small><code>surface-1</code></small>
+      </div>
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-2); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
+        <small><code>surface-2</code></small>
+      </div>
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-1); border: 3px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
+        <small><code>border-1</code></small>
+      </div>
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 10rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); color: var(--ds-accent-text); border-radius: var(--ds-radius-sm); font: var(--ds-type-label-md)">accent-text</div>
+        <small><code>accent-surface</code> + <code>accent-text</code></small>
+      </div>
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 10rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-strong); color: var(--ds-accent-contrast); border-radius: var(--ds-radius-sm); font: var(--ds-type-label-md)">accent-contrast</div>
+        <small><code>accent-strong</code> + <code>accent-contrast</code></small>
+      </div>
+      <div style="display: grid; gap: var(--ds-space-1)">
+        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-2); outline: var(--ds-focus-outline); outline-offset: var(--ds-focus-outline-offset); border-radius: var(--ds-radius-sm); margin: 4px"></div>
+        <small><code>focus-color</code> (as outline)</small>
+      </div>
+    </div>
+    <p style="color: var(--ds-text-1)">text-1 — primary text on the app surface.</p>
+    <p style="color: var(--ds-text-2)">text-2 — secondary text on the app surface.</p>
+    <p>
+      <a href="#" style="color: var(--ds-link-color)">link-color sample</a>
+      · <span style="color: var(--ds-danger-color)">danger-color sample</span>
+      · <span style="opacity: var(--ds-disabled-opacity)">disabled-opacity sample</span>
+    </p>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Raw ramps (1 → 12)</h2>
+    <div style="display: grid; gap: var(--ds-space-1)">
+      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
+        <div style="flex: 1; background: var(--ds-gray-1)"></div>
+        <div style="flex: 1; background: var(--ds-gray-2)"></div>
+        <div style="flex: 1; background: var(--ds-gray-3)"></div>
+        <div style="flex: 1; background: var(--ds-gray-4)"></div>
+        <div style="flex: 1; background: var(--ds-gray-5)"></div>
+        <div style="flex: 1; background: var(--ds-gray-6)"></div>
+        <div style="flex: 1; background: var(--ds-gray-7)"></div>
+        <div style="flex: 1; background: var(--ds-gray-8)"></div>
+        <div style="flex: 1; background: var(--ds-gray-9)"></div>
+        <div style="flex: 1; background: var(--ds-gray-10)"></div>
+        <div style="flex: 1; background: var(--ds-gray-11)"></div>
+        <div style="flex: 1; background: var(--ds-gray-12)"></div>
+      </div>
+      <small><code>gray</code></small>
+    </div>
+    <div style="display: grid; gap: var(--ds-space-1)">
+      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
+        <div style="flex: 1; background: var(--ds-accent-1)"></div>
+        <div style="flex: 1; background: var(--ds-accent-2)"></div>
+        <div style="flex: 1; background: var(--ds-accent-3)"></div>
+        <div style="flex: 1; background: var(--ds-accent-4)"></div>
+        <div style="flex: 1; background: var(--ds-accent-5)"></div>
+        <div style="flex: 1; background: var(--ds-accent-6)"></div>
+        <div style="flex: 1; background: var(--ds-accent-7)"></div>
+        <div style="flex: 1; background: var(--ds-accent-8)"></div>
+        <div style="flex: 1; background: var(--ds-accent-9)"></div>
+        <div style="flex: 1; background: var(--ds-accent-10)"></div>
+        <div style="flex: 1; background: var(--ds-accent-11)"></div>
+        <div style="flex: 1; background: var(--ds-accent-12)"></div>
+      </div>
+      <small><code>accent</code></small>
+    </div>
+    <div style="display: grid; gap: var(--ds-space-1)">
+      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
+        <div style="flex: 1; background: var(--ds-danger-1)"></div>
+        <div style="flex: 1; background: var(--ds-danger-2)"></div>
+        <div style="flex: 1; background: var(--ds-danger-3)"></div>
+        <div style="flex: 1; background: var(--ds-danger-4)"></div>
+        <div style="flex: 1; background: var(--ds-danger-5)"></div>
+        <div style="flex: 1; background: var(--ds-danger-6)"></div>
+        <div style="flex: 1; background: var(--ds-danger-7)"></div>
+        <div style="flex: 1; background: var(--ds-danger-8)"></div>
+        <div style="flex: 1; background: var(--ds-danger-9)"></div>
+        <div style="flex: 1; background: var(--ds-danger-10)"></div>
+        <div style="flex: 1; background: var(--ds-danger-11)"></div>
+        <div style="flex: 1; background: var(--ds-danger-12)"></div>
+      </div>
+      <small><code>danger</code></small>
+    </div>
+  </section>
+
+</body>
+</html>
