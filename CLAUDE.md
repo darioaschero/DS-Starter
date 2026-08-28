@@ -13,8 +13,11 @@ CSS-only design system starter. Hand-authored CSS is the source of truth: no bui
 - Component identity: `data-ui="<component>"`. Parts: `data-part="<part>"`. Finite configuration: per-component `data-*` axes. Styling values: `--ds-*` custom properties.
 - Preview: `python3 -m http.server <port>` from the repo root, then open `/fixtures/`. Zero build.
 - Every work task ends with a findings note in `docs/findings/` (copy `TEMPLATE.md`). The prototype exists to answer questions; findings notes are a first-class deliverable.
+- Work tasks are defined as self-contained briefs in `docs/tasks/`, launched by the user as separate sessions. If this session was started from such a brief, follow the brief exactly.
 - Tasks do **not** commit. The coordinator session handles git.
 
 ## Current status
 
-Milestone 1 — vertical slice: foundations (tokens, layers, reset, focus baseline), button, card, rich text, composition fixture v1. Field, disclosure, and the layout primitive come in Milestone 2. Linter feasibility in Milestone 3.
+Milestone 1 (vertical slice) is **complete and committed**: foundations, button, card, rich text, composition + consumer-override fixtures, synthesis in `docs/findings/m1-synthesis.md`. Conventions are at v3 (colour architecture).
+
+Next: **T6 — colour architecture v3** (`docs/tasks/T6-color-architecture.md`): Radix-flattened light/dark ramps, active palette steps, purpose-named semantic vocabulary, shared variant recipes, resolved channels, state-mix tokens. Then Milestone 2 (field, disclosure, stack + full §18 fixture). Linter feasibility in Milestone 3.

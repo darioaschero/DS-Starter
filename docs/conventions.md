@@ -1,6 +1,7 @@
-# Conventions (v1 — provisional)
+# Conventions (v3 — provisional)
 
 > **Status:** provisional prototype conventions, distilled from [direction.md](direction.md) (rev 0.2, mainly §16 plus hard rules throughout).
+> v3 (2026-08-28) adopts the colour architecture agreed in [findings/color-theme-architecture.md](findings/color-theme-architecture.md): Radix-flattened light/dark ramps, active palette steps, purpose-named semantic vocabulary, shared variant recipes, resolved channels, and state-mix tokens. Implemented by task T6.
 > They are **binding for every task** in the current prototype, and deliberately cheap to reverse later.
 > If a task needs a decision this file does not cover: pick the smallest reasonable option and record it in the task's findings note (`docs/findings/`). Do not invent architecture silently.
 > On any conflict between this file and `direction.md`, this file wins for the prototype — but flag the conflict in findings.
@@ -11,14 +12,18 @@
 ds/                     starter CSS (everything ships inside named layers)
   index.css             the ONLY file that decides cascade order
   reset.css             minimal reset + shared focus baseline      → layer ds.reset
-  tokens/scale.css      raw scale tokens                           → layer ds.tokens
-  tokens/semantic.css   semantic aliases (light-dark)              → layer ds.tokens
+  tokens/scale.css      raw non-colour scales                      → layer ds.tokens
+  tokens/palette.css    colour primitives (Radix light+dark ramps)
+                        + active palette steps (light-dark)        → layer ds.tokens
+  tokens/semantic.css   purpose-named semantic colour roles        → layer ds.tokens
   tokens/roles.css      typography roles                           → layer ds.roles
+  tokens/recipes.css    shared variant recipes                     → layer ds.roles
   components/*.css      one file per component                     → layer ds.components
 fixtures/               plain static HTML pages (no build; served statically)
 docs/direction.md       full direction document (rationale)
 docs/conventions.md     this file (normative)
 docs/findings/          one note per task (copy TEMPLATE.md)
+docs/tasks/             self-contained briefs for work sessions (coordinator-authored)
 ```
 
 ## 2. Cascade layers
@@ -50,20 +55,40 @@ docs/findings/          one note per task (copy TEMPLATE.md)
 
 ## 5. Tokens
 
-Three levels. Components normally consume the **semantic** level, never raw palette values.
+### 5a. Colour (architecture v3)
 
-1. **Raw scale** (`tokens/scale.css`), all in `:root`, no component meaning, no `light-dark()` here:
-   `--ds-space-1..8`, `--ds-font-size-1..6` (rem), `--ds-radius-sm|md|lg|full`, `--ds-font-sans`, `--ds-font-mono`, `--ds-font-weight-normal|medium|strong`, raw palettes `--ds-gray-1..12`, `--ds-accent-1..12`, `--ds-danger-1..12`.
-   Ramp step roles (shared by all three palettes, light-ordered): 1–2 app/subtle backgrounds · 3–5 tinted component backgrounds · 6–8 borders and strong tints · 9–10 solids · 11–12 text. The dark end doubles as dark-scheme surfaces (12 ≈ dark surface-1, 11 ≈ dark surface-2, 10 ≈ dark border). Components pick steps only via semantic aliases, never raw steps.
-2. **Semantic** (`tokens/semantic.css`), purpose-named aliases via `light-dark()` under `:root { color-scheme: light dark; }`:
-   `--ds-surface-1|2`, `--ds-text-1|2`, `--ds-border-1`, `--ds-accent-surface`, `--ds-accent-text`, `--ds-accent-strong`, `--ds-accent-contrast`, `--ds-link-color`, `--ds-danger-color`, `--ds-focus-color`, `--ds-disabled-opacity`, plus focus-treatment values (`--ds-focus-outline`, `--ds-focus-outline-offset`).
-   Provisional subtree theme switch: `[data-theme="light"] { color-scheme: light; }` and the dark equivalent.
-3. **Typography roles** (`tokens/roles.css`) — font-only, each one a single value for the native `font` shorthand:
-   `--ds-type-label-sm|md`, `--ds-type-body-md`, `--ds-type-heading-sm|md|lg`.
+Colour resolves through this chain; each level references only the level above it:
 
-Rules:
+```text
+theme-specific primitive ramps
+        ↓  light-dark(), in exactly one place
+active palette steps
+        ↓
+semantic colour roles
+        ↓
+shared variant recipes
+        ↓
+component axis channels
+```
 
-- Semantic aliases *may* be scheme-invariant: when a single value passes contrast in both schemes (e.g. `--ds-accent-strong`), write a plain `var()` reference — `light-dark()` only where the branches differ.
+1. **Colour primitives** (`tokens/palette.css`): Radix Colors values, **flattened** — copied verbatim from the published Radix sRGB sets (MIT; attribute source + version in the file header), never hand-tuned. Naming: `--ds-<family>-light-1..12` and `--ds-<family>-dark-1..12`. Families: `neutral` (Radix Slate), `accent` (Radix Blue), `danger` (Radix Red). Swapping a family = swapping 24 values in this one file. Alpha and P3 variants are out of scope for the prototype.
+2. **Active palette steps** (same file), under `:root { color-scheme: light dark; }`:
+   `--ds-neutral-1: light-dark(var(--ds-neutral-light-1), var(--ds-neutral-dark-1));` … for every step of every family. Step N carries the **same intended role in both schemes** (Radix step convention: 1 app bg · 2 subtle bg · 3–5 component bg / hover / active · 6–8 borders · 9–10 solid + hover · 11–12 text). This is normally the ONLY place `light-dark()` appears; a semantic role may use `light-dark()` only for intentional asymmetry, justified by a comment.
+3. **Semantic roles** (`tokens/semantic.css`): purpose names on the grammar `--ds-<concern>-<qualifier>`, referencing active steps. Numbered semantic names (`surface-1`, `text-1`) are retired. Core vocabulary:
+   `--ds-bg-canvas`, `--ds-bg-subtle`, `--ds-text-primary`, `--ds-text-muted`, `--ds-border-subtle`, `--ds-border-default`, `--ds-link-color`, `--ds-focus-color`, `--ds-accent-subtle`, `--ds-accent-text`, `--ds-accent-solid`, `--ds-accent-on-solid`, `--ds-text-danger`, `--ds-border-danger`, `--ds-disabled-opacity`, the focus-treatment values (`--ds-focus-outline`, `--ds-focus-outline-offset`), and the state-derivation strengths `--ds-state-hover-mix` / `--ds-state-active-mix`.
+   Subtree theme switch (unchanged): `[data-theme="light"] { color-scheme: light; }` and the dark equivalent — schemes flip via the active steps; semantic roles and components never know which scheme is active.
+4. **Shared variant recipes** (`tokens/recipes.css`, layer `ds.roles`): variants are **system concepts** with shared visual meaning across components. Initial set: `solid`, `soft`, `outline`. A recipe is a coordinated channel set `--ds-variant-<name>-bg|fg`, plus `-border` where the recipe needs one (outline does). Recipes reference semantic roles, never palette steps. Recipes ship **without** hover/pressed channels (derived-first, §7); curated state channels join a recipe only when derivation proves insufficient. Components map only the `data-variant` values they support onto recipe tokens; a component-specific variant stays local and does not join the shared vocabulary.
+
+Colour rules:
+
+- Components consume **semantic roles and recipe tokens only** — never primitives, never active steps directly. (Fixture/consumer code may reference active steps; that is consumer freedom, not starter practice.)
+- `--ds-accent-on-solid` is the one semantic value not drawn from a ramp (Radix prescribes white text over Blue 9); define it literally, with a comment.
+- Semantic asymmetry (`light-dark()` at the semantic level) is the exception, not the rule, and every use carries a justifying comment.
+
+### 5b. Non-colour scales and typography roles
+
+- **Raw scales** (`tokens/scale.css`), all in `:root`, no component meaning: `--ds-space-1..8`, `--ds-font-size-1..6` (rem), `--ds-radius-sm|md|lg|full`, `--ds-font-sans`, `--ds-font-mono`, `--ds-font-weight-normal|medium|strong`.
+- **Typography roles** (`tokens/roles.css`) — font-only, each one a single value for the native `font` shorthand: `--ds-type-label-sm|md`, `--ds-type-body-md`, `--ds-type-heading-sm|md|lg`.
 - Role font sizes use `rem` (stability under nesting). `em` only for intentionally context-relative adjustments (e.g. inline `code` at `0.9em`).
 - Roles carry ONLY what `font` carries. `letter-spacing`, `text-transform`, color, truncation, clamping are **not** part of a role. No sidecar properties in this prototype.
 - Components select their intrinsic typography role in their own CSS — never via markup attributes.
@@ -74,17 +99,23 @@ Canonical shape (button is the reference implementation):
 
 ```css
 [data-ui="button"] {
-  /* 1. Axis channel defaults — the base rule is the ONLY implementation of every default */
-  --_ds-button-variant-bg: var(--ds-accent-surface);
+  /* 1. Axis channel defaults — the base rule is the ONLY implementation of every default.
+        Shared variants bind recipe tokens (soft is the default variant here). */
+  --_ds-button-variant-bg: var(--ds-variant-soft-bg);
+  --_ds-button-variant-fg: var(--ds-variant-soft-fg);
   --_ds-button-size-font: var(--ds-type-label-md);
 
-  /* 2. Resolution: public override → axis channel → semantic token (already inside the channel) */
-  background: var(--ds-button-bg, var(--_ds-button-variant-bg));
+  /* 2. Resolved channels — each override chain computed ONCE, consumed everywhere */
+  --_ds-button-resolved-bg: var(--ds-button-bg, var(--_ds-button-variant-bg));
+  --_ds-button-resolved-fg: var(--ds-button-fg, var(--_ds-button-variant-fg));
+  background: var(--_ds-button-resolved-bg);
+  color: var(--_ds-button-resolved-fg);
   font: var(--ds-button-font, var(--_ds-button-size-font));
 
   /* 3. Axis selectors rebind ONLY their own channels */
   &[data-variant="solid"] {
-    --_ds-button-variant-bg: var(--ds-accent-strong);
+    --_ds-button-variant-bg: var(--ds-variant-solid-bg);
+    --_ds-button-variant-fg: var(--ds-variant-solid-fg);
   }
   &[data-size="sm"] {
     --_ds-button-size-font: var(--ds-type-label-sm);
@@ -93,6 +124,13 @@ Canonical shape (button is the reference implementation):
   /* 4. Named default value = no-op vocabulary marker, no rebind */
   &[data-size="md"] {
     /* Default vocabulary marker. No channel rebind. */
+  }
+
+  /* 5. States consume resolved channels only — never restate a chain */
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch,
+      var(--_ds-button-resolved-bg),
+      var(--_ds-button-resolved-fg) var(--ds-state-hover-mix));
   }
 }
 ```
@@ -106,6 +144,8 @@ Hard rules:
 - Defaults are implemented **only** in the base rule; a named-default selector exists only as a commented no-op marker.
 - Non-default axis values rebind **every** channel their axis owns, even when one value coincides with the base default (explicit completeness: each named value reads as a complete recipe, and the invariant is lintable). Only the default is implemented solely by the base rule.
 - Public override properties are inherited **context** overrides: set on an ancestor, they retheme the whole subtree — including nested instances of the same component. This is by design (subtree theming); never register them `inherits: false` without a documented reason.
+- **Resolved channels are the standard idiom**: any override chain consumed by more than one declaration is precomputed once in the base rule (`--_ds-<component>-resolved-<prop>`); base and state rules reference only the resolved channel. State rules never restate a public/axis chain (lintable).
+- Where a shared variant exists (`solid`/`soft`/`outline`), the variant selector binds its channels to the recipe tokens (`--ds-variant-<name>-*`), never directly to palette steps. A component-specific variant may bind semantic roles directly.
 - Expose public override properties (`--ds-<component>-bg|fg|font|padding-x|…`) for the obvious knobs. Whether *every* component needs them is deliberately open — record reasoning in findings.
 
 ## 7. State
@@ -113,7 +153,7 @@ Hard rules:
 - Prefer native state: `:disabled`, `:hover`, `:active`, `:focus-visible`, `:focus-within`, `:has(input:user-invalid)`, `[open]`.
 - ARIA state selectors (e.g. `[aria-expanded="true"]`) only where they mirror real component state.
 - CSS styles state; it never creates behavior.
-- No dedicated hover/active semantic aliases exist yet. Derive state shades with `color-mix(in oklch, …)` over the component's own resolved chain (so public overrides still flow through), and record in findings whether dedicated state aliases should be promoted to `tokens/semantic.css`.
+- Interaction-state colour resolves **curated → recipe → derived**, threaded through axis channels so state rules stay variant-agnostic. The derived floor is the canonical recipe `color-mix(in oklch, <resolved-bg>, <resolved-fg> var(--ds-state-hover-mix | --ds-state-active-mix))` — mixing toward the resolved fg keeps the shade direction correct in both schemes and under any public override. Recipes gain curated state channels only when derivation proves insufficient (record the evidence in findings). Per-surface hover aliases (`--ds-accent-subtle-hover`, …) are forbidden — they escape the override chain.
 
 ## 8. Focus
 
@@ -148,7 +188,7 @@ Evergreen browsers, 2025+: native nesting, cascade layers, `@scope`, `light-dark
 ## 11. Process rules (for tasks/agents)
 
 - No build tools, no npm, no external assets, fonts, or libraries. Fixtures must work served statically (`python3 -m http.server` from the repo root).
-- Canonical fixture chrome: each fixture page has exactly ONE inline `<style>` block, commented `/* fixture chrome — unlayered consumer CSS */`, containing only the consumer page rule `body { background: var(--ds-surface-1); color: var(--ds-text-1); font: var(--ds-type-body-md); }` plus a minimal page frame (max-width, margin auto, padding). All other fixture presentation uses inline `style` attributes on specimen wrappers — never a second `<style>` block.
+- Canonical fixture chrome: each fixture page has exactly ONE inline `<style>` block, commented `/* fixture chrome — unlayered consumer CSS */`, containing only the consumer page rule `body { background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-body-md); }` plus a minimal page frame (max-width, margin auto, padding). All other fixture presentation uses inline `style` attributes on specimen wrappers — never a second `<style>` block.
 - `ds/index.css` already imports every component file. Component tasks edit ONLY their own `ds/components/<name>.css`, their own `fixtures/<name>.html`, and their findings note — never shared files.
 - Every task ends with a findings note in `docs/findings/` (copy `TEMPLATE.md`): what held, what caused friction, open questions, suggested convention changes. The prototype exists to answer §18 of direction.md — findings are a first-class deliverable.
 - Tasks do not commit; the coordinator handles git.
