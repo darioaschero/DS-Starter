@@ -1,0 +1,13 @@
+/* DS-Starter — shared variant recipes. Recipes reference semantic roles only. */
+
+:root {
+  --ds-variant-solid-bg: var(--ds-accent-solid);
+  --ds-variant-solid-fg: var(--ds-accent-on-solid);
+
+  --ds-variant-soft-bg: var(--ds-accent-subtle);
+  --ds-variant-soft-fg: var(--ds-accent-text);
+
+  --ds-variant-outline-bg: transparent;
+  --ds-variant-outline-fg: var(--ds-text-primary);
+  --ds-variant-outline-border: var(--ds-border-default);
+}

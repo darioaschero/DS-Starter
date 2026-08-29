@@ -8,8 +8,8 @@
   <style>
     /* fixture chrome — unlayered consumer CSS */
     body {
-      background: var(--ds-surface-1);
-      color: var(--ds-text-1);
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
       font: var(--ds-type-body-md);
       max-inline-size: 64rem;
       margin-inline: auto;
@@ -52,116 +52,76 @@
   <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
     <h2 style="font: var(--ds-type-heading-md)">Space scale</h2>
     <div style="display: grid; grid-template-columns: 6rem 1fr; gap: var(--ds-space-2) var(--ds-space-3); align-items: center">
-      <code>space-1</code><div style="inline-size: var(--ds-space-1); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-2</code><div style="inline-size: var(--ds-space-2); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-3</code><div style="inline-size: var(--ds-space-3); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-4</code><div style="inline-size: var(--ds-space-4); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-5</code><div style="inline-size: var(--ds-space-5); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-6</code><div style="inline-size: var(--ds-space-6); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-7</code><div style="inline-size: var(--ds-space-7); block-size: 1rem; background: var(--ds-accent-strong)"></div>
-      <code>space-8</code><div style="inline-size: var(--ds-space-8); block-size: 1rem; background: var(--ds-accent-strong)"></div>
+      <code>space-1</code><div style="inline-size: var(--ds-space-1); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-2</code><div style="inline-size: var(--ds-space-2); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-3</code><div style="inline-size: var(--ds-space-3); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-4</code><div style="inline-size: var(--ds-space-4); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-5</code><div style="inline-size: var(--ds-space-5); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-6</code><div style="inline-size: var(--ds-space-6); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-7</code><div style="inline-size: var(--ds-space-7); block-size: 1rem; background: var(--ds-accent-solid)"></div>
+      <code>space-8</code><div style="inline-size: var(--ds-space-8); block-size: 1rem; background: var(--ds-accent-solid)"></div>
     </div>
   </section>
 
   <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
     <h2 style="font: var(--ds-type-heading-md)">Radius</h2>
     <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
-      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"><code>sm</code></div>
-      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md)"><code>md</code></div>
-      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg)"><code>lg</code></div>
-      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-full)"><code>full</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-subtle); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)"><code>sm</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-subtle); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md)"><code>md</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-subtle); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg)"><code>lg</code></div>
+      <div style="inline-size: 5.5rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-subtle); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-full)"><code>full</code></div>
+    </div>
+  </section>
+
+  <section id="semantic-colours" style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
+    <h2 style="font: var(--ds-type-heading-md)">Semantic colours</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--ds-space-4)">
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; background: var(--ds-bg-canvas); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)"></div><small><code>bg-canvas</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; background: var(--ds-bg-subtle); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)"></div><small><code>bg-subtle</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)">Primary</div><small><code>text-primary</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; background: var(--ds-bg-canvas); color: var(--ds-text-muted); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)">Muted</div><small><code>text-muted</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; border: 3px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)"></div><small><code>border-subtle</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; border: 3px solid var(--ds-border-default); border-radius: var(--ds-radius-sm)"></div><small><code>border-default</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)"><a href="#semantic-colours" style="color: var(--ds-link-color)">Link</a></div><small><code>link-color</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; margin: 4px; background: var(--ds-bg-subtle); outline: var(--ds-focus-outline); outline-offset: var(--ds-focus-outline-offset); border-radius: var(--ds-radius-sm)"></div><small><code>focus-color</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-subtle); color: var(--ds-accent-text); border-radius: var(--ds-radius-sm)">Accent</div><small><code>accent-subtle</code> + <code>accent-text</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-solid); color: var(--ds-accent-on-solid); border-radius: var(--ds-radius-sm)">Accent</div><small><code>accent-solid</code> + <code>accent-on-solid</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; display: grid; place-items: center; color: var(--ds-text-danger); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm)">Danger</div><small><code>text-danger</code></small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div style="block-size: 3rem; border: 3px solid var(--ds-border-danger); border-radius: var(--ds-radius-sm)"></div><small><code>border-danger</code></small></div>
     </div>
   </section>
 
   <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
-    <h2 style="font: var(--ds-type-heading-md)">Semantic colors</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-4); align-items: end">
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-1); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
-        <small><code>surface-1</code></small>
-      </div>
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-2); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
-        <small><code>surface-2</code></small>
-      </div>
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-1); border: 3px solid var(--ds-border-1); border-radius: var(--ds-radius-sm)"></div>
-        <small><code>border-1</code></small>
-      </div>
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 10rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-surface); color: var(--ds-accent-text); border-radius: var(--ds-radius-sm); font: var(--ds-type-label-md)">accent-text</div>
-        <small><code>accent-surface</code> + <code>accent-text</code></small>
-      </div>
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 10rem; block-size: 3rem; display: grid; place-items: center; background: var(--ds-accent-strong); color: var(--ds-accent-contrast); border-radius: var(--ds-radius-sm); font: var(--ds-type-label-md)">accent-contrast</div>
-        <small><code>accent-strong</code> + <code>accent-contrast</code></small>
-      </div>
-      <div style="display: grid; gap: var(--ds-space-1)">
-        <div style="inline-size: 7rem; block-size: 3rem; background: var(--ds-surface-2); outline: var(--ds-focus-outline); outline-offset: var(--ds-focus-outline-offset); border-radius: var(--ds-radius-sm); margin: 4px"></div>
-        <small><code>focus-color</code> (as outline)</small>
-      </div>
+    <h2 style="font: var(--ds-type-heading-md)">Variant recipes</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-3)">
+      <span style="padding: var(--ds-space-2) var(--ds-space-4); background: var(--ds-variant-solid-bg); color: var(--ds-variant-solid-fg); border-radius: var(--ds-radius-full); font: var(--ds-type-label-md)">solid</span>
+      <span style="padding: var(--ds-space-2) var(--ds-space-4); background: var(--ds-variant-soft-bg); color: var(--ds-variant-soft-fg); border-radius: var(--ds-radius-full); font: var(--ds-type-label-md)">soft</span>
+      <span style="padding: var(--ds-space-2) var(--ds-space-4); background: var(--ds-variant-outline-bg); color: var(--ds-variant-outline-fg); border: 1px solid var(--ds-variant-outline-border); border-radius: var(--ds-radius-full); font: var(--ds-type-label-md)">outline</span>
     </div>
-    <p style="color: var(--ds-text-1)">text-1 — primary text on the app surface.</p>
-    <p style="color: var(--ds-text-2)">text-2 — secondary text on the app surface.</p>
-    <p>
-      <a href="#" style="color: var(--ds-link-color)">link-color sample</a>
-      · <span style="color: var(--ds-danger-color)">danger-color sample</span>
-      · <span style="opacity: var(--ds-disabled-opacity)">disabled-opacity sample</span>
-    </p>
   </section>
 
-  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-4)">
-    <h2 style="font: var(--ds-type-heading-md)">Raw ramps (1 → 12)</h2>
-    <div style="display: grid; gap: var(--ds-space-1)">
-      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
-        <div style="flex: 1; background: var(--ds-gray-1)"></div>
-        <div style="flex: 1; background: var(--ds-gray-2)"></div>
-        <div style="flex: 1; background: var(--ds-gray-3)"></div>
-        <div style="flex: 1; background: var(--ds-gray-4)"></div>
-        <div style="flex: 1; background: var(--ds-gray-5)"></div>
-        <div style="flex: 1; background: var(--ds-gray-6)"></div>
-        <div style="flex: 1; background: var(--ds-gray-7)"></div>
-        <div style="flex: 1; background: var(--ds-gray-8)"></div>
-        <div style="flex: 1; background: var(--ds-gray-9)"></div>
-        <div style="flex: 1; background: var(--ds-gray-10)"></div>
-        <div style="flex: 1; background: var(--ds-gray-11)"></div>
-        <div style="flex: 1; background: var(--ds-gray-12)"></div>
-      </div>
-      <small><code>gray</code></small>
+  <section style="margin-block-start: var(--ds-space-7); display: grid; gap: var(--ds-space-6)">
+    <h2 style="font: var(--ds-type-heading-md)">Colour ramps (1 → 12)</h2>
+
+    <div style="display: grid; gap: var(--ds-space-3)">
+      <h3 style="font: var(--ds-type-heading-sm)">Neutral · Radix Slate</h3>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-neutral-light" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-neutral-light-1)"></span><span style="flex: 1; background: var(--ds-neutral-light-2)"></span><span style="flex: 1; background: var(--ds-neutral-light-3)"></span><span style="flex: 1; background: var(--ds-neutral-light-4)"></span><span style="flex: 1; background: var(--ds-neutral-light-5)"></span><span style="flex: 1; background: var(--ds-neutral-light-6)"></span><span style="flex: 1; background: var(--ds-neutral-light-7)"></span><span style="flex: 1; background: var(--ds-neutral-light-8)"></span><span style="flex: 1; background: var(--ds-neutral-light-9)"></span><span style="flex: 1; background: var(--ds-neutral-light-10)"></span><span style="flex: 1; background: var(--ds-neutral-light-11)"></span><span style="flex: 1; background: var(--ds-neutral-light-12)"></span></div><small>light primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-neutral-dark" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-neutral-dark-1)"></span><span style="flex: 1; background: var(--ds-neutral-dark-2)"></span><span style="flex: 1; background: var(--ds-neutral-dark-3)"></span><span style="flex: 1; background: var(--ds-neutral-dark-4)"></span><span style="flex: 1; background: var(--ds-neutral-dark-5)"></span><span style="flex: 1; background: var(--ds-neutral-dark-6)"></span><span style="flex: 1; background: var(--ds-neutral-dark-7)"></span><span style="flex: 1; background: var(--ds-neutral-dark-8)"></span><span style="flex: 1; background: var(--ds-neutral-dark-9)"></span><span style="flex: 1; background: var(--ds-neutral-dark-10)"></span><span style="flex: 1; background: var(--ds-neutral-dark-11)"></span><span style="flex: 1; background: var(--ds-neutral-dark-12)"></span></div><small>dark primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-neutral-active" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-neutral-1)"></span><span style="flex: 1; background: var(--ds-neutral-2)"></span><span style="flex: 1; background: var(--ds-neutral-3)"></span><span style="flex: 1; background: var(--ds-neutral-4)"></span><span style="flex: 1; background: var(--ds-neutral-5)"></span><span style="flex: 1; background: var(--ds-neutral-6)"></span><span style="flex: 1; background: var(--ds-neutral-7)"></span><span style="flex: 1; background: var(--ds-neutral-8)"></span><span style="flex: 1; background: var(--ds-neutral-9)"></span><span style="flex: 1; background: var(--ds-neutral-10)"></span><span style="flex: 1; background: var(--ds-neutral-11)"></span><span style="flex: 1; background: var(--ds-neutral-12)"></span></div><small>active steps · follows scheme</small></div>
     </div>
-    <div style="display: grid; gap: var(--ds-space-1)">
-      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
-        <div style="flex: 1; background: var(--ds-accent-1)"></div>
-        <div style="flex: 1; background: var(--ds-accent-2)"></div>
-        <div style="flex: 1; background: var(--ds-accent-3)"></div>
-        <div style="flex: 1; background: var(--ds-accent-4)"></div>
-        <div style="flex: 1; background: var(--ds-accent-5)"></div>
-        <div style="flex: 1; background: var(--ds-accent-6)"></div>
-        <div style="flex: 1; background: var(--ds-accent-7)"></div>
-        <div style="flex: 1; background: var(--ds-accent-8)"></div>
-        <div style="flex: 1; background: var(--ds-accent-9)"></div>
-        <div style="flex: 1; background: var(--ds-accent-10)"></div>
-        <div style="flex: 1; background: var(--ds-accent-11)"></div>
-        <div style="flex: 1; background: var(--ds-accent-12)"></div>
-      </div>
-      <small><code>accent</code></small>
+
+    <div style="display: grid; gap: var(--ds-space-3)">
+      <h3 style="font: var(--ds-type-heading-sm)">Accent · Radix Blue</h3>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-accent-light" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-accent-light-1)"></span><span style="flex: 1; background: var(--ds-accent-light-2)"></span><span style="flex: 1; background: var(--ds-accent-light-3)"></span><span style="flex: 1; background: var(--ds-accent-light-4)"></span><span style="flex: 1; background: var(--ds-accent-light-5)"></span><span style="flex: 1; background: var(--ds-accent-light-6)"></span><span style="flex: 1; background: var(--ds-accent-light-7)"></span><span style="flex: 1; background: var(--ds-accent-light-8)"></span><span style="flex: 1; background: var(--ds-accent-light-9)"></span><span style="flex: 1; background: var(--ds-accent-light-10)"></span><span style="flex: 1; background: var(--ds-accent-light-11)"></span><span style="flex: 1; background: var(--ds-accent-light-12)"></span></div><small>light primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-accent-dark" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-accent-dark-1)"></span><span style="flex: 1; background: var(--ds-accent-dark-2)"></span><span style="flex: 1; background: var(--ds-accent-dark-3)"></span><span style="flex: 1; background: var(--ds-accent-dark-4)"></span><span style="flex: 1; background: var(--ds-accent-dark-5)"></span><span style="flex: 1; background: var(--ds-accent-dark-6)"></span><span style="flex: 1; background: var(--ds-accent-dark-7)"></span><span style="flex: 1; background: var(--ds-accent-dark-8)"></span><span style="flex: 1; background: var(--ds-accent-dark-9)"></span><span style="flex: 1; background: var(--ds-accent-dark-10)"></span><span style="flex: 1; background: var(--ds-accent-dark-11)"></span><span style="flex: 1; background: var(--ds-accent-dark-12)"></span></div><small>dark primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-accent-active" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-accent-1)"></span><span style="flex: 1; background: var(--ds-accent-2)"></span><span style="flex: 1; background: var(--ds-accent-3)"></span><span style="flex: 1; background: var(--ds-accent-4)"></span><span style="flex: 1; background: var(--ds-accent-5)"></span><span style="flex: 1; background: var(--ds-accent-6)"></span><span style="flex: 1; background: var(--ds-accent-7)"></span><span style="flex: 1; background: var(--ds-accent-8)"></span><span style="flex: 1; background: var(--ds-accent-9)"></span><span style="flex: 1; background: var(--ds-accent-10)"></span><span style="flex: 1; background: var(--ds-accent-11)"></span><span style="flex: 1; background: var(--ds-accent-12)"></span></div><small>active steps · follows scheme</small></div>
     </div>
-    <div style="display: grid; gap: var(--ds-space-1)">
-      <div style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-1)">
-        <div style="flex: 1; background: var(--ds-danger-1)"></div>
-        <div style="flex: 1; background: var(--ds-danger-2)"></div>
-        <div style="flex: 1; background: var(--ds-danger-3)"></div>
-        <div style="flex: 1; background: var(--ds-danger-4)"></div>
-        <div style="flex: 1; background: var(--ds-danger-5)"></div>
-        <div style="flex: 1; background: var(--ds-danger-6)"></div>
-        <div style="flex: 1; background: var(--ds-danger-7)"></div>
-        <div style="flex: 1; background: var(--ds-danger-8)"></div>
-        <div style="flex: 1; background: var(--ds-danger-9)"></div>
-        <div style="flex: 1; background: var(--ds-danger-10)"></div>
-        <div style="flex: 1; background: var(--ds-danger-11)"></div>
-        <div style="flex: 1; background: var(--ds-danger-12)"></div>
-      </div>
-      <small><code>danger</code></small>
+
+    <div style="display: grid; gap: var(--ds-space-3)">
+      <h3 style="font: var(--ds-type-heading-sm)">Danger · Radix Red</h3>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-danger-light" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-danger-light-1)"></span><span style="flex: 1; background: var(--ds-danger-light-2)"></span><span style="flex: 1; background: var(--ds-danger-light-3)"></span><span style="flex: 1; background: var(--ds-danger-light-4)"></span><span style="flex: 1; background: var(--ds-danger-light-5)"></span><span style="flex: 1; background: var(--ds-danger-light-6)"></span><span style="flex: 1; background: var(--ds-danger-light-7)"></span><span style="flex: 1; background: var(--ds-danger-light-8)"></span><span style="flex: 1; background: var(--ds-danger-light-9)"></span><span style="flex: 1; background: var(--ds-danger-light-10)"></span><span style="flex: 1; background: var(--ds-danger-light-11)"></span><span style="flex: 1; background: var(--ds-danger-light-12)"></span></div><small>light primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-danger-dark" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-danger-dark-1)"></span><span style="flex: 1; background: var(--ds-danger-dark-2)"></span><span style="flex: 1; background: var(--ds-danger-dark-3)"></span><span style="flex: 1; background: var(--ds-danger-dark-4)"></span><span style="flex: 1; background: var(--ds-danger-dark-5)"></span><span style="flex: 1; background: var(--ds-danger-dark-6)"></span><span style="flex: 1; background: var(--ds-danger-dark-7)"></span><span style="flex: 1; background: var(--ds-danger-dark-8)"></span><span style="flex: 1; background: var(--ds-danger-dark-9)"></span><span style="flex: 1; background: var(--ds-danger-dark-10)"></span><span style="flex: 1; background: var(--ds-danger-dark-11)"></span><span style="flex: 1; background: var(--ds-danger-dark-12)"></span></div><small>dark primitives · fixed</small></div>
+      <div style="display: grid; gap: var(--ds-space-1)"><div id="ramp-danger-active" style="display: flex; block-size: 2rem; border: 1px solid var(--ds-border-subtle)"><span style="flex: 1; background: var(--ds-danger-1)"></span><span style="flex: 1; background: var(--ds-danger-2)"></span><span style="flex: 1; background: var(--ds-danger-3)"></span><span style="flex: 1; background: var(--ds-danger-4)"></span><span style="flex: 1; background: var(--ds-danger-5)"></span><span style="flex: 1; background: var(--ds-danger-6)"></span><span style="flex: 1; background: var(--ds-danger-7)"></span><span style="flex: 1; background: var(--ds-danger-8)"></span><span style="flex: 1; background: var(--ds-danger-9)"></span><span style="flex: 1; background: var(--ds-danger-10)"></span><span style="flex: 1; background: var(--ds-danger-11)"></span><span style="flex: 1; background: var(--ds-danger-12)"></span></div><small>active steps · follows scheme</small></div>
     </div>
   </section>
 

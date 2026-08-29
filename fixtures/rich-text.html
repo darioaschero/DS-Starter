@@ -8,8 +8,8 @@
   <style>
     /* fixture chrome — unlayered consumer CSS */
     body {
-      background: var(--ds-surface-1);
-      color: var(--ds-text-1);
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
       font: var(--ds-type-body-md);
       max-inline-size: 64rem;
       margin-inline: auto;
@@ -31,12 +31,12 @@
   <!-- ============ 1. Full prose specimen ============ -->
   <section style="margin-block-start: var(--ds-space-7)">
     <h2 style="font: var(--ds-type-heading-md)">1 · Full prose specimen</h2>
-    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
       One <code>&lt;article data-ui="rich-text"&gt;</code>; everything below is styled only by scoped rules
       and by inheritance from this page's chrome. The dashed box near the end is the nested selector-bleed probe.
     </p>
 
-    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
       <article data-ui="rich-text" id="specimen">
         <h1>Field notes from a paper harbor</h1>
 
@@ -133,8 +133,8 @@
 
         <!-- 2. Selector-bleed probe: nested [data-ui] boundary inside the article.
              Markup below the caption span is identical to the control probe outside. -->
-        <div style="border: 1px dashed var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
-          <span style="font: var(--ds-type-label-sm); color: var(--ds-text-2)">nested probe — inside the article; must render identically to the control probe below</span>
+        <div style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
+          <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">nested probe — inside the article; must render identically to the control probe below</span>
           <section data-ui="probe" id="probe-nested">
             <span data-part="label">Probe label part</span>
             <h2>Probe heading</h2>
@@ -148,13 +148,13 @@
   <!-- ============ 3. Control probe (outside any rich-text) ============ -->
   <section style="margin-block-start: var(--ds-space-7)">
     <h2 style="font: var(--ds-type-heading-md)">2 · Control probe</h2>
-    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
       Identical markup, outside the article. Computed styles of both probes must match exactly:
       no selector bleed into the nested one, no inheritable contribution from the rich-text root above it.
     </p>
 
-    <div style="border: 1px dashed var(--ds-border-1); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
-      <span style="font: var(--ds-type-label-sm); color: var(--ds-text-2)">control probe — outside every rich-text article</span>
+    <div style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
+      <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">control probe — outside every rich-text article</span>
       <section data-ui="probe" id="probe-control">
         <span data-part="label">Probe label part</span>
         <h2>Probe heading</h2>
@@ -166,12 +166,12 @@
   <!-- ============ 5. Public-override demo ============ -->
   <section style="margin-block-start: var(--ds-space-7)">
     <h2 style="font: var(--ds-type-heading-md)">3 · Public override</h2>
-    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-2)">
+    <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
       A second rich-text instance sets <code>--ds-rich-text-h2-font: var(--ds-type-heading-lg)</code>
       on its root; the scoped h2 rule resolves the public override before the role default.
     </p>
 
-    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
+    <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
       <article data-ui="rich-text" id="override-demo" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
         <h2>An h2 wearing heading-lg</h2>
         <p>
@@ -183,11 +183,11 @@
   </section>
 
   <!-- ============ 6. What crosses the boundary ============ -->
-  <section style="margin-block-start: var(--ds-space-7); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); background: var(--ds-surface-2)">
+  <section style="margin-block-start: var(--ds-space-7); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); background: var(--ds-bg-subtle)">
     <h2 style="font: var(--ds-type-heading-sm)">What crosses the rich-text boundary</h2>
     <p style="margin-block-start: var(--ds-space-3)">
       <strong>Crosses into the article by ordinary inheritance from the page</strong> (this fixture's
-      chrome rule on <code>body</code>): color <code>var(--ds-text-1)</code>; font family, size and
+      chrome rule on <code>body</code>): color <code>var(--ds-text-primary)</code>; font family, size and
       weight from <code>var(--ds-type-body-md)</code>; line-height 1.5. Unmapped elements inside the
       article — the nested probe's contents — show exactly these inherited values plus UA element defaults.
     </p>

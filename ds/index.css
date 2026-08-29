@@ -4,8 +4,10 @@
 
 @import "reset.css" layer(ds.reset);
 @import "tokens/scale.css" layer(ds.tokens);
+@import "tokens/palette.css" layer(ds.tokens);
 @import "tokens/semantic.css" layer(ds.tokens);
 @import "tokens/roles.css" layer(ds.roles);
+@import "tokens/recipes.css" layer(ds.roles);
 @import "components/button.css" layer(ds.components);
 @import "components/card.css" layer(ds.components);
 @import "components/field.css" layer(ds.components);

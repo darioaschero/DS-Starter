@@ -13,7 +13,7 @@
  *     owns: --_ds-card-size-padding, --_ds-card-size-gap, --_ds-card-size-title-font
  *
  * Public API (resolution: public override → axis channel / base constant):
- *   --ds-card-bg        background      default var(--ds-surface-2)
+ *   --ds-card-bg        background      default var(--ds-bg-subtle)
  *   --ds-card-padding   padding         default size channel
  *   --ds-card-radius    border-radius   default var(--ds-radius-lg)
  *
@@ -35,10 +35,10 @@
   --_ds-card-size-title-font: var(--ds-type-heading-sm);
 
   /* 2. Resolution: public override → axis channel / base constant. */
-  background: var(--ds-card-bg, var(--ds-surface-2));
+  background: var(--ds-card-bg, var(--ds-bg-subtle));
   padding: var(--ds-card-padding, var(--_ds-card-size-padding));
   border-radius: var(--ds-card-radius, var(--ds-radius-lg));
-  border: 1px solid var(--ds-border-1);
+  border: 1px solid var(--ds-border-subtle);
 
   display: flex;
   flex-direction: column;

@@ -8,8 +8,8 @@
   <style>
     /* fixture chrome — unlayered consumer CSS */
     body {
-      background: var(--ds-surface-1);
-      color: var(--ds-text-1);
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
       font: var(--ds-type-body-md);
       max-inline-size: 64rem;
       margin-inline: auto;
@@ -19,20 +19,20 @@
 </head>
 <body>
   <h1>Card</h1>
-  <p style="color: var(--ds-text-2); margin-block-start: var(--ds-space-2)">
+  <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
     Reference implementation for named parts (<code>data-part</code>) and part containment.
     <a href="./index.html">Back to fixture index</a>
   </p>
 
   <!-- 1 · Size axis -->
   <h2 style="margin-block: var(--ds-space-6) var(--ds-space-3)">1 · Size axis — sm / md / lg + no attribute</h2>
-  <p style="color: var(--ds-text-2); margin-block-end: var(--ds-space-3)">
+  <p style="color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">
     The no-attribute card must render identically to <code>data-size="md"</code> (base rule is the only
     implementation of the default).
   </p>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--ds-space-4); align-items: start">
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">data-size="sm"</p>
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-size="sm"</p>
       <section data-ui="card" data-size="sm" id="size-sm">
         <h3 data-part="title">Small card</h3>
         <p data-part="body">Padding space-3, gap space-2, title heading-sm.</p>
@@ -42,7 +42,7 @@
       </section>
     </div>
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">data-size="md"</p>
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-size="md"</p>
       <section data-ui="card" data-size="md" id="size-md">
         <h3 data-part="title">Medium card</h3>
         <p data-part="body">Padding space-5, gap space-3, title heading-sm.</p>
@@ -52,7 +52,7 @@
       </section>
     </div>
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">data-size="lg"</p>
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-size="lg"</p>
       <section data-ui="card" data-size="lg" id="size-lg">
         <h3 data-part="title">Large card</h3>
         <p data-part="body">Padding space-6, gap space-4, title heading-md.</p>
@@ -62,7 +62,7 @@
       </section>
     </div>
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">no size attribute (= md)</p>
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">no size attribute (= md)</p>
       <section data-ui="card" id="size-none">
         <h3 data-part="title">Default card</h3>
         <p data-part="body">Must equal the md card in every computed value.</p>
@@ -75,7 +75,7 @@
 
   <!-- 2 · Unsupported axis value -->
   <h2 style="margin-block: var(--ds-space-6) var(--ds-space-3)">2 · Unsupported value — data-size="xl"</h2>
-  <p style="color: var(--ds-text-2); margin-block-end: var(--ds-space-3)">
+  <p style="color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">
     <code>xl</code> is not card vocabulary. No selector matches it, so the base rule (md) wins.
     Graceful fallback is not validation — a linter would report it.
   </p>
@@ -91,7 +91,7 @@
 
   <!-- 3 · Nested buttons -->
   <h2 style="margin-block: var(--ds-space-6) var(--ds-space-3)">3 · Nested components — buttons inside actions</h2>
-  <p style="color: var(--ds-text-2); margin-block-end: var(--ds-space-3)">
+  <p style="color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">
     The buttons are real components with their own <code>data-part="label"</code> spans.
     Card part selectors must not reach them. (While the button component is a stub the buttons render
     mostly unstyled — containment is still fully testable.)
@@ -109,7 +109,7 @@
 
   <!-- 4 · Card in card -->
   <h2 style="margin-block: var(--ds-space-6) var(--ds-space-3)">4 · Card in card</h2>
-  <p style="color: var(--ds-text-2); margin-block-end: var(--ds-space-3)">
+  <p style="color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">
     Outer card is <code>lg</code> (title heading-md, padding space-6). The inner card carries no size
     attribute, so its parts must resolve from the inner card's own md channels — outer part rules and
     outer channel values must not reach in.
@@ -143,7 +143,7 @@
       <p data-part="body">The title above sits inside an extra plain <code>&lt;div&gt;</code>, not as a direct child of the card root.</p>
     </section>
   </div>
-  <p style="color: var(--ds-text-2); margin-block-start: var(--ds-space-3); max-inline-size: 44rem">
+  <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-3); max-inline-size: 44rem">
     Result with the shipped technique (direct-child combinators): the wrapped title is
     <strong>deliberately not styled</strong> — it falls back to UA heading styles (700 weight instead of
     600, 18.72px instead of 19px). The recommended contract: parts sit as direct children of the card
@@ -155,14 +155,14 @@
   <h2 style="margin-block: var(--ds-space-6) var(--ds-space-3)">6 · Public overrides — instance-level custom properties</h2>
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--ds-space-4); align-items: start">
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">--ds-card-bg + --ds-card-radius</p>
-      <section data-ui="card" id="override-bg-radius" style="--ds-card-bg: var(--ds-accent-surface); --ds-card-radius: var(--ds-radius-sm)">
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">--ds-card-bg + --ds-card-radius</p>
+      <section data-ui="card" id="override-bg-radius" style="--ds-card-bg: var(--ds-accent-subtle); --ds-card-radius: var(--ds-radius-sm)">
         <h3 data-part="title">Overridden surface</h3>
-        <p data-part="body">Background accent-surface, radius radius-sm, both set inline on the instance.</p>
+        <p data-part="body">Background accent-subtle, radius radius-sm, both set inline on the instance.</p>
       </section>
     </div>
     <div>
-      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-2); margin-block-end: var(--ds-space-2)">--ds-card-padding beats the size channel</p>
+      <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">--ds-card-padding beats the size channel</p>
       <section data-ui="card" data-size="lg" id="override-padding" style="--ds-card-padding: var(--ds-space-2)">
         <h3 data-part="title">Padding override on lg</h3>
         <p data-part="body">Public --ds-card-padding (space-2) must win over the lg size channel (space-6).</p>

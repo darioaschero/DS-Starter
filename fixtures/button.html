@@ -8,8 +8,8 @@
   <style>
     /* fixture chrome — unlayered consumer CSS */
     body {
-      background: var(--ds-surface-1);
-      color: var(--ds-text-1);
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
       font: var(--ds-type-body-md);
       max-inline-size: 64rem;
       margin-inline: auto;
@@ -23,7 +23,7 @@
 
   <section style="margin-block-start: var(--ds-space-6);">
     <h2>1 · Variant × size matrix + attribute-less default</h2>
-    <p style="color: var(--ds-text-2);">The last button carries no axis attributes and must render identical to soft / md.</p>
+    <p style="color: var(--ds-text-muted);">The last button carries no axis attributes and must render identical to soft / md.</p>
     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
       <button data-ui="button" data-variant="soft" data-size="sm"><span data-part="label">Soft sm</span></button>
       <button data-ui="button" data-variant="soft" data-size="md" id="btn-explicit"><span data-part="label">Soft md</span></button>
@@ -35,7 +35,7 @@
 
   <section style="margin-block-start: var(--ds-space-6);">
     <h2>2 · Unsupported axis values fall back to defaults</h2>
-    <p style="color: var(--ds-text-2);">Graceful fallback demo — a future linter still reports these as vocabulary errors.</p>
+    <p style="color: var(--ds-text-muted);">Graceful fallback demo — a future linter still reports these as vocabulary errors.</p>
     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
       <button data-ui="button" data-variant="ghost" id="btn-ghost"><span data-part="label">data-variant="ghost"</span></button>
       <button data-ui="button" data-size="xl" id="btn-xl"><span data-part="label">data-size="xl"</span></button>
@@ -44,7 +44,7 @@
 
   <section style="margin-block-start: var(--ds-space-6);">
     <h2>3 · Icon + label</h2>
-    <p style="color: var(--ds-text-2);">Decorative inline SVG icons (aria-hidden) sized 1em, tracking the size axis.</p>
+    <p style="color: var(--ds-text-muted);">Decorative inline SVG icons (aria-hidden) sized 1em, tracking the size axis.</p>
     <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
       <button data-ui="button" data-size="md">
         <svg data-part="icon" aria-hidden="true" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -71,8 +71,8 @@
 
   <section style="margin-block-start: var(--ds-space-6);">
     <h2>5 · Public overrides</h2>
-    <p style="color: var(--ds-text-2);">A context override on the wrapper beats the solid variant's channels; the last button carries an instance-level geometry override.</p>
-    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4); --ds-button-bg: var(--ds-danger-9); --ds-button-fg: var(--ds-gray-1);">
+    <p style="color: var(--ds-text-muted);">A context override on the wrapper beats the solid variant's channels; the last button carries an instance-level geometry override.</p>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4); --ds-button-bg: var(--ds-danger-9); --ds-button-fg: var(--ds-accent-on-solid);">
       <button data-ui="button" data-variant="solid" id="btn-context-override"><span data-part="label">Context override beats solid</span></button>
       <button data-ui="button"><span data-part="label">…and beats soft</span></button>
     </div>
@@ -83,14 +83,14 @@
 
   <section style="margin-block-start: var(--ds-space-6);">
     <h2>6 · Subtree theme switch</h2>
-    <p style="color: var(--ds-text-2);">Each box pins its own color-scheme via data-theme and paints its own surface.</p>
+    <p style="color: var(--ds-text-muted);">Each box pins its own color-scheme via data-theme and paints its own surface.</p>
     <div style="display: flex; flex-wrap: wrap; gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
-      <div data-theme="dark" style="background: var(--ds-surface-1); color: var(--ds-text-1); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); display: flex; align-items: center; gap: var(--ds-space-4);">
+      <div data-theme="dark" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); display: flex; align-items: center; gap: var(--ds-space-4);">
         <span>data-theme="dark"</span>
         <button data-ui="button" id="btn-dark-subtree"><span data-part="label">Soft</span></button>
         <button data-ui="button" data-variant="solid"><span data-part="label">Solid</span></button>
       </div>
-      <div data-theme="light" style="background: var(--ds-surface-1); color: var(--ds-text-1); border: 1px solid var(--ds-border-1); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); display: flex; align-items: center; gap: var(--ds-space-4);">
+      <div data-theme="light" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-5); display: flex; align-items: center; gap: var(--ds-space-4);">
         <span>data-theme="light"</span>
         <button data-ui="button" id="btn-light-subtree"><span data-part="label">Soft</span></button>
         <button data-ui="button" data-variant="solid"><span data-part="label">Solid</span></button>

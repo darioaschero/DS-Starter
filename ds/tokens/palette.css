@@ -1,0 +1,132 @@
+/* DS-Starter — colour primitives and active palette steps.
+ * Source: https://www.npmjs.com/package/@radix-ui/colors, version 3.0.0
+ * (Slate, Blue, and Red sRGB scales), MIT License.
+ * Copyright (c) 2021-2022 Modulz; Copyright (c) 2022-Present WorkOS.
+ * Radix step convention: 1 app bg · 2 subtle bg · 3–5 component bg/hover/active ·
+ * 6–8 borders · 9–10 solid/hover · 11–12 text.
+ */
+
+:root {
+  /* Neutral primitives — Radix Slate. */
+  --ds-neutral-light-1: #fcfcfd;
+  --ds-neutral-light-2: #f9f9fb;
+  --ds-neutral-light-3: #f0f0f3;
+  --ds-neutral-light-4: #e8e8ec;
+  --ds-neutral-light-5: #e0e1e6;
+  --ds-neutral-light-6: #d9d9e0;
+  --ds-neutral-light-7: #cdced6;
+  --ds-neutral-light-8: #b9bbc6;
+  --ds-neutral-light-9: #8b8d98;
+  --ds-neutral-light-10: #80838d;
+  --ds-neutral-light-11: #60646c;
+  --ds-neutral-light-12: #1c2024;
+
+  --ds-neutral-dark-1: #111113;
+  --ds-neutral-dark-2: #18191b;
+  --ds-neutral-dark-3: #212225;
+  --ds-neutral-dark-4: #272a2d;
+  --ds-neutral-dark-5: #2e3135;
+  --ds-neutral-dark-6: #363a3f;
+  --ds-neutral-dark-7: #43484e;
+  --ds-neutral-dark-8: #5a6169;
+  --ds-neutral-dark-9: #696e77;
+  --ds-neutral-dark-10: #777b84;
+  --ds-neutral-dark-11: #b0b4ba;
+  --ds-neutral-dark-12: #edeef0;
+
+  /* Accent primitives — Radix Blue. */
+  --ds-accent-light-1: #fbfdff;
+  --ds-accent-light-2: #f4faff;
+  --ds-accent-light-3: #e6f4fe;
+  --ds-accent-light-4: #d5efff;
+  --ds-accent-light-5: #c2e5ff;
+  --ds-accent-light-6: #acd8fc;
+  --ds-accent-light-7: #8ec8f6;
+  --ds-accent-light-8: #5eb1ef;
+  --ds-accent-light-9: #0090ff;
+  --ds-accent-light-10: #0588f0;
+  --ds-accent-light-11: #0d74ce;
+  --ds-accent-light-12: #113264;
+
+  --ds-accent-dark-1: #0d1520;
+  --ds-accent-dark-2: #111927;
+  --ds-accent-dark-3: #0d2847;
+  --ds-accent-dark-4: #003362;
+  --ds-accent-dark-5: #004074;
+  --ds-accent-dark-6: #104d87;
+  --ds-accent-dark-7: #205d9e;
+  --ds-accent-dark-8: #2870bd;
+  --ds-accent-dark-9: #0090ff;
+  --ds-accent-dark-10: #3b9eff;
+  --ds-accent-dark-11: #70b8ff;
+  --ds-accent-dark-12: #c2e6ff;
+
+  /* Danger primitives — Radix Red. */
+  --ds-danger-light-1: #fffcfc;
+  --ds-danger-light-2: #fff7f7;
+  --ds-danger-light-3: #feebec;
+  --ds-danger-light-4: #ffdbdc;
+  --ds-danger-light-5: #ffcdce;
+  --ds-danger-light-6: #fdbdbe;
+  --ds-danger-light-7: #f4a9aa;
+  --ds-danger-light-8: #eb8e90;
+  --ds-danger-light-9: #e5484d;
+  --ds-danger-light-10: #dc3e42;
+  --ds-danger-light-11: #ce2c31;
+  --ds-danger-light-12: #641723;
+
+  --ds-danger-dark-1: #191111;
+  --ds-danger-dark-2: #201314;
+  --ds-danger-dark-3: #3b1219;
+  --ds-danger-dark-4: #500f1c;
+  --ds-danger-dark-5: #611623;
+  --ds-danger-dark-6: #72232d;
+  --ds-danger-dark-7: #8c333a;
+  --ds-danger-dark-8: #b54548;
+  --ds-danger-dark-9: #e5484d;
+  --ds-danger-dark-10: #ec5d5e;
+  --ds-danger-dark-11: #ff9592;
+  --ds-danger-dark-12: #ffd1d9;
+
+  /* Active palette steps — the only scheme-resolution point. */
+  color-scheme: light dark;
+
+  --ds-neutral-1: light-dark(var(--ds-neutral-light-1), var(--ds-neutral-dark-1));
+  --ds-neutral-2: light-dark(var(--ds-neutral-light-2), var(--ds-neutral-dark-2));
+  --ds-neutral-3: light-dark(var(--ds-neutral-light-3), var(--ds-neutral-dark-3));
+  --ds-neutral-4: light-dark(var(--ds-neutral-light-4), var(--ds-neutral-dark-4));
+  --ds-neutral-5: light-dark(var(--ds-neutral-light-5), var(--ds-neutral-dark-5));
+  --ds-neutral-6: light-dark(var(--ds-neutral-light-6), var(--ds-neutral-dark-6));
+  --ds-neutral-7: light-dark(var(--ds-neutral-light-7), var(--ds-neutral-dark-7));
+  --ds-neutral-8: light-dark(var(--ds-neutral-light-8), var(--ds-neutral-dark-8));
+  --ds-neutral-9: light-dark(var(--ds-neutral-light-9), var(--ds-neutral-dark-9));
+  --ds-neutral-10: light-dark(var(--ds-neutral-light-10), var(--ds-neutral-dark-10));
+  --ds-neutral-11: light-dark(var(--ds-neutral-light-11), var(--ds-neutral-dark-11));
+  --ds-neutral-12: light-dark(var(--ds-neutral-light-12), var(--ds-neutral-dark-12));
+
+  --ds-accent-1: light-dark(var(--ds-accent-light-1), var(--ds-accent-dark-1));
+  --ds-accent-2: light-dark(var(--ds-accent-light-2), var(--ds-accent-dark-2));
+  --ds-accent-3: light-dark(var(--ds-accent-light-3), var(--ds-accent-dark-3));
+  --ds-accent-4: light-dark(var(--ds-accent-light-4), var(--ds-accent-dark-4));
+  --ds-accent-5: light-dark(var(--ds-accent-light-5), var(--ds-accent-dark-5));
+  --ds-accent-6: light-dark(var(--ds-accent-light-6), var(--ds-accent-dark-6));
+  --ds-accent-7: light-dark(var(--ds-accent-light-7), var(--ds-accent-dark-7));
+  --ds-accent-8: light-dark(var(--ds-accent-light-8), var(--ds-accent-dark-8));
+  --ds-accent-9: light-dark(var(--ds-accent-light-9), var(--ds-accent-dark-9));
+  --ds-accent-10: light-dark(var(--ds-accent-light-10), var(--ds-accent-dark-10));
+  --ds-accent-11: light-dark(var(--ds-accent-light-11), var(--ds-accent-dark-11));
+  --ds-accent-12: light-dark(var(--ds-accent-light-12), var(--ds-accent-dark-12));
+
+  --ds-danger-1: light-dark(var(--ds-danger-light-1), var(--ds-danger-dark-1));
+  --ds-danger-2: light-dark(var(--ds-danger-light-2), var(--ds-danger-dark-2));
+  --ds-danger-3: light-dark(var(--ds-danger-light-3), var(--ds-danger-dark-3));
+  --ds-danger-4: light-dark(var(--ds-danger-light-4), var(--ds-danger-dark-4));
+  --ds-danger-5: light-dark(var(--ds-danger-light-5), var(--ds-danger-dark-5));
+  --ds-danger-6: light-dark(var(--ds-danger-light-6), var(--ds-danger-dark-6));
+  --ds-danger-7: light-dark(var(--ds-danger-light-7), var(--ds-danger-dark-7));
+  --ds-danger-8: light-dark(var(--ds-danger-light-8), var(--ds-danger-dark-8));
+  --ds-danger-9: light-dark(var(--ds-danger-light-9), var(--ds-danger-dark-9));
+  --ds-danger-10: light-dark(var(--ds-danger-light-10), var(--ds-danger-dark-10));
+  --ds-danger-11: light-dark(var(--ds-danger-light-11), var(--ds-danger-dark-11));
+  --ds-danger-12: light-dark(var(--ds-danger-light-12), var(--ds-danger-dark-12));
+}

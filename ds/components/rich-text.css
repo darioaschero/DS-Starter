@@ -68,7 +68,7 @@
   :where(:not(pre) > code) {
     font-family: var(--ds-font-mono);
     font-size: 0.9em; /* the sanctioned intentional em (conventions §5) */
-    background: var(--ds-surface-2);
+    background: var(--ds-bg-subtle);
     padding: 0.1em 0.35em; /* em-based: scales with context, headings included */
     border-radius: var(--ds-radius-sm);
   }
@@ -115,15 +115,15 @@
 
   :where(blockquote) {
     padding-inline-start: var(--ds-space-4);
-    border-inline-start: 3px solid var(--ds-border-1);
-    color: var(--ds-text-2);
+    border-inline-start: 3px solid var(--ds-border-subtle);
+    color: var(--ds-text-muted);
   }
 
   /* Code blocks: mono family only — size and line-height are deliberately
      inherited (pre has no font role in this prototype; flagged in findings). */
   :where(pre) {
     font-family: var(--ds-font-mono);
-    background: var(--ds-surface-2);
+    background: var(--ds-bg-subtle);
     padding: var(--ds-space-3);
     border-radius: var(--ds-radius-md);
     overflow-x: auto;
@@ -138,7 +138,7 @@
 
   :where(hr) {
     border: 0;
-    border-block-start: 1px solid var(--ds-border-1);
+    border-block-start: 1px solid var(--ds-border-subtle);
   }
 
   /* Tables: row rules only. th re-bolds and start-aligns over its body role
@@ -150,7 +150,7 @@
   :where(th, td) {
     padding-block: var(--ds-space-2);
     padding-inline: 0 var(--ds-space-5);
-    border-block-end: 1px solid var(--ds-border-1);
+    border-block-end: 1px solid var(--ds-border-subtle);
   }
 
   :where(th) {
