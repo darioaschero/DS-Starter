@@ -3,6 +3,7 @@
 :root {
   --ds-bg-canvas: var(--ds-neutral-1);
   --ds-bg-subtle: var(--ds-neutral-2);
+  --ds-bg-component: var(--ds-neutral-3); /* Radix step 3: component backgrounds. */
   --ds-text-primary: var(--ds-neutral-12);
   --ds-text-muted: var(--ds-neutral-11);
   --ds-border-subtle: var(--ds-neutral-6);

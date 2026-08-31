@@ -158,3 +158,9 @@
     text-align: start;
   }
 }
+
+/* Embedded-component rhythm contract (conventions §9): the scoped donut
+   excludes boundary roots, so the content-level relationship lives outside it. */
+[data-ui="rich-text"] > :where(* + [data-ui]) {
+  margin-block-start: var(--ds-space-4);
+}

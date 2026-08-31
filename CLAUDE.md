@@ -22,4 +22,6 @@ Milestone 1 (vertical slice) is **complete and committed**: foundations, button,
 
 T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 disclosure, T9 stack — are **complete and committed**. Conventions are at v4 (M2 rules promoted: native-state channels, public-vs-state precedence, focus relocation, authoritative state, transparent-bg derived states, finite geometry axes, layout doctrine, relationship rules outside scope).
 
-Now: **T10 — M2 integration** (`docs/tasks/T10-integration.md`): embedded-rhythm rule in rich-text, full §18 composition surface with all six components, the `--ds-bg-component` decision by procedure, full battery re-run, M2 synthesis. Then Milestone 3: linter feasibility spike.
+**Milestone 2 is complete and committed** (T10 integration included): all six direction-§18 components composed and verified on the full fixture, embedded-component rhythm owned by rich-text, `--ds-bg-component` adopted (disclosure content only), M2 synthesis + 30-rule linter inventory in `docs/findings/m2-synthesis.md`.
+
+Now: **Milestone 3 — linter feasibility spike**. The rule inventory and starting subset live in `docs/findings/m2-synthesis.md` §4–5.

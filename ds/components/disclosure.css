@@ -58,7 +58,7 @@
   }
 
   & > [data-part="content"] {
-    background: var(--ds-bg-subtle);
+    background: var(--ds-bg-component);
     color: var(--ds-text-primary);
     font: var(--ds-type-body-md);
     padding: var(--ds-space-4);
