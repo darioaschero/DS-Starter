@@ -1,1 +1,73 @@
-/* DS-Starter — disclosure component. Status: stub, no rules yet — owned by the disclosure task (Milestone 2). */
+/* DS-Starter — disclosure component.
+ *
+ * Native <details>/<summary> owns semantics, keyboard interaction, and open state;
+ * CSS only presents that state through [open].
+ *
+ * Anatomy (parts are DIRECT CHILDREN of the root):
+ *   details[data-ui="disclosure"]
+ *     summary[data-part="trigger"]
+ *     div[data-part="content"]
+ *
+ * Axes: deliberately empty. Unsupported data-* configuration is a no-op.
+ *
+ * Public API: deliberately empty. This container starts with no component
+ * override properties; ordinary consumer CSS and semantic tokens cover the
+ * observed needs without expanding the contract.
+ *
+ * The trigger still uses frame and resolved colour channels even without axes,
+ * keeping the state recipe explicit and ready for a future override decision.
+ * The transparent resting background intentionally makes derived hover an
+ * alpha foreground tint in both colour schemes.
+ *
+ * Both parts establish their own typography. A disclosure is a [data-ui]
+ * boundary inside rich text, so it receives no prose styling and cannot rely on
+ * prose inheritance. Focus uses the shared 2px / 2px baseline without re-tuning.
+ * The native marker is retained and only recoloured; no motion is applied.
+ */
+
+[data-ui="disclosure"] {
+  /* Frame channels — fixed recipe because the component has no axes or knobs. */
+  --_ds-disclosure-trigger-bg: transparent;
+  --_ds-disclosure-trigger-fg: var(--ds-text-primary);
+
+  /* Resolved channels — the only colour inputs consumed by trigger states. */
+  --_ds-disclosure-resolved-trigger-bg: var(--_ds-disclosure-trigger-bg);
+  --_ds-disclosure-resolved-trigger-fg: var(--_ds-disclosure-trigger-fg);
+
+  border: 1px solid var(--ds-border-subtle);
+
+  & > [data-part="trigger"] {
+    background: var(--_ds-disclosure-resolved-trigger-bg);
+    color: var(--_ds-disclosure-resolved-trigger-fg);
+    font: var(--ds-type-label-md);
+    padding: var(--ds-space-3) var(--ds-space-4);
+    cursor: pointer;
+    user-select: none;
+
+    &::marker {
+      color: var(--ds-text-muted);
+    }
+
+    &:hover {
+      background: color-mix(
+        in oklch,
+        var(--_ds-disclosure-resolved-trigger-bg),
+        var(--_ds-disclosure-resolved-trigger-fg) var(--ds-state-hover-mix)
+      );
+    }
+  }
+
+  & > [data-part="content"] {
+    background: var(--ds-bg-subtle);
+    color: var(--ds-text-primary);
+    font: var(--ds-type-body-md);
+    padding: var(--ds-space-4);
+    display: grid;
+    gap: var(--ds-space-3);
+  }
+
+  &[open] > [data-part="trigger"] {
+    font-weight: var(--ds-font-weight-strong);
+    border-block-end: 1px solid var(--ds-border-subtle);
+  }
+}
