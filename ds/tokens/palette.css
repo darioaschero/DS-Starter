@@ -1,92 +1,92 @@
 /* DS-Starter — colour primitives and active palette steps.
  * Source: https://www.npmjs.com/package/@radix-ui/colors, version 3.0.0
- * (Slate, Blue, and Red sRGB scales), MIT License.
+ * (Sand, Amber, and Tomato sRGB scales), MIT License.
  * Copyright (c) 2021-2022 Modulz; Copyright (c) 2022-Present WorkOS.
  * Radix step convention: 1 app bg · 2 subtle bg · 3–5 component bg/hover/active ·
  * 6–8 borders · 9–10 solid/hover · 11–12 text.
  */
 
 :root {
-  /* Neutral primitives — Radix Slate. */
-  --ds-neutral-light-1: #fcfcfd;
-  --ds-neutral-light-2: #f9f9fb;
-  --ds-neutral-light-3: #f0f0f3;
-  --ds-neutral-light-4: #e8e8ec;
-  --ds-neutral-light-5: #e0e1e6;
-  --ds-neutral-light-6: #d9d9e0;
-  --ds-neutral-light-7: #cdced6;
-  --ds-neutral-light-8: #b9bbc6;
-  --ds-neutral-light-9: #8b8d98;
-  --ds-neutral-light-10: #80838d;
-  --ds-neutral-light-11: #60646c;
-  --ds-neutral-light-12: #1c2024;
+  /* Neutral primitives — Radix Sand. */
+  --ds-neutral-light-1: #fdfdfc;
+  --ds-neutral-light-2: #f9f9f8;
+  --ds-neutral-light-3: #f1f0ef;
+  --ds-neutral-light-4: #e9e8e6;
+  --ds-neutral-light-5: #e2e1de;
+  --ds-neutral-light-6: #dad9d6;
+  --ds-neutral-light-7: #cfceca;
+  --ds-neutral-light-8: #bcbbb5;
+  --ds-neutral-light-9: #8d8d86;
+  --ds-neutral-light-10: #82827c;
+  --ds-neutral-light-11: #63635e;
+  --ds-neutral-light-12: #21201c;
 
-  --ds-neutral-dark-1: #111113;
-  --ds-neutral-dark-2: #18191b;
-  --ds-neutral-dark-3: #212225;
-  --ds-neutral-dark-4: #272a2d;
-  --ds-neutral-dark-5: #2e3135;
-  --ds-neutral-dark-6: #363a3f;
-  --ds-neutral-dark-7: #43484e;
-  --ds-neutral-dark-8: #5a6169;
-  --ds-neutral-dark-9: #696e77;
-  --ds-neutral-dark-10: #777b84;
-  --ds-neutral-dark-11: #b0b4ba;
-  --ds-neutral-dark-12: #edeef0;
+  --ds-neutral-dark-1: #111110;
+  --ds-neutral-dark-2: #191918;
+  --ds-neutral-dark-3: #222221;
+  --ds-neutral-dark-4: #2a2a28;
+  --ds-neutral-dark-5: #31312e;
+  --ds-neutral-dark-6: #3b3a37;
+  --ds-neutral-dark-7: #494844;
+  --ds-neutral-dark-8: #62605b;
+  --ds-neutral-dark-9: #6f6d66;
+  --ds-neutral-dark-10: #7c7b74;
+  --ds-neutral-dark-11: #b5b3ad;
+  --ds-neutral-dark-12: #eeeeec;
 
-  /* Accent primitives — Radix Blue. */
-  --ds-accent-light-1: #fbfdff;
-  --ds-accent-light-2: #f4faff;
-  --ds-accent-light-3: #e6f4fe;
-  --ds-accent-light-4: #d5efff;
-  --ds-accent-light-5: #c2e5ff;
-  --ds-accent-light-6: #acd8fc;
-  --ds-accent-light-7: #8ec8f6;
-  --ds-accent-light-8: #5eb1ef;
-  --ds-accent-light-9: #0090ff;
-  --ds-accent-light-10: #0588f0;
-  --ds-accent-light-11: #0d74ce;
-  --ds-accent-light-12: #113264;
+  /* Accent primitives — Radix Amber. */
+  --ds-accent-light-1: #fefdfb;
+  --ds-accent-light-2: #fefbe9;
+  --ds-accent-light-3: #fff7c2;
+  --ds-accent-light-4: #ffee9c;
+  --ds-accent-light-5: #fbe577;
+  --ds-accent-light-6: #f3d673;
+  --ds-accent-light-7: #e9c162;
+  --ds-accent-light-8: #e2a336;
+  --ds-accent-light-9: #ffc53d;
+  --ds-accent-light-10: #ffba18;
+  --ds-accent-light-11: #ab6400;
+  --ds-accent-light-12: #4f3422;
 
-  --ds-accent-dark-1: #0d1520;
-  --ds-accent-dark-2: #111927;
-  --ds-accent-dark-3: #0d2847;
-  --ds-accent-dark-4: #003362;
-  --ds-accent-dark-5: #004074;
-  --ds-accent-dark-6: #104d87;
-  --ds-accent-dark-7: #205d9e;
-  --ds-accent-dark-8: #2870bd;
-  --ds-accent-dark-9: #0090ff;
-  --ds-accent-dark-10: #3b9eff;
-  --ds-accent-dark-11: #70b8ff;
-  --ds-accent-dark-12: #c2e6ff;
+  --ds-accent-dark-1: #16120c;
+  --ds-accent-dark-2: #1d180f;
+  --ds-accent-dark-3: #302008;
+  --ds-accent-dark-4: #3f2700;
+  --ds-accent-dark-5: #4d3000;
+  --ds-accent-dark-6: #5c3d05;
+  --ds-accent-dark-7: #714f19;
+  --ds-accent-dark-8: #8f6424;
+  --ds-accent-dark-9: #ffc53d;
+  --ds-accent-dark-10: #ffd60a;
+  --ds-accent-dark-11: #ffca16;
+  --ds-accent-dark-12: #ffe7b3;
 
-  /* Danger primitives — Radix Red. */
+  /* Danger primitives — Radix Tomato. */
   --ds-danger-light-1: #fffcfc;
-  --ds-danger-light-2: #fff7f7;
-  --ds-danger-light-3: #feebec;
-  --ds-danger-light-4: #ffdbdc;
-  --ds-danger-light-5: #ffcdce;
-  --ds-danger-light-6: #fdbdbe;
-  --ds-danger-light-7: #f4a9aa;
-  --ds-danger-light-8: #eb8e90;
-  --ds-danger-light-9: #e5484d;
-  --ds-danger-light-10: #dc3e42;
-  --ds-danger-light-11: #ce2c31;
-  --ds-danger-light-12: #641723;
+  --ds-danger-light-2: #fff8f7;
+  --ds-danger-light-3: #feebe7;
+  --ds-danger-light-4: #ffdcd3;
+  --ds-danger-light-5: #ffcdc2;
+  --ds-danger-light-6: #fdbdaf;
+  --ds-danger-light-7: #f5a898;
+  --ds-danger-light-8: #ec8e7b;
+  --ds-danger-light-9: #e54d2e;
+  --ds-danger-light-10: #dd4425;
+  --ds-danger-light-11: #d13415;
+  --ds-danger-light-12: #5c271f;
 
-  --ds-danger-dark-1: #191111;
-  --ds-danger-dark-2: #201314;
-  --ds-danger-dark-3: #3b1219;
-  --ds-danger-dark-4: #500f1c;
-  --ds-danger-dark-5: #611623;
-  --ds-danger-dark-6: #72232d;
-  --ds-danger-dark-7: #8c333a;
-  --ds-danger-dark-8: #b54548;
-  --ds-danger-dark-9: #e5484d;
-  --ds-danger-dark-10: #ec5d5e;
-  --ds-danger-dark-11: #ff9592;
-  --ds-danger-dark-12: #ffd1d9;
+  --ds-danger-dark-1: #181111;
+  --ds-danger-dark-2: #1f1513;
+  --ds-danger-dark-3: #391714;
+  --ds-danger-dark-4: #4e1511;
+  --ds-danger-dark-5: #5e1c16;
+  --ds-danger-dark-6: #6e2920;
+  --ds-danger-dark-7: #853a2d;
+  --ds-danger-dark-8: #ac4d39;
+  --ds-danger-dark-9: #e54d2e;
+  --ds-danger-dark-10: #ec6142;
+  --ds-danger-dark-11: #ff977d;
+  --ds-danger-dark-12: #fbd3cb;
 
   /* Active palette steps — the only scheme-resolution point. */
   color-scheme: light dark;

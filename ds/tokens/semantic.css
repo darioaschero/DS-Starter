@@ -9,13 +9,15 @@
   --ds-border-subtle: var(--ds-neutral-6);
   --ds-border-default: var(--ds-neutral-7);
 
-  --ds-link-color: var(--ds-accent-11);
-  --ds-focus-color: var(--ds-accent-8);
+  /* Amber 11 falls to 4.38:1 on Sand 2; step 12 gives editorial links safe headroom. */
+  --ds-link-color: var(--ds-accent-12);
+  /* Amber 8 is too quiet against the pale Sand canvas; text step 11 keeps the ring visible. */
+  --ds-focus-color: var(--ds-accent-11);
   --ds-accent-subtle: var(--ds-accent-3);
-  --ds-accent-text: var(--ds-accent-11);
+  --ds-accent-text: var(--ds-accent-12);
   --ds-accent-solid: var(--ds-accent-9);
-  /* Radix prescribes white text over Blue 9. */
-  --ds-accent-on-solid: white;
+  /* Radix prescribes dark text over Amber 9 in both schemes. */
+  --ds-accent-on-solid: #21201c;
 
   --ds-text-danger: var(--ds-danger-11);
   --ds-border-danger: var(--ds-danger-8);

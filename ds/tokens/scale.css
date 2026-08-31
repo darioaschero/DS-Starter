@@ -18,12 +18,13 @@
   --ds-font-size-5: 1.75rem;
   --ds-font-size-6: 2.125rem;
 
-  --ds-radius-sm: 0.25rem;
-  --ds-radius-md: 0.5rem;
-  --ds-radius-lg: 0.75rem;
+  --ds-radius-sm: 0.375rem;
+  --ds-radius-md: 0.75rem;
+  --ds-radius-lg: 1.25rem;
   --ds-radius-full: 999rem;
 
   --ds-font-sans: system-ui, sans-serif;
+  --ds-font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
   --ds-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --ds-font-weight-normal: 400;
