@@ -24,4 +24,6 @@ T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 di
 
 **Milestone 2 is complete and committed** (T10 integration included): all six direction-§18 components composed and verified on the full fixture, embedded-component rhythm owned by rich-text, `--ds-bg-component` adopted (disclosure content only), M2 synthesis + 30-rule linter inventory in `docs/findings/m2-synthesis.md`.
 
-Now: **Milestone 3 — linter feasibility spike**. The rule inventory and starting subset live in `docs/findings/m2-synthesis.md` §4–5.
+Now: **Milestone 3 — derivation experiments** (the starter thesis test: can differently-branded systems be derived by touching only the token surface?). Two parallel derivations on git-worktree branches: T11 LGC-like (`docs/tasks/T11-derivation-lgc.md`, worktree `../DS-Starter-lgc`, branch `derivation/lgc`) and T12 warm editorial (`docs/tasks/T12-derivation-editorial.md`, worktree `../DS-Starter-editorial`, branch `derivation/editorial`). Then T13: derivation synthesis — parameter surface, leaks, wizard-feasibility verdict.
+
+The linter is **parked, not dropped**: its 30-rule inventory (`docs/findings/m2-synthesis.md` §4–5) stays valid and will be better informed by the mistakes derivations actually surface.
