@@ -24,8 +24,8 @@ T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 di
 
 **Milestone 2 is complete and committed** (T10 integration included): all six direction-§18 components composed and verified on the full fixture, embedded-component rhythm owned by rich-text, `--ds-bg-component` adopted (disclosure content only), M2 synthesis + 30-rule linter inventory in `docs/findings/m2-synthesis.md`.
 
-**T11 (LGC-like, hard path) and T12 (warm editorial, easy path) are complete** — both derived convincing identities with **zero frozen-surface leaks**, batteries green in both schemes, committed and pushed on `derivation/lgc` (worktree `../DS-Starter-lgc`) and `derivation/editorial` (worktree `../DS-Starter-editorial`).
+**Milestone 3 is complete and committed.** Both derivation experiments (T11 LGC-like on `derivation/lgc`, T12 warm editorial on `derivation/editorial` — worktrees `../DS-Starter-lgc`, `../DS-Starter-editorial`) proved the starter thesis with zero frozen-surface leaks. The synthesis is `docs/findings/m3-synthesis.md` (two-path comparison, 15-knob parameter surface, constraint classes, wizard questionnaire, conventions v5 proposals, linter rules 31–34); the shippable derivation guide is `docs/deriving.md`.
 
-Now: **T13 — derivation synthesis** (`docs/tasks/T13-derivation-synthesis.md`, runs on main): two-path comparison, starter-thesis verdict, consolidated parameter surface, constraint classes (relational deltas, contrast gates), wizard verdict + questionnaire, `docs/deriving.md` v1, next-milestone recommendation.
+Next milestone: **to be decided at the coordinator checkpoint** — the synthesis (§8) recommends: thin linter/validator slice → guided wizard on those gates → base-system curation.
 
 The linter is **parked, not dropped**: its 30-rule inventory (`docs/findings/m2-synthesis.md` §4–5) stays valid and will be better informed by the mistakes derivations actually surface.
