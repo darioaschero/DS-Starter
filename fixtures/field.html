@@ -19,7 +19,212 @@
 </head>
 <body>
   <h1>Field</h1>
-  <p>Not built yet — owned by the field task (Milestone 2).</p>
-  <p><a href="./index.html">Back to fixture index</a></p>
+  <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">
+    Native form state, a relocated keyboard focus ring, and the shared outline recipe.
+    <a href="./index.html">Back to fixture index</a>
+  </p>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>1 · Size axis + attribute-less default</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">The input text stays body-md at both sizes; only frame geometry changes. The attribute-less field must equal md.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--ds-space-4); margin-block-start: var(--ds-space-4); align-items: start;">
+      <div data-ui="field" data-size="sm" id="field-size-sm">
+        <label data-part="label" for="field-size-sm-input">Small</label>
+        <div data-part="control" id="field-size-sm-control">
+          <input id="field-size-sm-input" type="text" value="Body-md text">
+        </div>
+      </div>
+      <div data-ui="field" data-size="md" id="field-size-md">
+        <label data-part="label" for="field-size-md-input">Medium</label>
+        <div data-part="control" id="field-size-md-control">
+          <input id="field-size-md-input" type="text" value="Body-md text">
+        </div>
+      </div>
+      <div data-ui="field" id="field-size-none">
+        <label data-part="label" for="field-size-none-input">No size attribute</label>
+        <div data-part="control" id="field-size-none-control">
+          <input id="field-size-none-input" type="text" value="Must equal md">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>2 · Unsupported size falls back</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);"><code>data-size="xl"</code> is outside the field vocabulary and therefore receives the md base recipe.</p>
+    <div style="max-inline-size: 22rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" data-size="xl" id="field-size-xl">
+        <label data-part="label" for="field-size-xl-input">Unsupported xl</label>
+        <div data-part="control" id="field-size-xl-control">
+          <input id="field-size-xl-input" type="text" value="Must equal md">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>3 · Description + error anatomy</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">The error is present in the DOM but hidden until the native input reaches <code>:user-invalid</code>.</p>
+    <div style="max-inline-size: 28rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-anatomy">
+        <label data-part="label" for="field-anatomy-input">Email</label>
+        <div data-part="control">
+          <input id="field-anatomy-input" type="email" required aria-describedby="field-anatomy-description field-anatomy-error" placeholder="name@example.com">
+        </div>
+        <p data-part="description" id="field-anatomy-description">We use this address only for account notices.</p>
+        <p data-part="error" id="field-anatomy-error">Please enter a valid email address.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>4 · Real native invalid state</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">Type an invalid email and request native validation. The danger border and message are native-state presentation, with no script or synthetic attribute.</p>
+    <form action="./field.html" style="max-inline-size: 28rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-invalid">
+        <label data-part="label" for="field-invalid-input">Work email</label>
+        <div data-part="control" id="field-invalid-control">
+          <input id="field-invalid-input" type="email" required aria-describedby="field-invalid-description field-invalid-error">
+        </div>
+        <p data-part="description" id="field-invalid-description">Enter a complete address, including its domain.</p>
+        <p data-part="error" id="field-invalid-error">Please enter a valid email address.</p>
+      </div>
+      <button data-ui="button" type="submit" style="margin-block-start: var(--ds-space-3);"><span data-part="label">Run native validation</span></button>
+    </form>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>5 · Disabled</h2>
+    <div style="max-inline-size: 28rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-disabled">
+        <label data-part="label" for="field-disabled-input">Disabled field</label>
+        <div data-part="control" id="field-disabled-control">
+          <input id="field-disabled-input" type="text" value="Unavailable" disabled>
+        </div>
+        <p data-part="description">The label is muted and the control frame is dimmed.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>6 · Keyboard focus vs mouse focus</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">Tab focus guarantees the relocated 2px / 2px ring. Pointer focus always changes the frame border through <code>:focus-within</code>; a browser may also match <code>:focus-visible</code> for a clicked text-entry control.</p>
+    <div style="max-inline-size: 28rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-focus">
+        <label data-part="label" for="field-focus-input">Focus probe</label>
+        <div data-part="control" id="field-focus-control">
+          <input id="field-focus-input" type="text" value="Use Tab, then click">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>7 · Textarea frame generalization</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">The control uses a minimum block size, so multiline content grows without introducing a second frame recipe.</p>
+    <div style="max-inline-size: 32rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-textarea">
+        <label data-part="label" for="field-textarea-input">Notes</label>
+        <div data-part="control" id="field-textarea-control">
+          <textarea id="field-textarea-input" rows="3" aria-describedby="field-textarea-description">A multiline native control inside the same visual frame.</textarea>
+        </div>
+        <p data-part="description" id="field-textarea-description">Resize vertically to confirm that the frame follows its content.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>8 · Public overrides</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">The first wrapper supplies a context background override. The last instance supplies a border override that deliberately remains authoritative during focus and invalid states.</p>
+    <div style="--ds-field-bg: var(--ds-accent-subtle); display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-context-override-a">
+        <label data-part="label" for="field-context-override-a-input">Context A</label>
+        <div data-part="control" id="field-context-override-a-control">
+          <input id="field-context-override-a-input" type="text" value="Inherited background">
+        </div>
+      </div>
+      <div data-ui="field" id="field-context-override-b">
+        <label data-part="label" for="field-context-override-b-input">Context B</label>
+        <div data-part="control">
+          <input id="field-context-override-b-input" type="text" value="Same context override">
+        </div>
+      </div>
+    </div>
+    <form action="./field.html" style="max-inline-size: 28rem; margin-block-start: var(--ds-space-4);">
+      <div data-ui="field" id="field-instance-override" style="--ds-field-border-color: var(--ds-accent-solid);">
+        <label data-part="label" for="field-instance-override-input">Instance border override</label>
+        <div data-part="control" id="field-instance-override-control">
+          <input id="field-instance-override-input" type="email" required aria-describedby="field-instance-override-error">
+        </div>
+        <p data-part="error" id="field-instance-override-error">The message appears, while the explicit border colour remains.</p>
+      </div>
+      <button data-ui="button" type="submit" style="margin-block-start: var(--ds-space-3);"><span data-part="label">Validate override</span></button>
+    </form>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>9 · Field on card nesting probe</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2);">The outline recipe background is transparent, so the field frame sits directly on the card's <code>--ds-bg-subtle</code> surface.</p>
+    <div style="max-inline-size: 34rem; margin-block-start: var(--ds-space-4);">
+      <section data-ui="card" id="field-card">
+        <h3 data-part="title">Account details</h3>
+        <div data-part="body">
+          <div data-ui="field" id="field-on-card">
+            <label data-part="label" for="field-on-card-input">Display name</label>
+            <div data-part="control" id="field-on-card-control">
+              <input id="field-on-card-input" type="text" value="Ada Lovelace">
+            </div>
+            <p data-part="description">This frame is differentiated by its border, not by another surface fill.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section style="margin-block-start: var(--ds-space-6);">
+    <h2>10 · Subtree theme switches</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--ds-space-4); margin-block-start: var(--ds-space-4);">
+      <div data-theme="dark" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-5);">
+        <form action="./field.html">
+          <div data-ui="field" id="field-dark-subtree">
+            <label data-part="label" for="field-dark-subtree-input">data-theme="dark"</label>
+            <div data-part="control" id="field-dark-subtree-control">
+              <input id="field-dark-subtree-input" type="email" required aria-describedby="field-dark-subtree-error" value="dark@example.com">
+            </div>
+            <p data-part="error" id="field-dark-subtree-error">Dark-scheme native invalid state.</p>
+          </div>
+          <button data-ui="button" type="submit" style="margin-block-start: var(--ds-space-3);"><span data-part="label">Validate dark</span></button>
+        </form>
+        <div style="--ds-field-bg: var(--ds-accent-subtle); margin-block-start: var(--ds-space-4);">
+          <div data-ui="field" id="field-dark-theme-override">
+            <label data-part="label" for="field-dark-theme-override-input">Dark context override</label>
+            <div data-part="control" id="field-dark-theme-override-control">
+              <input id="field-dark-theme-override-input" type="text" value="Accent-subtle background">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-theme="light" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-5);">
+        <form action="./field.html">
+          <div data-ui="field" id="field-light-subtree">
+            <label data-part="label" for="field-light-subtree-input">data-theme="light"</label>
+            <div data-part="control" id="field-light-subtree-control">
+              <input id="field-light-subtree-input" type="email" required aria-describedby="field-light-subtree-error" value="light@example.com">
+            </div>
+            <p data-part="error" id="field-light-subtree-error">Light-scheme native invalid state.</p>
+          </div>
+          <button data-ui="button" type="submit" style="margin-block-start: var(--ds-space-3);"><span data-part="label">Validate light</span></button>
+        </form>
+        <div style="--ds-field-bg: var(--ds-accent-subtle); margin-block-start: var(--ds-space-4);">
+          <div data-ui="field" id="field-light-theme-override">
+            <label data-part="label" for="field-light-theme-override-input">Light context override</label>
+            <div data-part="control" id="field-light-theme-override-control">
+              <input id="field-light-theme-override-input" type="text" value="Accent-subtle background">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
