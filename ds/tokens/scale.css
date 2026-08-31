@@ -1,4 +1,4 @@
-/* DS-Starter — raw non-colour scale tokens. No component meaning. */
+/* DS-Starter — LGC-like raw non-colour scale tokens. No component meaning. */
 
 :root {
   --ds-space-1: 0.25rem;
@@ -10,20 +10,24 @@
   --ds-space-7: 3rem;
   --ds-space-8: 4rem;
 
-  /* Type scale ≈ ×1.2, hand-rounded to whole px at 16px root; 2 is the body base. */
-  --ds-font-size-1: 0.8125rem;
-  --ds-font-size-2: 1rem;
-  --ds-font-size-3: 1.1875rem;
-  --ds-font-size-4: 1.4375rem;
-  --ds-font-size-5: 1.75rem;
-  --ds-font-size-6: 2.125rem;
+  /* LGC role anchors: 12 · 15.5 · 17 · 20 · 29 · 40px at a 16px root. */
+  --ds-font-size-1: 0.75rem;
+  --ds-font-size-2: 0.96875rem;
+  --ds-font-size-3: 1.0625rem;
+  --ds-font-size-4: 1.25rem;
+  --ds-font-size-5: 1.8125rem;
+  --ds-font-size-6: 2.5rem;
 
   --ds-radius-sm: 0.25rem;
-  --ds-radius-md: 0.5rem;
-  --ds-radius-lg: 0.75rem;
+  --ds-radius-md: 0.375rem;
+  --ds-radius-lg: 0.5rem;
   --ds-radius-full: 999rem;
 
-  --ds-font-sans: system-ui, sans-serif;
+  /* Licensed LGC faces are intentionally not imported; system stacks preserve
+     the serif body/display versus sans label distinction without assets. */
+  --ds-font-display: Georgia, "Times New Roman", Times, serif;
+  --ds-font-serif: Georgia, "Times New Roman", Times, serif;
+  --ds-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   --ds-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --ds-font-weight-normal: 400;

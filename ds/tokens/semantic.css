@@ -14,7 +14,7 @@
   --ds-accent-subtle: var(--ds-accent-3);
   --ds-accent-text: var(--ds-accent-11);
   --ds-accent-solid: var(--ds-accent-9);
-  /* Radix prescribes white text over Blue 9. */
+  /* White clears WCAG AA over the shared ink-blue solid in both schemes. */
   --ds-accent-on-solid: white;
 
   --ds-text-danger: var(--ds-danger-11);

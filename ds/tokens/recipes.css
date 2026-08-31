@@ -4,8 +4,10 @@
   --ds-variant-solid-bg: var(--ds-accent-solid);
   --ds-variant-solid-fg: var(--ds-accent-on-solid);
 
-  --ds-variant-soft-bg: var(--ds-accent-subtle);
-  --ds-variant-soft-fg: var(--ds-accent-text);
+  /* LGC's implemented identity is monochrome: the default soft treatment uses
+     a neutral paper surface; accent remains reserved for links/focus/solid. */
+  --ds-variant-soft-bg: var(--ds-bg-subtle);
+  --ds-variant-soft-fg: var(--ds-text-primary);
 
   --ds-variant-outline-bg: transparent;
   --ds-variant-outline-fg: var(--ds-text-primary);
