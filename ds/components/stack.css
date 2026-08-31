@@ -1,1 +1,37 @@
-/* DS-Starter — stack layout primitive. Status: stub, no rules yet — owned by the stack task (Milestone 2). */
+/* DS-Starter — stack layout primitive.
+ *
+ * Root: [data-ui="stack"] — any grouping element. Parts: none.
+ *
+ * Axis:
+ *   data-gap: sm | md (default) | lg
+ *     owns: --_ds-stack-gap-size
+ *     maps: sm → --ds-space-2, md → --ds-space-4, lg → --ds-space-6
+ *
+ * Public API (resolution: public override → axis channel):
+ *   --ds-stack-gap  gap  default var(--_ds-stack-gap-size)
+ *
+ * Doctrine: stack owns only the space between its children. It is vertical,
+ * stretches children on the cross axis, and has no margin, width, padding,
+ * paint, typography, or child-style opinions.
+ */
+
+[data-ui="stack"] {
+  --_ds-stack-gap-size: var(--ds-space-4);
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--ds-stack-gap, var(--_ds-stack-gap-size));
+
+  &[data-gap="sm"] {
+    --_ds-stack-gap-size: var(--ds-space-2);
+  }
+
+  &[data-gap="md"] {
+    /* Default vocabulary marker. No channel rebind. */
+  }
+
+  &[data-gap="lg"] {
+    --_ds-stack-gap-size: var(--ds-space-6);
+  }
+}

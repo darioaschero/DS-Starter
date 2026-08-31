@@ -15,11 +15,245 @@
       margin-inline: auto;
       padding: var(--ds-space-6) var(--ds-space-5);
     }
+
+    /* Question A simulation only — not shipped component CSS. This models the
+       direct-child rule rich text would need outside its lower-boundary scope;
+       the class keeps the unsimulated control unchanged for measurement. */
+    .simulate-rich-text-embedded-spacing > :where(* + [data-ui]) {
+      margin-block-start: var(--ds-space-4);
+    }
   </style>
 </head>
 <body>
-  <h1>Stack</h1>
-  <p>Not built yet — owned by the stack task (Milestone 2).</p>
-  <p><a href="./index.html">Back to fixture index</a></p>
+  <h1 style="font: var(--ds-type-heading-lg)">Stack</h1>
+  <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+    A vertical flow primitive that owns only the space between its children.
+    <a href="./index.html">Back to fixture index</a>
+  </p>
+
+  <!-- 1 · Gap axis -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">1 · Gap axis and fallback</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+      Expected gaps: sm 8px, md 16px, lg 32px. No attribute and unsupported
+      <code>xl</code> both use the md base rule.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--ds-space-5); align-items: start; margin-block-start: var(--ds-space-4)">
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-gap="sm"</p>
+        <div data-ui="stack" data-gap="sm" id="gap-sm">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Three</div>
+        </div>
+      </div>
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-gap="md"</p>
+        <div data-ui="stack" data-gap="md" id="gap-md">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Three</div>
+        </div>
+      </div>
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-gap="lg"</p>
+        <div data-ui="stack" data-gap="lg" id="gap-lg">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Three</div>
+        </div>
+      </div>
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">no attribute (= md)</p>
+        <div data-ui="stack" id="gap-none">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Three</div>
+        </div>
+      </div>
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-gap="xl" (= md fallback)</p>
+        <div data-ui="stack" data-gap="xl" id="gap-xl">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Three</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Public override and inheritance -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">2 · Public override and stack-in-stack inheritance</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+      An instance override wins over its axis. Axis channels reset on every stack instance;
+      the public property is an inherited context override and intentionally reaches nested stacks.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-5); align-items: start; margin-block-start: var(--ds-space-4)">
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">Instance: sm axis, 32px public override</p>
+        <div data-ui="stack" data-gap="sm" id="gap-instance-override" style="--ds-stack-gap: var(--ds-space-6)">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">One</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Two</div>
+        </div>
+      </div>
+      <div>
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">Axis only: outer lg, inner sm remains 8px</p>
+        <div data-ui="stack" data-gap="lg" id="nested-axis-outer">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Outer item</div>
+          <div data-ui="stack" data-gap="sm" id="nested-axis-inner" style="border: 1px dashed var(--ds-border-subtle); padding: var(--ds-space-2)">
+            <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Inner one</div>
+            <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Inner two</div>
+          </div>
+        </div>
+      </div>
+      <div id="gap-context" style="--ds-stack-gap: var(--ds-space-7)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">Context override: both outer and inner become 48px</p>
+        <div data-ui="stack" data-gap="sm" id="nested-context-outer">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Outer item</div>
+          <div data-ui="stack" data-gap="lg" id="nested-context-inner" style="border: 1px dashed var(--ds-border-subtle); padding: var(--ds-space-2)">
+            <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Inner one</div>
+            <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Inner two</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Canonical application layout -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">3 · Canonical application layout — a stack of cards</h2>
+    <p style="color: var(--ds-text-muted); margin-block: var(--ds-space-2) var(--ds-space-4)">
+      This is stack's intended habitat: explicit component siblings in application layout.
+    </p>
+    <div data-ui="stack" data-gap="lg" id="card-stack">
+      <section data-ui="card">
+        <h3 data-part="title">First application card</h3>
+        <p data-part="body">The parent stack owns 32px between cards; each card owns only its internal box and part gap.</p>
+      </section>
+      <section data-ui="card">
+        <h3 data-part="title">Second application card</h3>
+        <p data-part="body">Neither component writes margins on the other component's children.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- 4 · Stack inside card -->
+  <section style="margin-block-start: var(--ds-space-7)">
+    <h2 style="font: var(--ds-type-heading-md)">4 · Stack inside a card</h2>
+    <p style="color: var(--ds-text-muted); margin-block: var(--ds-space-2) var(--ds-space-4)">
+      The default card's 12px gap separates its direct title/body parts. The sm stack inside
+      the body independently owns 8px between its children; the two gaps never compete.
+    </p>
+    <section data-ui="card" id="card-with-stack" style="max-inline-size: 38rem">
+      <h3 data-part="title">Independent layout boundaries</h3>
+      <div data-part="body" id="card-stack-body">
+        <div data-ui="stack" data-gap="sm" id="stack-in-card">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Stack child one</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Stack child two</div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- 5 · Question A: embedded-component spacing -->
+  <section style="margin-block-start: var(--ds-space-7)" id="embedded-spacing-question">
+    <h2 style="font: var(--ds-type-heading-md)">5 · Question A — embedded-component spacing in prose</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+      Three twins expose the owner choice. The current rich-text rule leaves the card flush above
+      but spaces the following paragraph 16px below. The simulation makes both directions 16px.
+      Wrapping the sequence in a stack also makes both gaps 16px, but turns the stack into a scope boundary.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-5); align-items: start; margin-block-start: var(--ds-space-4)">
+      <div style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">Current: 0px above / 16px below</p>
+        <article data-ui="rich-text" id="embedded-current">
+          <p id="embedded-current-before">Prose before the embedded card.</p>
+          <section data-ui="card" id="embedded-current-card">
+            <h3 data-part="title">Embedded card</h3>
+            <p data-part="body">No prose rule currently gives this component a leading margin.</p>
+          </section>
+          <p id="embedded-current-after">Prose after the embedded card, already covered by <code>* + p</code>.</p>
+        </article>
+      </div>
+      <div style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">Rich-text simulation: 16px / 16px</p>
+        <article data-ui="rich-text" class="simulate-rich-text-embedded-spacing" id="embedded-simulated">
+          <p id="embedded-simulated-before">Prose before the embedded card.</p>
+          <section data-ui="card" id="embedded-simulated-card">
+            <h3 data-part="title">Embedded card</h3>
+            <p data-part="body">The fixture-only candidate rule supplies the leading margin.</p>
+          </section>
+          <p id="embedded-simulated-after">Prose after the embedded card, still covered by <code>* + p</code>.</p>
+        </article>
+      </div>
+      <div style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-3)">Stack option: 16px / 16px, prose styling lost</p>
+        <article data-ui="rich-text" id="embedded-stack-article">
+          <div data-ui="stack" id="embedded-stack-option">
+            <p id="embedded-stack-before">Prose before the embedded card.</p>
+            <section data-ui="card" id="embedded-stack-card">
+              <h3 data-part="title">Embedded card</h3>
+              <p data-part="body">The stack owns uniform spacing but ends the rich-text scope.</p>
+            </section>
+            <p id="embedded-stack-after">Prose after the embedded card now has UA/inherited styling, not its prose role.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Question B: containment boundary -->
+  <section style="margin-block-start: var(--ds-space-7)" id="containment-question">
+    <h2 style="font: var(--ds-type-heading-md)">6 · Question B — layout identity vs rich-text containment</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+      The article overrides its body role to heading-sm as a discriminator. The plain-wrapper
+      control receives that 19px/600 role, prose margins, and semantic link color. Identical
+      paragraphs inside <code>data-ui="stack"</code> sit beyond the scope boundary: 16px/400 page
+      typography, zero paragraph margins, and UA link color. Stack's own 16px gap remains visible.
+    </p>
+    <article data-ui="rich-text" id="boundary-article" style="--ds-rich-text-body-font: var(--ds-type-heading-sm); margin-block-start: var(--ds-space-4)">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: var(--ds-space-5)">
+        <div style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+          <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">Control — plain wrapper, still inside prose scope</span>
+          <div id="boundary-control" style="margin-block-start: var(--ds-space-3)">
+            <p id="boundary-control-first">A control paragraph with <a id="boundary-control-link" href="#boundary-control">a semantic prose link</a>.</p>
+            <p id="boundary-control-second">A second control paragraph receives the normal prose rhythm margin.</p>
+          </div>
+        </div>
+        <div style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+          <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">Probe — component-identity stack boundary</span>
+          <div data-ui="stack" id="boundary-stack" style="margin-block-start: var(--ds-space-3)">
+            <p id="boundary-nested-first">A nested paragraph with <a id="boundary-nested-link" href="#boundary-stack">a UA-styled link</a>.</p>
+            <p id="boundary-nested-second">A second nested paragraph has no margin; flex gap supplies the visual rhythm.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 7 · Scheme and contribution probe -->
+  <section style="margin-block-start: var(--ds-space-7)" id="scheme-inertness">
+    <h2 style="font: var(--ds-type-heading-md)">7 · Theme subtrees — stack contributes no paint or typography</h2>
+    <p style="color: var(--ds-text-muted); margin-block-start: var(--ds-space-2)">
+      Each parent establishes its scheme, surface, color, and heading-sm font. The nested stack
+      inherits color and font exactly, while its own background stays transparent and its only
+      layout contribution is the 16px gap.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-5); margin-block-start: var(--ds-space-4)">
+      <div data-theme="light" id="inert-light-parent" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-heading-sm); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
+        <div data-ui="stack" id="inert-light-stack">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Light subtree one</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Light subtree two</div>
+        </div>
+      </div>
+      <div data-theme="dark" id="inert-dark-parent" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-heading-sm); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
+        <div data-ui="stack" id="inert-dark-stack">
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Dark subtree one</div>
+          <div style="border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-2)">Dark subtree two</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>
