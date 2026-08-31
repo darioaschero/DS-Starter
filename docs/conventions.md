@@ -1,7 +1,8 @@
-# Conventions (v3 — provisional)
+# Conventions (v4 — provisional)
 
 > **Status:** provisional prototype conventions, distilled from [direction.md](direction.md) (rev 0.2, mainly §16 plus hard rules throughout).
 > v3 (2026-08-28) adopts the colour architecture agreed in [findings/color-theme-architecture.md](findings/color-theme-architecture.md): Radix-flattened light/dark ramps, active palette steps, purpose-named semantic vocabulary, shared variant recipes, resolved channels, and state-mix tokens. Implemented by task T6.
+> v4 (2026-08-31) promotes the rules earned by the M2 component tasks (findings: field, disclosure, stack): native-state channel rebinding and public-vs-state precedence, focus relocation, authoritative state selection, transparent-bg derived states, finite geometry axes, layout-primitive doctrine, and relationship rules outside scope limits.
 > They are **binding for every task** in the current prototype, and deliberately cheap to reverse later.
 > If a task needs a decision this file does not cover: pick the smallest reasonable option and record it in the task's findings note (`docs/findings/`). Do not invent architecture silently.
 > On any conflict between this file and `direction.md`, this file wins for the prototype — but flag the conflict in findings.
@@ -43,6 +44,8 @@ docs/tasks/             self-contained briefs for work sessions (coordinator-aut
 - Part placement contract (chosen via the card A/B containment test): parts are **direct children** of their component root; consumers wrap content *inside* a part, never around one — a wrapped part renders deliberately unstyled. Components style parts with direct-child combinators (`& > [data-part="…"]`). `@scope` is not required for fixed shallow anatomy; it earns its complexity where content depth is unbounded (rich text).
 - Finite configuration axes: `data-<axis>="<value>"` (e.g. `data-variant`, `data-size`). Axis vocabulary is **per component**, not global. Each component documents (in a header comment) which axes it supports, their values, and the default.
 - Attributes describe discrete choices; custom properties carry styling values. Never expose primitive styling as attributes (no `data-radius="full"`, no `data-padding-x="large"`).
+- A finite axis MAY control geometry when its named values express supported component-level modes decoupled from token names (`data-gap="sm"` on stack: three rhythm densities that may later remap without changing markup). The forbidden form is token- or primitive-shaped markup: raw lengths, token keys (`data-gap="space-4"`), physical properties, or internal composition. Arbitrary values travel through the public custom property instead.
+- Component-identity layout primitives (stack) are **application-layout** boundaries: never wrap prose in them — a `[data-ui]` root ends rich-text containment by design, and that is a feature, not a bug. Rich text owns the rhythm around embedded components (§9). An identity-free `data-layout` vocabulary is not introduced until a measured composition case proves rich-text rhythm cannot express the need.
 - ARIA is a styling hook only when it reflects real accessible state (e.g. `[aria-expanded="true"]`). Never introduce or repurpose ARIA as a visual configuration API.
 - Heading levels reflect document hierarchy, never desired visual size.
 
@@ -144,8 +147,10 @@ Hard rules:
 - Defaults are implemented **only** in the base rule; a named-default selector exists only as a commented no-op marker.
 - Non-default axis values rebind **every** channel their axis owns, even when one value coincides with the base default (explicit completeness: each named value reads as a complete recipe, and the invariant is lintable). Only the default is implemented solely by the base rule.
 - Public override properties are inherited **context** overrides: set on an ancestor, they retheme the whole subtree — including nested instances of the same component. This is by design (subtree theming); never register them `inherits: false` without a documented reason.
-- **Resolved channels are the standard idiom**: any override chain consumed by more than one declaration is precomputed once in the base rule (`--_ds-<component>-resolved-<prop>`); base and state rules reference only the resolved channel. State rules never restate a public/axis chain (lintable).
+- **Resolved channels are the standard idiom**: any override chain consumed by more than one declaration is precomputed once in the base rule (`--_ds-<component>-resolved-<prop>`); base and state rules reference only the resolved channel. State rules never restate a public/axis chain (lintable). A chain consumed exactly once (stack's gap) needs no resolved channel — that is the stated boundary, not an exception.
 - Where a shared variant exists (`solid`/`soft`/`outline`), the variant selector binds its channels to the recipe tokens (`--ds-variant-<name>-*`), never directly to palette steps. A component-specific variant may bind semantic roles directly.
+- **Native-state selectors are first-class rebinding sites**, exactly like axis selectors: `:focus-within`, `:has(input:user-invalid)`, `[open]`, … rebind component-qualified state/frame channels (never another concern's channels), in explicit precedence order — later source wins at equal specificity (field: invalid after focus). Rendered declarations keep consuming resolved channels only.
+- **Public overrides beat state rebinds by construction** (the resolved chain reads the public property first). This is the documented default: a consumer override is final, and state feedback must survive through other cues (label colour, message, focus ring — as in field). If state-proof colour is ever required, add explicit public state properties (`--ds-<component>-invalid-border-color`) — never silently invert precedence.
 - Expose public override properties (`--ds-<component>-bg|fg|font|padding-x|…`) for the obvious knobs. Whether *every* component needs them is deliberately open — record reasoning in findings.
 
 ## 7. State
@@ -153,7 +158,9 @@ Hard rules:
 - Prefer native state: `:disabled`, `:hover`, `:active`, `:focus-visible`, `:focus-within`, `:has(input:user-invalid)`, `[open]`.
 - ARIA state selectors (e.g. `[aria-expanded="true"]`) only where they mirror real component state.
 - CSS styles state; it never creates behavior.
-- Interaction-state colour resolves **curated → recipe → derived**, threaded through axis channels so state rules stay variant-agnostic. The derived floor is the canonical recipe `color-mix(in oklch, <resolved-bg>, <resolved-fg> var(--ds-state-hover-mix | --ds-state-active-mix))` — mixing toward the resolved fg keeps the shade direction correct in both schemes and under any public override. Recipes gain curated state channels only when derivation proves insufficient (record the evidence in findings). Per-surface hover aliases (`--ds-accent-subtle-hover`, …) are forbidden — they escape the override chain.
+- Interaction-state colour resolves **curated → recipe → derived**, threaded through axis channels so state rules stay variant-agnostic. The derived floor is the canonical recipe `color-mix(in oklch, <resolved-bg>, <resolved-fg> var(--ds-state-hover-mix | --ds-state-active-mix))` — mixing toward the resolved fg keeps the shade direction correct in both schemes and under any public override. Recipes gain curated state channels only when derivation proves insufficient (record the evidence in findings; the measured candidate is solid hover in light — see findings/color-architecture.md). Per-surface hover aliases (`--ds-accent-subtle-hover`, …) are forbidden — they escape the override chain.
+- A **transparent resolved bg** makes the derived state a semi-transparent fg tint compositing over the backdrop (disclosure trigger: 8% fg alpha). This is intentional and backdrop-aware, not an accident — but the result depends on the backdrop, so review it over every supported surface; bind an opaque semantic surface as the resting bg only when overlay behavior is undesirable.
+- **Select the authoritative state the behavior already owns**: `[open]` for native `<details>`; `[aria-expanded]` only for a JS-driven trigger whose controller synchronizes it. Never mirror either into `data-state` — configuration attributes do not duplicate behavioral or accessible state.
 
 ## 8. Focus
 
@@ -169,6 +176,7 @@ Hard rules:
   with the two values defined in `tokens/semantic.css`.
 - Layer order is not a hazard here: `var()` resolves per element at computed-value time, so `ds.reset` may safely reference custom properties defined in `ds.tokens`. Do not re-litigate this ordering.
 - Components may re-tune the shared values (e.g. `--ds-focus-outline-offset: 3px;`) for their geometry. Components must never remove focus indication.
+- **Relocation is permitted, removal is not**: a component may suppress a descendant's baseline `:focus-visible` outline only when it re-expresses the same shared focus treatment, under the same `:focus-visible` condition, on the part that owns the visible interactive frame (field relocates the ring from the bare input to its control frame via `:has(input:focus-visible)`). Relocation must never make focus indication pointer-only or absent. Note: `:focus-visible` matching follows the browser's heuristic — programmatic `focus()` may not match; verify with real keyboard input.
 - Focus visibility is a system responsibility; a component is not "done" without it.
 
 ## 9. Rich-text containment
@@ -180,6 +188,7 @@ Hard rules:
 - When to use `@scope` (rule distilled from the card and rich-text tests): **mandatory** wherever a component styles elements it does not mark (unmarked semantic descendants at arbitrary depth — rich text); optional and normally omitted where a component styles only its root and its direct-child marked parts (§3).
 - Scoping limits are exclusive: the boundary element itself (`:scope [data-ui]`) is already outside the donut — scoped rules cannot style even the nested component's root.
 - An element deliberately excluded from scoped styling falls back to **UA** rules, not to the nearest role — neutralize where it matters (e.g. `:where(pre > code) { font: inherit; }`).
+- Because the scope limit excludes the boundary root, a semantic adapter that owns a **relationship around** an embedded component expresses it as a separate direct-child rule OUTSIDE its bounded `@scope` block. Canonical case: rich text owns embedded-component leading rhythm at content level — `[data-ui="rich-text"] > :where(* + [data-ui]) { margin-block-start: var(--ds-space-4); }` (the trailing direction is already covered by the `* + <prose>` rhythm subjects).
 
 ## 10. Browser baseline
 

@@ -20,6 +20,6 @@ CSS-only design system starter. Hand-authored CSS is the source of truth: no bui
 
 Milestone 1 (vertical slice) is **complete and committed**: foundations, button, card, rich text, composition + consumer-override fixtures, synthesis in `docs/findings/m1-synthesis.md`. Conventions are at v3 (colour architecture).
 
-T6 (colour architecture v3 — Radix palette, active steps, purpose semantics, variant recipes) is **complete and committed**.
+T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 disclosure, T9 stack — are **complete and committed**. Conventions are at v4 (M2 rules promoted: native-state channels, public-vs-state precedence, focus relocation, authoritative state, transparent-bg derived states, finite geometry axes, layout doctrine, relationship rules outside scope).
 
-Now: **Milestone 2** — three parallel-safe briefs in `docs/tasks/`: `T7-field.md`, `T8-disclosure.md`, `T9-stack.md` (disjoint file sets; shared files are frozen — token/convention changes are proposed via findings, never made inline). After all three: T10 integration (full §18 composition fixture, promoted decisions, M2 synthesis). Linter feasibility in Milestone 3.
+Now: **T10 — M2 integration** (`docs/tasks/T10-integration.md`): embedded-rhythm rule in rich-text, full §18 composition surface with all six components, the `--ds-bg-component` decision by procedure, full battery re-run, M2 synthesis. Then Milestone 3: linter feasibility spike.
