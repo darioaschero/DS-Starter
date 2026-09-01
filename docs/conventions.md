@@ -84,6 +84,17 @@ component axis channels
    Subtree theme switch (unchanged): `[data-theme="light"] { color-scheme: light; }` and the dark equivalent — schemes flip via the active steps; semantic roles and components never know which scheme is active.
 4. **Shared variant recipes** (`tokens/recipes.css`, layer `ds.roles`): variants are **system concepts** with shared visual meaning across components. Initial set: `solid`, `soft`, `outline`. A recipe is a coordinated channel set `--ds-variant-<name>-bg|fg`, plus `-border` where the recipe needs one (outline does). Recipes reference semantic roles, never palette steps. Recipes ship **without** hover/pressed channels (derived-first, §7); curated state channels join a recipe only when derivation proves insufficient. Components map only the `data-variant` values they support onto recipe tokens; a component-specific variant stays local and does not join the shared vocabulary.
 
+### Palette generation — user decision, 2026-09-01
+
+Generated palettes (the wizard's colour engine) use the **hybrid** model, decided by the user after the T15/T16 research:
+
+- **Scales**: the vendored, pinned Radix custom-colour generator (provenance and MIT attribution in `docs/research/palette-rule/vendor/`) produces the accent and neutral ramps, light and dark, canvas-aware.
+- **Safety**: every safety-facing output is decided by **this system's own gates**, not the engine's — on-solid foreground (better of `#fff`/`#111` at ≥ 4.5:1 WCAG), link step (11 → 12, ≥ 4.5:1 on canvas AND subtle, both schemes), focus step (first of 8–12 at ≥ 3:1), plus explicit warnings/diagnostics. Radix's APCA contrast token is **not** used. Semantic indices may vary per generated family (gate-driven), as demonstrated in findings/radix-generator.md.
+- The combination is a named fork — "Radix colours + DS-Starter gates" — never described as "the Radix algorithm". T15's compact fitted rules are retired from the production path and remain research artifacts.
+- Parked with this decision, to settle at wizard design time: canvas / per-appearance input exposure; implausible-seed UX (Radix's silent near-canvas step-9 fallback must be disclosed if kept); sRGB gamut-loss policy.
+
+Evidence: [findings/palette-rule.md](findings/palette-rule.md), [findings/radix-generator.md](findings/radix-generator.md).
+
 Colour rules:
 
 - Components consume **semantic roles and recipe tokens only** — never primitives, never active steps directly. (Fixture/consumer code may reference active steps; that is consumer freedom, not starter practice.)

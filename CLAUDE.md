@@ -30,6 +30,8 @@ T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 di
 
 **Process rule (conventions §11): design curation belongs to the user.** Research/design tasks deliver options with rendered specimen pages; the user decides at coordinator checkpoints; conventions record the user's choices.
 
-Now: **T15 — palette generation rule** (`docs/tasks/T15-palette-rule.md`, research-only): reverse-engineer the OKLCH curves from the Radix ground truth (6 families in-repo + held-out set), formulate candidate seed→ramp rules, validate at ΔE, and deliver a live specimen page for the user's judgment. Spacing/type-scale rules and the core/module restructuring follow.
+**Palette generation is decided** (user decision 2026-09-01, recorded in conventions §5a): hybrid — the vendored pinned Radix custom-colour generator produces the scales; DS-Starter's own WCAG gates decide on-solid, link/focus steps, and warnings. Research trail: T15 (`findings/palette-rule.md`) and T16 (`findings/radix-generator.md`); engine + three-branch specimen in `docs/research/palette-rule/`.
+
+Now: **T17 — spacing/type/radius scale rules** (`docs/tasks/T17-scale-rules.md`, research-only): candidate parametrizations judged on live real-system compositions, relational constraints as gates, decisions left to the user. Then: core/module restructuring, then the wizard prototype on the decided engines.
 
 The linter is **parked, not dropped**: its 30-rule inventory (`docs/findings/m2-synthesis.md` §4–5) stays valid and will be better informed by the mistakes derivations actually surface.
