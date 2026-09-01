@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter — scale rules specimen</title>
+  <link rel="stylesheet" href="../../../ds/index.css">
+  <style>
+    /* Research-lab chrome — deliberately fixed so extreme generated scales do
+       not make the controls unusable. Real samples below use DS-Starter only. */
+    :root {
+      --lab-border: color-mix(in srgb, currentColor 18%, transparent);
+      --lab-muted: color-mix(in srgb, currentColor 68%, transparent);
+      --lab-panel: color-mix(in srgb, currentColor 4%, transparent);
+      --lab-green: #16824b;
+      --lab-amber: #a35d00;
+      --lab-red: #bd2c2c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
+    }
+
+    button, input, select { font: inherit; }
+
+    .lab-shell {
+      max-inline-size: 1440px;
+      margin-inline: auto;
+      padding: 32px 24px 80px;
+      font: 400 15px / 1.5 system-ui, sans-serif;
+    }
+
+    .lab-kicker {
+      margin: 0 0 6px;
+      color: var(--ds-accent-text);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lab-title {
+      max-inline-size: 900px;
+      margin: 0;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .lab-lede {
+      max-inline-size: 850px;
+      margin: 20px 0 0;
+      color: var(--lab-muted);
+      font-size: 17px;
+    }
+
+    .lab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-block-start: 24px;
+    }
+
+    .lab-nav a { color: var(--ds-link-color); }
+
+    .lab-section {
+      margin-block-start: 64px;
+      scroll-margin-block-start: 20px;
+    }
+
+    .lab-section > header {
+      max-inline-size: 880px;
+      margin-block-end: 24px;
+    }
+
+    .lab-section h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .lab-section > header p {
+      margin: 8px 0 0;
+      color: var(--lab-muted);
+    }
+
+    .branch-grid,
+    .control-grid,
+    .readout-grid,
+    .preset-grid,
+    .breakage-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .branch-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .control-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+    .readout-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+    .preset-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); }
+    .breakage-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); }
+
+    .lab-card,
+    .branch-card,
+    .preset-card,
+    .breakage-card {
+      border: 1px solid var(--lab-border);
+      border-radius: 16px;
+      background: var(--lab-panel);
+    }
+
+    .branch-card { padding: 18px; }
+    .branch-card h3 { margin: 0; font-size: 17px; }
+    .branch-card p { margin: 8px 0 0; color: var(--lab-muted); }
+
+    .control-panel { padding: 18px; }
+
+    .control {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+    }
+
+    .control label,
+    .control legend {
+      font-weight: 700;
+    }
+
+    .control small { color: var(--lab-muted); }
+
+    .control select,
+    .control input[type="range"] {
+      inline-size: 100%;
+    }
+
+    .control select {
+      min-block-size: 38px;
+      padding-inline: 10px;
+      color: inherit;
+      background: var(--ds-bg-canvas);
+      border: 1px solid var(--lab-border);
+      border-radius: 8px;
+    }
+
+    .control-output {
+      color: var(--ds-accent-text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .control-note {
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border-inline-start: 3px solid var(--ds-accent-solid);
+      background: var(--ds-accent-subtle);
+      color: var(--ds-accent-text);
+    }
+
+    .preset-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-block-start: 16px;
+    }
+
+    .lab-button {
+      min-block-size: 36px;
+      padding-inline: 13px;
+      color: inherit;
+      background: var(--ds-bg-canvas);
+      border: 1px solid var(--lab-border);
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .lab-button:hover { background: var(--ds-bg-subtle); }
+
+    .live-values {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-block-start: 16px;
+    }
+
+    .value-panel,
+    .readout {
+      padding: 14px;
+      border: 1px solid var(--lab-border);
+      border-radius: 12px;
+      background: var(--ds-bg-canvas);
+    }
+
+    .value-panel h3,
+    .readout h3 {
+      margin: 0 0 9px;
+      font-size: 14px;
+    }
+
+    .token-table {
+      inline-size: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 5px 4px;
+      border-block-start: 1px solid var(--lab-border);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    .token-table th { color: var(--lab-muted); font-weight: 600; }
+    .token-table code { font-size: 11px; }
+
+    .readout-grid { margin-block-start: 16px; }
+
+    .readout-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-block-size: 23px;
+      padding-inline: 8px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .status-green { color: var(--lab-green); }
+    .status-amber { color: var(--lab-amber); }
+    .status-red { color: var(--lab-red); }
+
+    .metric {
+      margin: 8px 0 0;
+      font-size: 19px;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .readout p:last-child {
+      margin: 6px 0 0;
+      color: var(--lab-muted);
+      font-size: 12px;
+    }
+
+    .proposal-banner {
+      margin: 16px 0 0;
+      color: var(--lab-muted);
+      font-size: 13px;
+    }
+
+    .scheme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-block-start: 20px;
+    }
+
+    .scheme-panel {
+      min-inline-size: 0;
+      padding: 18px;
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: 14px;
+    }
+
+    .scheme-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-block-end: 16px;
+      font: 700 11px / 1 system-ui, sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .composition-sample {
+      display: grid;
+      gap: var(--ds-space-6);
+    }
+
+    .composition-sample > [data-ui="rich-text"] {
+      padding: var(--ds-space-4);
+      border: 1px dashed var(--ds-border-subtle);
+      border-radius: var(--ds-radius-lg);
+    }
+
+    .composition-sample > [data-ui="card"] { min-inline-size: 0; }
+
+    .sample-stack-heading {
+      margin: 0 0 var(--ds-space-2);
+      color: var(--ds-text-muted);
+      font: var(--ds-type-label-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .sample-card-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--ds-space-2);
+    }
+
+    .sample-code { white-space: pre; }
+
+    .preset-card,
+    .breakage-card { overflow: clip; }
+
+    .preset-header,
+    .breakage-header { padding: 18px; }
+
+    .preset-header h3,
+    .breakage-header h3 { margin: 0; font-size: 20px; }
+
+    .preset-header p,
+    .breakage-header p { margin: 7px 0 0; color: var(--lab-muted); }
+
+    .preset-summary {
+      margin-block-start: 10px;
+      color: var(--ds-accent-text);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .preset-tables {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+
+    .preset-card .scheme-grid {
+      margin: 0;
+      padding: 18px;
+      background: color-mix(in srgb, currentColor 3%, transparent);
+      border-block-start: 1px solid var(--lab-border);
+    }
+
+    .preset-card .scheme-panel,
+    .breakage-card .scheme-panel { padding: 12px; }
+
+    .preset-card .composition-sample,
+    .breakage-card .composition-sample { gap: var(--ds-space-4); }
+
+    .preset-card .composition-sample > [data-ui="rich-text"],
+    .breakage-card .composition-sample > [data-ui="rich-text"] { padding: var(--ds-space-3); }
+
+    .breakage-card .scheme-panel { border-radius: 0; border-inline: 0; border-block-end: 0; }
+
+    .breakage-caption {
+      margin: 0;
+      padding: 12px 18px 18px;
+      color: var(--lab-muted);
+      font-size: 13px;
+    }
+
+    .gate-table-wrap { overflow-x: auto; }
+
+    .gate-table {
+      inline-size: 100%;
+      min-inline-size: 760px;
+      border-collapse: collapse;
+      border: 1px solid var(--lab-border);
+      font-size: 13px;
+    }
+
+    .gate-table th,
+    .gate-table td {
+      padding: 10px 12px;
+      border: 1px solid var(--lab-border);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    .gate-table th { background: var(--lab-panel); }
+
+    .lab-footer {
+      margin-block-start: 64px;
+      padding-block-start: 20px;
+      border-block-start: 1px solid var(--lab-border);
+      color: var(--lab-muted);
+    }
+
+    @media (max-width: 900px) {
+      .scheme-grid,
+      .preset-card .scheme-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .lab-shell { padding-inline: 14px; }
+      .preset-tables,
+      .sample-card-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="lab-shell">
+    <header>
+      <p class="lab-kicker">T17 · research specimen</p>
+      <h1 class="lab-title">Scale rules, not a scale.</h1>
+      <p class="lab-lede">
+        Change the few plausible inputs below and inspect what happens to the real DS-Starter
+        composition. No option on this page is a recommendation. Green, amber, and red are
+        proposed review gates, not design decisions.
+      </p>
+      <nav class="lab-nav" aria-label="Specimen sections">
+        <a href="#branches">Candidate branches</a>
+        <a href="#live">Live generator</a>
+        <a href="#presets">Preset gallery</a>
+        <a href="#breakage">Breakage corners</a>
+        <a href="#gates">Proposed gates</a>
+      </nav>
+    </header>
+
+    <section class="lab-section" id="branches">
+      <header>
+        <h2>The parametrization branches</h2>
+        <p>
+          The controls expose independent branches instead of hiding taste inside one algorithm.
+          The density branch is especially consequential because prose and controls consume many
+          of the same steps.
+        </p>
+      </header>
+      <div class="branch-grid">
+        <article class="branch-card">
+          <h3>Spacing shape</h3>
+          <p><strong>Hybrid</strong> preserves the fitted 1·2·3·4·6·8·12·16 multipliers. <strong>Geometric</strong> makes one ratio legible but lets the tail run. <strong>Linear</strong> is easy to predict and intentionally compresses large layout intervals.</p>
+        </article>
+        <article class="branch-card">
+          <h3>Density model</h3>
+          <p><strong>Global</strong> scales every step. <strong>Curve</strong> moves small steps while holding steps 4–8. <strong>Tables</strong> permit curated shapes. None fully separates prose from controls because both consume steps 1, 2, 4, and 6.</p>
+        </article>
+        <article class="branch-card">
+          <h3>Type voice</h3>
+          <p>A 16px body anchor plus ratios from 1.125 to 1.333 ranges from quiet to declarative. Quantizing cumulatively to whole pixels reproduces the fitted base; half-pixel and exact anchored math expose different small-size and high-step behavior.</p>
+        </article>
+        <article class="branch-card">
+          <h3>Leading and softness</h3>
+          <p>Leading is a role-offset curve: smaller sizes are looser and headings are shifted tighter. Radius is a named triple—sharp, soft, or round—while <code>full</code> remains fixed and therefore needs no per-control tuning.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="lab-section" id="live">
+      <header>
+        <h2>Live generator</h2>
+        <p>
+          Generated values override the page’s root custom properties. The lab controls stay fixed;
+          the two real-system samples update in light and dark together.
+        </p>
+      </header>
+
+      <form class="lab-card control-panel" id="generator-controls">
+        <div class="control-grid">
+          <div class="control">
+            <label for="space-base">Spacing base · <output class="control-output" data-output-for="space-base">4px</output></label>
+            <input id="space-base" name="spaceBase" type="range" min="2" max="6" step="0.5" value="4">
+            <small>The unit multiplied by the selected shape.</small>
+          </div>
+          <div class="control">
+            <label for="progression">Spacing progression</label>
+            <select id="progression" name="progression">
+              <option value="hybrid" selected>Hybrid · fitted multipliers</option>
+              <option value="geometric">Pure geometric</option>
+              <option value="linear">Linear · compact tail</option>
+            </select>
+            <small>The semantic step names stay fixed.</small>
+          </div>
+          <div class="control">
+            <label for="space-ratio">Geometric ratio · <output class="control-output" data-output-for="space-ratio">1.5</output></label>
+            <input id="space-ratio" name="spaceRatio" type="range" min="1.25" max="2" step="0.05" value="1.5" disabled>
+            <small>Used only by the geometric branch.</small>
+          </div>
+          <div class="control">
+            <label for="density">Density</label>
+            <select id="density" name="density">
+              <option value="compact">Compact</option>
+              <option value="default" selected>Default</option>
+              <option value="comfortable">Comfortable</option>
+            </select>
+            <small>A level; the next control decides how it acts.</small>
+          </div>
+          <div class="control">
+            <label for="density-model">Density model</label>
+            <select id="density-model" name="densityModel">
+              <option value="global" selected>Scale the whole base</option>
+              <option value="curve">Reshape small steps</option>
+              <option value="table">Select a preset table</option>
+            </select>
+            <small>Three incompatible interpretations, kept visible.</small>
+          </div>
+          <div class="control">
+            <label for="type-base">Body anchor · <output class="control-output" data-output-for="type-base">16px</output></label>
+            <input id="type-base" name="typeBase" type="range" min="14" max="18" step="0.5" value="16">
+            <small>Anchors <code>--ds-font-size-2</code>.</small>
+          </div>
+          <div class="control">
+            <label for="type-ratio">Type ratio / voice</label>
+            <select id="type-ratio" name="typeRatio">
+              <option value="1.125">1.125 · quiet</option>
+              <option value="1.2" selected>1.2 · moderate</option>
+              <option value="1.25">1.25 · assertive</option>
+              <option value="1.333">1.333 · display-led</option>
+            </select>
+            <small>Six steps: one below the body anchor, four above.</small>
+          </div>
+          <div class="control">
+            <label for="rounding">Type rounding</label>
+            <select id="rounding" name="rounding">
+              <option value="whole" selected>Whole px · cumulative</option>
+              <option value="half">Half px · cumulative</option>
+              <option value="exact">Exact · anchor-derived</option>
+            </select>
+            <small>Cumulative rounding fits the base but can drift at the top.</small>
+          </div>
+          <div class="control">
+            <label for="leading">Leading rule</label>
+            <select id="leading" name="leading">
+              <option value="dense">Dense</option>
+              <option value="balanced" selected>Balanced · current fit</option>
+              <option value="airy">Airy</option>
+            </select>
+            <small>One size curve plus label/body/heading offsets.</small>
+          </div>
+          <div class="control">
+            <label for="softness">Radius softness</label>
+            <select id="softness" name="softness">
+              <option value="sharp">Sharp · 2 / 4 / 6</option>
+              <option value="soft" selected>Soft · 4 / 8 / 12</option>
+              <option value="round">Round · 8 / 14 / 22</option>
+            </select>
+            <small>Maps to sm / md / lg; full stays 999rem.</small>
+          </div>
+        </div>
+        <p class="control-note" id="density-note"></p>
+        <div class="preset-buttons" aria-label="Apply a named bundle">
+          <button class="lab-button" type="button" data-apply-preset="current">Apply fitted instance</button>
+          <button class="lab-button" type="button" data-apply-preset="compact">Apply compact branch</button>
+          <button class="lab-button" type="button" data-apply-preset="comfortable">Apply comfortable branch</button>
+          <button class="lab-button" type="button" data-apply-preset="geometric">Apply geometric branch</button>
+        </div>
+      </form>
+
+      <div class="live-values" id="live-values" aria-live="polite"></div>
+      <div class="readout-grid" id="live-readouts" aria-live="polite"></div>
+      <p class="proposal-banner">
+        Proposed status thresholds are documented below. They flag a combination for review; they
+        do not prove that a composition is good or bad.
+      </p>
+      <div class="scheme-grid" id="live-compositions"></div>
+    </section>
+
+    <section class="lab-section" id="presets">
+      <header>
+        <h2>Preset gallery</h2>
+        <p>
+          Four named parameter bundles render the same composition in both schemes. “Fitted” means
+          the current values happen to be an instance of the rule; it does not make that rule the
+          default recommendation.
+        </p>
+      </header>
+      <div class="preset-grid" id="preset-gallery"></div>
+    </section>
+
+    <section class="lab-section" id="breakage">
+      <header>
+        <h2>Breakage gallery</h2>
+        <p>
+          These are deliberately credible parameter corners, not novelty settings. Each makes a
+          different relation fail or become visually ambiguous.
+        </p>
+      </header>
+      <div class="breakage-grid" id="breakage-gallery"></div>
+    </section>
+
+    <section class="lab-section" id="gates">
+      <header>
+        <h2>Proposed relational gates</h2>
+        <p>
+          Thresholds are research proposals. Amber means “inspect in context”; red means “the named
+          relation no longer carries its fitted meaning without an explicit exception.”
+        </p>
+      </header>
+      <div class="gate-table-wrap">
+        <table class="gate-table">
+          <thead>
+            <tr><th>Relation</th><th>Green proposal</th><th>Amber proposal</th><th>Why it exists</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>44px field / body size; 36px button / label-sm size</td><td>2.40–3.05×</td><td>2.10–3.35×</td><td>Protects vertical breathing while control heights remain fixed.</td></tr>
+            <tr><td>space-2 / space-1; space-4 / space-2</td><td>1.65–2.35×</td><td>1.35–2.70×</td><td>Protects tight/list, heading-to-block, and normal-flow distinctions.</td></tr>
+            <tr><td>space-6 / space-4</td><td>1.60–2.40×</td><td>1.30–2.80×</td><td>Protects section-opening emphasis and stack lg vs md meaning.</td></tr>
+            <tr><td>Label leading</td><td>1.15–1.30</td><td>1.10–1.35</td><td>Labels should stay compact without clipping common system faces.</td></tr>
+            <tr><td>Body leading</td><td>1.45–1.65</td><td>1.35–1.75</td><td>Matches the demonstrated readable range from base and editorial derivations.</td></tr>
+            <tr><td>Heading leading</td><td>1.15–1.40</td><td>1.05–1.50</td><td>Headings should remain tighter than body without colliding when wrapped.</td></tr>
+            <tr><td>Label weight / strong weight</td><td>Different values</td><td>—</td><td>Preserves disclosure’s closed→open weight cue; equal is red.</td></tr>
+            <tr><td>Radius md / 44px control</td><td>≤ 0.35</td><td>&gt; 0.35–0.50</td><td>Beyond half the control height, finite radii become accidental pills.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="lab-footer">
+      Font stacks, weights, the six typography role names, the spacing-step role mappings, 36/44px
+      control heights, and <code>--ds-radius-full</code> are held fixed in this specimen. They are
+      identity, architecture, or separate-density decisions—not outputs smuggled into these formulas.
+    </footer>
+  </main>
+
+  <script type="module">
+    const root = document.documentElement;
+    const controls = document.querySelector('#generator-controls');
+
+    const roleNames = [
+      'label-sm', 'label-md', 'body-md',
+      'heading-sm', 'heading-md', 'heading-lg'
+    ];
+
+    const presets = {
+      current: {
+        name: 'Current base · fitted instance',
+        note: 'Hybrid spacing; whole-pixel cumulative type rounding; balanced leading; soft radii.',
+        spaceBase: 4, progression: 'hybrid', spaceRatio: 1.5,
+        density: 'default', densityModel: 'global',
+        typeBase: 16, typeRatio: 1.2, rounding: 'whole',
+        leading: 'balanced', softness: 'soft'
+      },
+      compact: {
+        name: 'Compact · small-step curve',
+        note: 'Compacts the first three space steps, uses a quieter type ratio, dense leading, and sharp radii.',
+        spaceBase: 4, progression: 'hybrid', spaceRatio: 1.5,
+        density: 'compact', densityModel: 'curve',
+        typeBase: 15, typeRatio: 1.125, rounding: 'whole',
+        leading: 'dense', softness: 'sharp'
+      },
+      comfortable: {
+        name: 'Comfortable · preset table',
+        note: 'Uses an explicit spacious table, 17px body, assertive type ratio, airy leading, and round radii.',
+        spaceBase: 4, progression: 'hybrid', spaceRatio: 1.5,
+        density: 'comfortable', densityModel: 'table',
+        typeBase: 17, typeRatio: 1.25, rounding: 'half',
+        leading: 'airy', softness: 'round'
+      },
+      geometric: {
+        name: 'Geometric · one visible ratio',
+        note: 'Pure 1.5 spacing progression exposes the clarity and tail-growth cost of geometric math.',
+        spaceBase: 4, progression: 'geometric', spaceRatio: 1.5,
+        density: 'default', densityModel: 'global',
+        typeBase: 16, typeRatio: 1.2, rounding: 'whole',
+        leading: 'balanced', softness: 'soft'
+      }
+    };
+
+    const breakages = [
+      {
+        key: 'tiny', name: 'Tiny base + global compact', scheme: 'light',
+        reason: 'The full space scale shrinks together. Field gaps and card padding collapse, while fixed 36/44px controls do not.',
+        config: { ...presets.current, spaceBase: 2, density: 'compact', densityModel: 'global', typeBase: 14, typeRatio: 1.125, leading: 'dense', softness: 'sharp' }
+      },
+      {
+        key: 'runaway', name: 'Geometric ratio 2.0', scheme: 'dark',
+        reason: 'The tail reaches 512px. Prose relations remain mathematically regular, but large card and section consumers become unusable.',
+        config: { ...presets.geometric, spaceRatio: 2 }
+      },
+      {
+        key: 'type-cliff', name: 'Type ratio 1.5', scheme: 'light',
+        reason: 'The body still fits its control, but heading steps jump to 24 / 36 / 54 / 81px and overwhelm the same composition.',
+        config: { ...presets.current, typeRatio: 1.5, rounding: 'half', leading: 'airy' }
+      },
+      {
+        key: 'radius-mush', name: 'Finite radii beyond half-height', scheme: 'dark',
+        reason: '18 / 24 / 32px finite radii make the 44px field read as an accidental pill and blur the distinction from radius-full.',
+        config: { ...presets.current, radiusDirect: [18, 24, 32] }
+      }
+    ];
+
+    const densityNotes = {
+      global: 'Global model: compact ×0.85; comfortable ×1.15. It preserves every step ratio, but changes prose and controls together.',
+      curve: 'Curve model: compact/comfortable move steps 1–3 while steps 4–8 stay fixed. Prose flow and section gaps hold, but list and heading-to-block gaps still move because prose also consumes steps 1 and 2.',
+      table: 'Table model: the density level selects an explicit eight-value table (scaled by base ÷ 4). Progression and geometric-ratio inputs are intentionally bypassed.'
+    };
+
+    const roundTo = (value, quantum) => Math.round(value / quantum) * quantum;
+    const clamp = (min, value, max) => Math.max(min, Math.min(value, max));
+    const clean = value => Number(value.toFixed(4));
+    const px = value => `${clean(value)}px`;
+    const rem = value => `${clean(value / 16)}rem`;
+    const ratioText = value => `${value.toFixed(2)}×`;
+
+    function generateSpace(config) {
+      const base = Number(config.spaceBase);
+      let values;
+
+      if (config.densityModel === 'table') {
+        const tables = {
+          compact: [3, 6, 9, 14, 20, 28, 40, 52],
+          default: [4, 8, 12, 16, 24, 32, 48, 64],
+          comfortable: [5, 10, 15, 20, 30, 42, 64, 88]
+        };
+        values = tables[config.density].map(value => value * base / 4);
+      } else {
+        const multipliers = config.progression === 'hybrid'
+          ? [1, 2, 3, 4, 6, 8, 12, 16]
+          : config.progression === 'linear'
+            ? [1, 2, 3, 4, 5, 6, 7, 8]
+            : Array.from({ length: 8 }, (_, index) => Number(config.spaceRatio) ** index);
+
+        values = multipliers.map(multiplier => base * multiplier);
+
+        if (config.densityModel === 'global') {
+          const densityMultiplier = { compact: 0.85, default: 1, comfortable: 1.15 }[config.density];
+          values = values.map(value => value * densityMultiplier);
+        } else {
+          const curve = {
+            compact: [0.75, 0.80, 0.85, 1, 1, 1, 1, 1],
+            default: [1, 1, 1, 1, 1, 1, 1, 1],
+            comfortable: [1.25, 1.20, 1.15, 1, 1, 1, 1, 1]
+          }[config.density];
+          values = values.map((value, index) => value * curve[index]);
+        }
+      }
+
+      return values.map(value => clean(roundTo(value, 0.25)));
+    }
+
+    function generateType(config) {
+      const base = Number(config.typeBase);
+      const ratio = Number(config.typeRatio);
+
+      if (config.rounding === 'exact') {
+        return [-1, 0, 1, 2, 3, 4].map(exponent => clean(base * ratio ** exponent));
+      }
+
+      const quantum = config.rounding === 'whole' ? 1 : 0.5;
+      const values = Array(6);
+      values[1] = roundTo(base, quantum);
+      values[0] = roundTo(values[1] / ratio, quantum);
+      for (let index = 2; index < 6; index += 1) {
+        values[index] = roundTo(values[index - 1] * ratio, quantum);
+      }
+      return values.map(clean);
+    }
+
+    function generateLeading(config, type) {
+      const profiles = {
+        dense: { a: 1.45, b: 0.014, labelOffset: -0.25, headingOffset: -0.18, bodyMin: 1.40, bodyMax: 1.55, labelMax: 1.20 },
+        balanced: { a: 1.50, b: 0.0125, labelOffset: -0.30, headingOffset: -0.16, bodyMin: 1.45, bodyMax: 1.60, labelMax: 1.20 },
+        airy: { a: 1.62, b: 0.011, labelOffset: -0.32, headingOffset: -0.18, bodyMin: 1.55, bodyMax: 1.70, labelMax: 1.30 }
+      };
+      const p = profiles[config.leading];
+      const curve = size => p.a - p.b * (size - 16);
+      const q = value => clean(roundTo(value, 0.05));
+      const label = size => q(clamp(1.10, curve(size) + p.labelOffset, p.labelMax));
+      const body = size => q(clamp(p.bodyMin, curve(size), p.bodyMax));
+      const heading = size => q(clamp(1.05, curve(size) + p.headingOffset, 1.45));
+
+      return [
+        label(type[0]), label(type[1]), body(type[1]),
+        heading(type[2]), heading(type[3]), heading(type[4])
+      ];
+    }
+
+    function generateRadius(config) {
+      if (config.radiusDirect) return config.radiusDirect;
+      return {
+        sharp: [2, 4, 6],
+        soft: [4, 8, 12],
+        round: [8, 14, 22]
+      }[config.softness];
+    }
+
+    function generateBundle(config) {
+      const space = generateSpace(config);
+      const type = generateType(config);
+      const leading = generateLeading(config, type);
+      const radius = generateRadius(config);
+      return { config, space, type, leading, radius };
+    }
+
+    function tokenMap(bundle) {
+      const values = {};
+      bundle.space.forEach((value, index) => { values[`--ds-space-${index + 1}`] = rem(value); });
+      bundle.type.forEach((value, index) => { values[`--ds-font-size-${index + 1}`] = rem(value); });
+      values['--ds-radius-sm'] = rem(bundle.radius[0]);
+      values['--ds-radius-md'] = rem(bundle.radius[1]);
+      values['--ds-radius-lg'] = rem(bundle.radius[2]);
+      values['--ds-radius-full'] = '999rem';
+
+      const roleSpecs = [
+        ['medium', 0, 'sans'], ['medium', 1, 'sans'], ['normal', 1, 'sans'],
+        ['strong', 2, 'sans'], ['strong', 3, 'sans'], ['strong', 4, 'sans']
+      ];
+      roleSpecs.forEach(([weight, sizeIndex, family], index) => {
+        values[`--ds-type-${roleNames[index]}`] = `var(--ds-font-weight-${weight}) var(--ds-font-size-${sizeIndex + 1}) / ${bundle.leading[index]} var(--ds-font-${family})`;
+      });
+      return values;
+    }
+
+    function applyTokens(element, bundle) {
+      Object.entries(tokenMap(bundle)).forEach(([name, value]) => element.style.setProperty(name, value));
+    }
+
+    function currentConfig() {
+      return {
+        /* Read .value directly: FormData intentionally omits disabled controls,
+           but progression/ratio values must survive the table-density branch. */
+        spaceBase: Number(controls.elements.spaceBase.value),
+        progression: controls.elements.progression.value,
+        spaceRatio: Number(controls.elements.spaceRatio.value),
+        density: controls.elements.density.value,
+        densityModel: controls.elements.densityModel.value,
+        typeBase: Number(controls.elements.typeBase.value),
+        typeRatio: Number(controls.elements.typeRatio.value),
+        rounding: controls.elements.rounding.value,
+        leading: controls.elements.leading.value,
+        softness: controls.elements.softness.value
+      };
+    }
+
+    function setConfig(config) {
+      Object.entries(config).forEach(([name, value]) => {
+        const field = controls.elements.namedItem(name);
+        if (field) field.value = value;
+      });
+      updateLive();
+    }
+
+    function compositionMarkup(key) {
+      const safe = key.replace(/[^a-z0-9-]/gi, '-');
+      const inputId = `${safe}-email`;
+      return `
+        <div class="composition-sample">
+          <article data-ui="rich-text">
+            <h2>Generated rhythm</h2>
+            <p>Body copy makes the relation between type size, leading, and <code>space-4</code> visible. The scale must support reading as well as controls.</p>
+            <ul>
+              <li>List items consume space-1.</li>
+              <li>A second item tests the tight step.</li>
+            </ul>
+            <pre><code class="sample-code">scale = relation × value</code></pre>
+          </article>
+
+          <form data-ui="card" onsubmit="return false">
+            <h3 data-part="title">Account details</h3>
+            <p data-part="body">The card, field, buttons, and disclosure all consume the generated values.</p>
+            <div data-ui="field">
+              <label data-part="label" for="${inputId}">Email address</label>
+              <div data-part="control"><input id="${inputId}" type="email" value="reader@example.com"></div>
+              <p data-part="description">44px field height remains fixed.</p>
+            </div>
+            <div data-part="actions">
+              <button data-ui="button" data-size="sm" type="button">Secondary</button>
+              <button data-ui="button" data-variant="solid" type="button">Continue</button>
+            </div>
+            <details data-ui="disclosure" open>
+              <summary data-part="trigger">Scale consequences</summary>
+              <div data-part="content">Open state must retain the 500→600 label-weight cue.</div>
+            </details>
+          </form>
+
+          <section>
+            <h3 class="sample-stack-heading">Stack md · space-4</h3>
+            <div data-ui="stack" data-gap="md">
+              <section data-ui="card" data-size="sm">
+                <h4 data-part="title">First card</h4>
+                <p data-part="body">Stack presets map to steps 2, 4, and 6.</p>
+              </section>
+              <div class="sample-card-row">
+                <section data-ui="card" data-size="sm"><h4 data-part="title">Second</h4><p data-part="body">Radius lg.</p></section>
+                <section data-ui="card" data-size="sm"><h4 data-part="title">Third</h4><p data-part="body">Space-3 pad.</p></section>
+              </div>
+            </div>
+          </section>
+        </div>`;
+    }
+
+    function schemePanel(scheme, key, label = scheme) {
+      return `<section class="scheme-panel" data-theme="${scheme}">
+        <div class="scheme-label"><span>${label}</span><span>${scheme} scheme</span></div>
+        ${compositionMarkup(`${key}-${scheme}`)}
+      </section>`;
+    }
+
+    function statusRange(value, greenMin, greenMax, amberMin, amberMax) {
+      if (value >= greenMin && value <= greenMax) return 'green';
+      if (value >= amberMin && value <= amberMax) return 'amber';
+      return 'red';
+    }
+
+    const severity = { green: 0, amber: 1, red: 2 };
+    const worst = statuses => statuses.reduce((current, next) => severity[next] > severity[current] ? next : current, 'green');
+
+    function readouts(bundle) {
+      const controlA = 44 / bundle.type[1];
+      const controlB = 36 / bundle.type[0];
+      const controlStatus = worst([
+        statusRange(controlA, 2.40, 3.05, 2.10, 3.35),
+        statusRange(controlB, 2.40, 3.05, 2.10, 3.35)
+      ]);
+      const rhythm = [
+        bundle.space[1] / bundle.space[0],
+        bundle.space[3] / bundle.space[1],
+        bundle.space[5] / bundle.space[3]
+      ];
+      const rhythmStatus = worst([
+        statusRange(rhythm[0], 1.65, 2.35, 1.35, 2.70),
+        statusRange(rhythm[1], 1.65, 2.35, 1.35, 2.70),
+        statusRange(rhythm[2], 1.60, 2.40, 1.30, 2.80)
+      ]);
+      const leadingStatuses = bundle.leading.map((value, index) => {
+        if (index < 2) return statusRange(value, 1.15, 1.30, 1.10, 1.35);
+        if (index === 2) return statusRange(value, 1.45, 1.65, 1.35, 1.75);
+        return statusRange(value, 1.15, 1.40, 1.05, 1.50);
+      });
+      const leadingStatus = worst(leadingStatuses);
+      const radiusRatio = bundle.radius[1] / 44;
+      const radiusStatus = radiusRatio <= 0.35 ? 'green' : radiusRatio <= 0.5 ? 'amber' : 'red';
+
+      return [
+        {
+          name: 'Control / type', status: controlStatus,
+          metric: `${ratioText(controlA)} field · ${ratioText(controlB)} small button`,
+          note: `${px(44 - bundle.type[1] * bundle.leading[2])} and ${px(36 - bundle.type[0] * bundle.leading[0])} remain outside the line boxes.`
+        },
+        {
+          name: 'Rhythm + stack', status: rhythmStatus,
+          metric: `${ratioText(rhythm[0])} · ${ratioText(rhythm[1])} · ${ratioText(rhythm[2])}`,
+          note: 'space-2/1 · space-4/2 · space-6/4. Stack sm/md/lg uses the latter two relations.'
+        },
+        {
+          name: 'Role leading', status: leadingStatus,
+          metric: bundle.leading.join(' · '),
+          note: 'label-sm · label-md · body · heading-sm · heading-md · heading-lg.'
+        },
+        {
+          name: 'Label / strong delta', status: 'green',
+          metric: '500 → 600 · +100',
+          note: 'Weights stay outside generation; the disclosure cue therefore survives by construction.'
+        },
+        {
+          name: 'Finite radius / control', status: radiusStatus,
+          metric: `${ratioText(radiusRatio)} md / 44px`,
+          note: `sm/md/lg = ${bundle.radius.map(px).join(' · ')}; full remains fixed.`
+        }
+      ];
+    }
+
+    function renderReadouts(bundle) {
+      return readouts(bundle).map(item => `
+        <article class="readout">
+          <div class="readout-topline">
+            <h3>${item.name}</h3>
+            <span class="status status-${item.status}">${item.status}</span>
+          </div>
+          <p class="metric">${item.metric}</p>
+          <p>${item.note}</p>
+        </article>`).join('');
+    }
+
+    function spacingTable(bundle) {
+      return `<div class="value-panel"><h3>Spacing values</h3><table class="token-table">
+        <thead><tr><th>Token</th><th>px</th><th>rem</th></tr></thead>
+        <tbody>${bundle.space.map((value, index) => `<tr><td><code>space-${index + 1}</code></td><td>${px(value)}</td><td>${rem(value)}</td></tr>`).join('')}</tbody>
+      </table></div>`;
+    }
+
+    function typeTable(bundle) {
+      return `<div class="value-panel"><h3>Type + leading values</h3><table class="token-table">
+        <thead><tr><th>Role</th><th>size</th><th>leading</th></tr></thead>
+        <tbody>${roleNames.map((role, index) => {
+          const sizeIndex = [0, 1, 1, 2, 3, 4][index];
+          return `<tr><td><code>${role}</code></td><td>${px(bundle.type[sizeIndex])}</td><td>${bundle.leading[index]}</td></tr>`;
+        }).join('')}</tbody>
+      </table><p style="margin:8px 0 0;color:var(--lab-muted);font-size:12px">Raw size 1–6: ${bundle.type.map(px).join(' · ')}</p></div>`;
+    }
+
+    function radiusTable(bundle) {
+      return `<div class="value-panel"><h3>Radius values</h3><table class="token-table">
+        <thead><tr><th>Token</th><th>value</th></tr></thead>
+        <tbody>${['sm', 'md', 'lg'].map((name, index) => `<tr><td><code>radius-${name}</code></td><td>${px(bundle.radius[index])}</td></tr>`).join('')}
+        <tr><td><code>radius-full</code></td><td>999rem · fixed</td></tr></tbody>
+      </table></div>`;
+    }
+
+    function configSummary(config) {
+      const progression = config.densityModel === 'table'
+        ? `${config.density} table`
+        : `${config.progression}${config.progression === 'geometric' ? ` ${config.spaceRatio}` : ''} / ${config.density} ${config.densityModel}`;
+      return `${progression} · type ${config.typeBase}px ×${config.typeRatio} ${config.rounding} · ${config.leading} leading · ${config.radiusDirect ? '18/24/32 direct' : config.softness}`;
+    }
+
+    function renderPresetGallery() {
+      const gallery = document.querySelector('#preset-gallery');
+      gallery.innerHTML = Object.entries(presets).map(([key, preset]) => {
+        const bundle = generateBundle(preset);
+        return `<article class="preset-card" data-preset-card="${key}">
+          <header class="preset-header">
+            <h3>${preset.name}</h3>
+            <p>${preset.note}</p>
+            <div class="preset-summary">${configSummary(preset)}</div>
+          </header>
+          <div class="preset-tables">${spacingTable(bundle)}${typeTable(bundle)}${radiusTable(bundle)}</div>
+          <div class="readout-grid" style="padding:0 18px 18px;margin:0">${renderReadouts(bundle)}</div>
+          <div class="scheme-grid">${schemePanel('light', `preset-${key}`, 'same sample')}${schemePanel('dark', `preset-${key}`, 'same sample')}</div>
+        </article>`;
+      }).join('');
+
+      Object.entries(presets).forEach(([key, preset]) => applyTokens(gallery.querySelector(`[data-preset-card="${key}"]`), generateBundle(preset)));
+    }
+
+    function renderBreakageGallery() {
+      const gallery = document.querySelector('#breakage-gallery');
+      gallery.innerHTML = breakages.map(item => {
+        const bundle = generateBundle(item.config);
+        const failed = readouts(bundle).filter(readout => readout.status !== 'green').map(readout => `${readout.name}: ${readout.status}`).join(' · ') || 'Visual-only failure';
+        return `<article class="breakage-card" data-breakage-card="${item.key}">
+          <header class="breakage-header">
+            <h3>${item.name}</h3>
+            <p>${configSummary(item.config)}</p>
+            <div class="preset-summary">Readouts: ${failed}</div>
+          </header>
+          ${schemePanel(item.scheme, `break-${item.key}`, 'breakage corner')}
+          <p class="breakage-caption">${item.reason}</p>
+        </article>`;
+      }).join('');
+
+      breakages.forEach(item => applyTokens(gallery.querySelector(`[data-breakage-card="${item.key}"]`), generateBundle(item.config)));
+    }
+
+    function updateOutputs() {
+      document.querySelector('[data-output-for="space-base"]').value = `${controls.elements.spaceBase.value}px`;
+      document.querySelector('[data-output-for="space-ratio"]').value = controls.elements.spaceRatio.value;
+      document.querySelector('[data-output-for="type-base"]').value = `${controls.elements.typeBase.value}px`;
+    }
+
+    function updateLive() {
+      updateOutputs();
+      const config = currentConfig();
+      controls.elements.spaceRatio.disabled = config.progression !== 'geometric' || config.densityModel === 'table';
+      controls.elements.progression.disabled = config.densityModel === 'table';
+      document.querySelector('#density-note').textContent = densityNotes[config.densityModel];
+
+      const bundle = generateBundle(config);
+      applyTokens(root, bundle);
+      document.querySelector('#live-values').innerHTML = spacingTable(bundle) + typeTable(bundle) + radiusTable(bundle);
+      document.querySelector('#live-readouts').innerHTML = renderReadouts(bundle);
+    }
+
+    controls.addEventListener('input', updateLive);
+    controls.addEventListener('change', updateLive);
+    controls.querySelectorAll('[data-apply-preset]').forEach(button => {
+      button.addEventListener('click', () => setConfig(presets[button.dataset.applyPreset]));
+    });
+
+    document.querySelector('#live-compositions').innerHTML = schemePanel('light', 'live', 'generated root') + schemePanel('dark', 'live', 'generated root');
+    renderPresetGallery();
+    renderBreakageGallery();
+    setConfig(presets.current);
+  </script>
+</body>
+</html>
