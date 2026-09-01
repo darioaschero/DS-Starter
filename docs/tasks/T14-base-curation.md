@@ -1,5 +1,7 @@
 # T14 — Base-system curation
 
+> **SUPERSEDED — do not launch.** At the 2026-09-01 checkpoint the project pivoted to a modular core + generative-rule approach (see CLAUDE.md status and `docs/tasks/T15-palette-rule.md`). The useful pieces of this brief (contrast audit, curated solid states) will return as gates and modules under the new model.
+
 > **Working directory: `/Users/darioaschero/Documents/dev/DS-Starter` (main checkout, branch `main`).** Run `pwd` first.
 > **Goal:** turn the base profile from "values that made the architecture testable" into "values chosen with intention" — using the gates, thresholds, and evidence the M3 derivations produced. This is deliberate review, not churn: **"no change, because …" is a first-class outcome** for every item, and every change needs the same one-line rationale a no-change does.
 

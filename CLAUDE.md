@@ -26,6 +26,10 @@ T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 di
 
 **Milestone 3 is complete and committed.** Both derivation experiments (T11 LGC-like on `derivation/lgc`, T12 warm editorial on `derivation/editorial` — worktrees `../DS-Starter-lgc`, `../DS-Starter-editorial`) proved the starter thesis with zero frozen-surface leaks. The synthesis is `docs/findings/m3-synthesis.md` (two-path comparison, 15-knob parameter surface, constraint classes, wizard questionnaire, conventions v5 proposals, linter rules 31–34); the shippable derivation guide is `docs/deriving.md`.
 
-Now: **Milestone 4 — base-system curation** (decided at the M3 checkpoint; validator/wizard follow after). Conventions are at v5 (M3 proposals adopted: §5a structure/content split, font-slot extension points, fixture-copy drift policy, deriving.md normative-adjacent). Task: **T14** (`docs/tasks/T14-base-curation.md`) — contrast audit + headroom policy, curated solid states completing the curated→recipe→derived chain, intentional-values register, derivation-safe fixture copy.
+**Project thesis v2 (2026-09-01 pivot, user-decided):** DS-Starter becomes a **minimal core + optional modules** that a wizard integrates step by step, with scales and palettes produced by **generative rules** rather than hand-picked values. Core minimo (user's choice): pure content — foundations, generated scales, semantic roles, typography, rich text; **zero components** (the first module will be `actions`/button). T14 base curation is **superseded — do not launch**; its useful pieces return as gates/modules.
+
+**Process rule (conventions §11): design curation belongs to the user.** Research/design tasks deliver options with rendered specimen pages; the user decides at coordinator checkpoints; conventions record the user's choices.
+
+Now: **T15 — palette generation rule** (`docs/tasks/T15-palette-rule.md`, research-only): reverse-engineer the OKLCH curves from the Radix ground truth (6 families in-repo + held-out set), formulate candidate seed→ramp rules, validate at ΔE, and deliver a live specimen page for the user's judgment. Spacing/type-scale rules and the core/module restructuring follow.
 
 The linter is **parked, not dropped**: its 30-rule inventory (`docs/findings/m2-synthesis.md` §4–5) stays valid and will be better informed by the mistakes derivations actually surface.
