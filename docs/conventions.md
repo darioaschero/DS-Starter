@@ -1,8 +1,9 @@
-# Conventions (v4 — provisional)
+# Conventions (v5 — provisional)
 
 > **Status:** provisional prototype conventions, distilled from [direction.md](direction.md) (rev 0.2, mainly §16 plus hard rules throughout).
 > v3 (2026-08-28) adopts the colour architecture agreed in [findings/color-theme-architecture.md](findings/color-theme-architecture.md): Radix-flattened light/dark ramps, active palette steps, purpose-named semantic vocabulary, shared variant recipes, resolved channels, and state-mix tokens. Implemented by task T6.
 > v4 (2026-08-31) promotes the rules earned by the M2 component tasks (findings: field, disclosure, stack): native-state channel rebinding and public-vs-state precedence, focus relocation, authoritative state selection, transparent-bg derived states, finite geometry axes, layout-primitive doctrine, and relationship rules outside scope limits.
+> v5 (2026-09-01) adopts the M3 derivation-synthesis proposals ([findings/m3-synthesis.md](findings/m3-synthesis.md) §6): the §5a structure/content split, font-slot extension points, the fixture-copy drift policy, and `docs/deriving.md` as the normative-adjacent derivation procedure.
 > They are **binding for every task** in the current prototype, and deliberately cheap to reverse later.
 > If a task needs a decision this file does not cover: pick the smallest reasonable option and record it in the task's findings note (`docs/findings/`). Do not invent architecture silently.
 > On any conflict between this file and `direction.md`, this file wins for the prototype — but flag the conflict in findings.
@@ -23,6 +24,7 @@ ds/                     starter CSS (everything ships inside named layers)
 fixtures/               plain static HTML pages (no build; served statically)
 docs/direction.md       full direction document (rationale)
 docs/conventions.md     this file (normative)
+docs/deriving.md        derivation procedure (normative-adjacent: may not override this file)
 docs/findings/          one note per task (copy TEMPLATE.md)
 docs/tasks/             self-contained briefs for work sessions (coordinator-authored)
 ```
@@ -74,7 +76,7 @@ shared variant recipes
 component axis channels
 ```
 
-1. **Colour primitives** (`tokens/palette.css`): Radix Colors values, **flattened** — copied verbatim from the published Radix sRGB sets (MIT; attribute source + version in the file header), never hand-tuned. Naming: `--ds-<family>-light-1..12` and `--ds-<family>-dark-1..12`. Families: `neutral` (Radix Slate), `accent` (Radix Blue), `danger` (Radix Red). Swapping a family = swapping 24 values in this one file. Alpha and P3 variants are out of scope for the prototype.
+1. **Colour primitives** (`tokens/palette.css`). The **structure is invariant for every profile**: three semantic families (`neutral`, `accent`, `danger`) × paired ramps `--ds-<family>-light-1..12` / `--ds-<family>-dark-1..12`, with stable step-role meanings, and swapping a family = swapping 24 values in this one file. The **base profile's content policy**: official Radix sRGB values (Slate / Blue / Red), copied verbatim with source + version attribution, never hand-tuned. **Derived profiles** may use other values and provenance while preserving the structure — provenance documented in the file header, interpolated slots annotated; procedure in [docs/deriving.md](../deriving.md). Alpha and P3 variants are out of scope.
 2. **Active palette steps** (same file), under `:root { color-scheme: light dark; }`:
    `--ds-neutral-1: light-dark(var(--ds-neutral-light-1), var(--ds-neutral-dark-1));` … for every step of every family. Step N carries the **same intended role in both schemes** (Radix step convention: 1 app bg · 2 subtle bg · 3–5 component bg / hover / active · 6–8 borders · 9–10 solid + hover · 11–12 text). This is normally the ONLY place `light-dark()` appears; a semantic role may use `light-dark()` only for intentional asymmetry, justified by a comment.
 3. **Semantic roles** (`tokens/semantic.css`): purpose names on the grammar `--ds-<concern>-<qualifier>`, referencing active steps. Numbered semantic names (`surface-1`, `text-1`) are retired. Core vocabulary:
@@ -90,7 +92,7 @@ Colour rules:
 
 ### 5b. Non-colour scales and typography roles
 
-- **Raw scales** (`tokens/scale.css`), all in `:root`, no component meaning: `--ds-space-1..8`, `--ds-font-size-1..6` (rem), `--ds-radius-sm|md|lg|full`, `--ds-font-sans`, `--ds-font-mono`, `--ds-font-weight-normal|medium|strong`.
+- **Raw scales** (`tokens/scale.css`), all in `:root`, no component meaning: `--ds-space-1..8`, `--ds-font-size-1..6` (rem), `--ds-radius-sm|md|lg|full`, `--ds-font-sans`, `--ds-font-mono`, `--ds-font-weight-normal|medium|strong` — plus the optional font-slot extension points `--ds-font-serif` and `--ds-font-display` (recognized derivation extension slots; their presence never authorizes external font assets).
 - **Typography roles** (`tokens/roles.css`) — font-only, each one a single value for the native `font` shorthand: `--ds-type-label-sm|md`, `--ds-type-body-md`, `--ds-type-heading-sm|md|lg`.
 - Role font sizes use `rem` (stability under nesting). `em` only for intentionally context-relative adjustments (e.g. inline `code` at `0.9em`).
 - Roles carry ONLY what `font` carries. `letter-spacing`, `text-transform`, color, truncation, clamping are **not** part of a role. No sidecar properties in this prototype.
@@ -200,5 +202,7 @@ Evergreen browsers, 2025+: native nesting, cascade layers, `@scope`, `light-dark
 - Canonical fixture chrome: each fixture page has exactly ONE inline `<style>` block, commented `/* fixture chrome — unlayered consumer CSS */`, containing only the consumer page rule `body { background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-body-md); }` plus a minimal page frame (max-width, margin auto, padding). All other fixture presentation uses inline `style` attributes on specimen wrappers — never a second `<style>` block.
 - `ds/index.css` already imports every component file. Component tasks edit ONLY their own `ds/components/<name>.css`, their own `fixtures/<name>.html`, and their findings note — never shared files.
 - Every task ends with a findings note in `docs/findings/` (copy `TEMPLATE.md`): what held, what caused friction, open questions, suggested convention changes. The prototype exists to answer §18 of direction.md — findings are a first-class deliverable.
+- **Fixture-copy drift policy** (from the M3 derivations): fixture prose must not hard-code profile content — family names ("Radix Slate") or numeric token claims ("400 / 1.5") — outside explicitly base-profile-only specimens; prefer token-neutral labels. During a frozen derivation battery, stale profile copy is recorded as expected evidence, never "fixed" by editing frozen fixtures.
+- `docs/deriving.md` is the supported operational procedure for derivations (normative-adjacent). It may not override this file; update it when a verified derivation changes the safe sequence or gates.
 - Tasks do not commit; the coordinator handles git.
 - Do not edit `CLAUDE.md`, `docs/direction.md`, `docs/conventions.md`, or `docs/findings/TEMPLATE.md` — propose changes via findings instead.

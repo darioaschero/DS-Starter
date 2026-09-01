@@ -26,6 +26,6 @@ T6 (colour architecture v3) and the three M2 component tasks — T7 field, T8 di
 
 **Milestone 3 is complete and committed.** Both derivation experiments (T11 LGC-like on `derivation/lgc`, T12 warm editorial on `derivation/editorial` — worktrees `../DS-Starter-lgc`, `../DS-Starter-editorial`) proved the starter thesis with zero frozen-surface leaks. The synthesis is `docs/findings/m3-synthesis.md` (two-path comparison, 15-knob parameter surface, constraint classes, wizard questionnaire, conventions v5 proposals, linter rules 31–34); the shippable derivation guide is `docs/deriving.md`.
 
-Next milestone: **to be decided at the coordinator checkpoint** — the synthesis (§8) recommends: thin linter/validator slice → guided wizard on those gates → base-system curation.
+Now: **Milestone 4 — base-system curation** (decided at the M3 checkpoint; validator/wizard follow after). Conventions are at v5 (M3 proposals adopted: §5a structure/content split, font-slot extension points, fixture-copy drift policy, deriving.md normative-adjacent). Task: **T14** (`docs/tasks/T14-base-curation.md`) — contrast audit + headroom policy, curated solid states completing the curated→recipe→derived chain, intentional-values register, derivation-safe fixture copy.
 
 The linter is **parked, not dropped**: its 30-rule inventory (`docs/findings/m2-synthesis.md` §4–5) stays valid and will be better informed by the mistakes derivations actually surface.
