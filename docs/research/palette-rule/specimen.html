@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Palette rule research specimen</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #eceef2;
+      --muted: #a8adb8;
+      --canvas: #0c0d10;
+      --panel: #14161b;
+      --panel-2: #1b1e25;
+      --line: #303540;
+      --accent: #8cb4ff;
+      --good: #6ee7a8;
+      --warn: #ffd166;
+      --bad: #ff8f8f;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--canvas); color: var(--ink); }
+    button, input, select { font: inherit; }
+    button, select, input[type="text"] { color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 0.55rem; }
+    button { cursor: pointer; padding: 0.48rem 0.72rem; }
+    button:hover { border-color: #596172; }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    a { color: var(--accent); }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+    h1, h2, h3, p { margin-block-start: 0; }
+    h1 { max-width: 17ch; font-size: clamp(2.3rem, 6vw, 5.8rem); line-height: 0.94; letter-spacing: -0.055em; margin-bottom: 1.25rem; }
+    h2 { font-size: clamp(1.45rem, 2.3vw, 2.15rem); letter-spacing: -0.025em; margin-bottom: 0.65rem; }
+    h3 { font-size: 1rem; margin-bottom: 0.45rem; }
+    p { color: var(--muted); line-height: 1.6; }
+    .frame { width: min(1480px, calc(100% - 2rem)); margin: 0 auto; }
+    .hero { padding: clamp(3rem, 8vw, 8rem) 0 3rem; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 0.75fr); gap: 2rem; align-items: end; }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; font-weight: 750; }
+    .hero-note { max-width: 40rem; margin-bottom: 0; border-left: 1px solid var(--line); padding-left: 1.25rem; }
+    main { display: grid; gap: 5rem; padding-bottom: 7rem; }
+    .section-head { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin-bottom: 1.25rem; }
+    .section-head p { max-width: 70ch; margin-bottom: 0; }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: clamp(1rem, 2.5vw, 1.75rem); }
+    .controls { display: grid; grid-template-columns: repeat(6, minmax(8rem, 1fr)); gap: 1rem; align-items: end; }
+    .control { display: grid; gap: 0.45rem; min-width: 0; }
+    .control > span, .control legend { color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .seed-control { grid-template-columns: 3rem 1fr; }
+    .seed-control > span { grid-column: 1 / -1; }
+    input[type="color"] { width: 3rem; height: 2.6rem; padding: 0; border: 1px solid var(--line); background: transparent; border-radius: 0.55rem; }
+    input[type="text"], select { width: 100%; min-height: 2.6rem; padding: 0.45rem 0.6rem; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .check { min-height: 2.6rem; display: flex; align-items: center; gap: 0.55rem; color: var(--ink); }
+    .check input { accent-color: var(--accent); width: 1rem; height: 1rem; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--line); }
+    .preset-row button { color: var(--muted); font-size: 0.8rem; }
+    .live-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .scheme-panel { border-radius: 0.8rem; overflow: hidden; border: 1px solid var(--line); }
+    .scheme-panel.light { background: #fff; color: #111; }
+    .scheme-panel.dark { background: #0e1014; color: #fff; }
+    .scheme-title { padding: 0.75rem 0.85rem; display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+    .scheme-title small { opacity: 0.65; }
+    .ramp { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .swatch { min-width: 0; min-height: 6rem; padding: 0.5rem 0.32rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.35rem; line-height: 1.1; }
+    .swatch strong { font-size: 0.72rem; }
+    .swatch small { font-size: 0.58rem; overflow-wrap: anywhere; opacity: 0.86; }
+    .swatch .delta { font-variant-numeric: tabular-nums; }
+    .clamp-mark { display: inline-grid; place-items: center; width: 1rem; height: 1rem; border-radius: 999px; background: currentColor; color: inherit; }
+    .clamp-mark::after { content: "!"; color: var(--panel); font-size: 0.65rem; font-weight: 900; }
+    .readouts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+    .readout { padding: 0.85rem; border: 1px solid var(--line); background: var(--panel-2); border-radius: 0.7rem; }
+    .readout span { display: block; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.66rem; font-weight: 750; margin-bottom: 0.35rem; }
+    .readout strong { font-size: 0.9rem; }
+    .pass strong { color: var(--good); }
+    .fail strong { color: var(--bad); }
+    .warnings { margin: 1rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.4rem; }
+    .warnings li { color: var(--warn); font-size: 0.82rem; }
+    .warnings li::before { content: "△ "; }
+    .method-note { margin: 0.8rem 0 0; font-size: 0.8rem; }
+    .gallery { display: grid; gap: 1rem; }
+    .family-card { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+    .family-head { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.15rem; border-bottom: 1px solid var(--line); align-items: center; }
+    .family-head h3 { margin: 0; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: flex-end; }
+    .pill { color: var(--muted); background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px; padding: 0.28rem 0.52rem; font-size: 0.7rem; font-variant-numeric: tabular-nums; }
+    .pill.fit { color: #b5c8ff; }
+    .pill.held { color: #ffdc91; }
+    .comparison { padding: 1rem; display: grid; gap: 0.8rem; }
+    .compare-row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); align-items: stretch; }
+    .compare-label { color: var(--muted); font-size: 0.72rem; padding: 0.5rem; border: 1px solid var(--line); border-right: 0; display: grid; align-content: center; }
+    .comparison .swatch { min-height: 4.4rem; }
+    .gallery-gates { display: flex; gap: 0.4rem; flex-wrap: wrap; padding: 0 1rem 1rem; }
+    .failure-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .failure-card { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1rem; }
+    .failure-card p { font-size: 0.84rem; min-height: 4.1em; }
+    .failure-card .ramp { border-radius: 0.55rem; overflow: hidden; }
+    .failure-card .swatch { min-height: 3.7rem; padding: 0.35rem 0.2rem; }
+    .tolerance-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.7rem; }
+    .pair { border: 1px solid var(--line); border-radius: 0.75rem; overflow: hidden; }
+    .pair-swatches { display: grid; grid-template-columns: 1fr 1fr; min-height: 7rem; }
+    .pair-label { padding: 0.65rem; color: var(--muted); font-size: 0.76rem; }
+    .data-panel summary { cursor: pointer; font-weight: 750; }
+    .data-controls { margin: 1rem 0; max-width: 18rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+    th, td { padding: 0.48rem 0.6rem; border-bottom: 1px solid var(--line); text-align: right; }
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.07em; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: repeat(3, 1fr); }
+      .readouts { grid-template-columns: repeat(2, 1fr); }
+      .tolerance-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .frame { width: min(100% - 1rem, 1480px); }
+      .controls, .live-grid, .failure-grid { grid-template-columns: 1fr; }
+      .section-head, .family-head { align-items: flex-start; flex-direction: column; }
+      .metrics { justify-content: flex-start; }
+      .ramp { grid-template-columns: repeat(6, 1fr); }
+      .compare-row { grid-template-columns: 1fr; }
+      .compare-label { border-right: 1px solid var(--line); border-bottom: 0; }
+      .tolerance-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="frame hero">
+    <div>
+      <p class="eyebrow">T15 · generative palette research</p>
+      <h1>Can one seed carry twenty-four colours?</h1>
+    </div>
+    <p class="hero-note">Two compact rules are shown as branches, not picks. Every comparison uses sRGB, OKLCH generation, binary chroma reduction at the sRGB boundary, and Euclidean OKLab ΔE. The six fitted families and four untouched families stay visibly separated.</p>
+  </header>
+
+  <main class="frame">
+    <section aria-labelledby="generator-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">01 · live generator</p>
+          <h2 id="generator-title">Change the seed. Watch the roles move.</h2>
+        </div>
+        <p>The seed is treated as light step 9. Chromatic step 9 is shared across schemes; neutral dark step 9 applies the measured 0.8327 lightness ratio. A clamp badge means the requested OKLCH coordinate was outside sRGB and chroma was reduced at fixed L/H.</p>
+      </div>
+      <div class="panel">
+        <div class="controls">
+          <label class="control seed-control">
+            <span>Seed colour</span>
+            <input id="seed" type="color" value="#0090ff">
+            <input id="seed-text" type="text" value="#0090ff" aria-label="Seed hex colour" pattern="#[0-9a-fA-F]{6}">
+          </label>
+          <label class="control">
+            <span>Family flag</span>
+            <select id="kind">
+              <option value="chromatic">Chromatic</option>
+              <option value="neutral">Neutral</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>Candidate rule</span>
+            <select id="candidate">
+              <option value="shared">Shared tables</option>
+              <option value="adaptive">Hue-neighbour tables</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>Hue behavior</span>
+            <span class="check"><input id="drift" type="checkbox"> Apply fitted drift</span>
+          </label>
+          <label class="control" id="tint-hue-wrap">
+            <span>Tint hue · <output id="tint-hue-out">252°</output></span>
+            <input id="tint-hue" type="range" min="0" max="359" value="252">
+          </label>
+          <label class="control" id="tint-chroma-wrap">
+            <span>Tint chroma · <output id="tint-chroma-out">0.018</output></span>
+            <input id="tint-chroma" type="range" min="0" max="0.05" step="0.001" value="0.018">
+          </label>
+        </div>
+        <div class="preset-row" id="presets" aria-label="Seed presets"></div>
+        <div id="live"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="accuracy-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">02 · regeneration gallery</p>
+          <h2 id="accuracy-title">Original above. Rule below.</h2>
+        </div>
+        <p>ΔE is annotated on every regenerated step. Change the rule or hue behavior above and the whole gallery recomputes. “Fitted” means its data shaped the tables; “held out” means the family was never used during fitting.</p>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section aria-labelledby="failure-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">03 · failure gallery</p>
+          <h2 id="failure-title">The breaks are part of the rule.</h2>
+        </div>
+        <p>These are not cherry-picked successes. Yellow exposes a different lightness topology, gamut-edge seeds lose chroma, desaturated seeds cannot invent colour, and implausibly dark step-9 seeds compress the role zones.</p>
+      </div>
+      <div class="failure-grid" id="failures"></div>
+    </section>
+
+    <section aria-labelledby="tolerance-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">04 · ΔE lens</p>
+          <h2 id="tolerance-title">Choose a tolerance with your eyes open.</h2>
+        </div>
+        <p>Each pair starts from the same moderate blue-gray and moves along one OKLab axis. The label is the measured distance after sRGB quantization. This is a viewing aid, not a claim that one universal threshold predicts every UI context.</p>
+      </div>
+      <div class="tolerance-grid" id="tolerance"></div>
+    </section>
+
+    <section aria-labelledby="data-title">
+      <details class="panel data-panel">
+        <summary id="data-title">Measured source tables · all ten families, both schemes</summary>
+        <p>These tables are calculated from the exact source hex values embedded in the local research module. Low-chroma hues are numerically unstable; read H together with C.</p>
+        <label class="control data-controls">
+          <span>Family</span>
+          <select id="data-family"></select>
+        </label>
+        <div class="table-wrap" id="data-table"></div>
+      </details>
+    </section>
+  </main>
+
+  <script type="module">
+    import {
+      CANDIDATES,
+      FAMILY_DATA,
+      contrastRatio,
+      deltaE,
+      familyCurveTable,
+      formatOklch,
+      gamutMap,
+      gateReport,
+      generateFamily,
+      generateFromGroundTruth,
+      hexToOklch,
+      oklabToOklch,
+      rgbToOklab,
+      hexToRgb,
+      validateFamily,
+    } from "./palette-engine.mjs";
+
+    const elements = Object.fromEntries([
+      "seed", "seed-text", "kind", "candidate", "drift", "tint-hue", "tint-hue-out", "tint-chroma", "tint-chroma-out",
+      "tint-hue-wrap", "tint-chroma-wrap", "presets", "live", "gallery", "failures", "tolerance", "data-family", "data-table",
+    ].map((id) => [id, document.getElementById(id)]));
+
+    const escapeHtml = (value) => String(value).replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
+    const inkFor = (hex) => contrastRatio(hex, "#111111") >= contrastRatio(hex, "#ffffff") ? "#111111" : "#ffffff";
+    const fmt = (value, digits = 3) => Number(value).toFixed(digits);
+
+    function swatch(step, options = {}) {
+      const delta = options.delta;
+      const title = [
+        `Step ${step.step ?? options.index + 1}`,
+        step.hex,
+        step.desired ? `desired ${formatOklch(step.desired)}` : "",
+        step.used ? `used ${formatOklch(step.used)}` : "",
+        Number.isFinite(delta) ? `ΔE ${delta.toFixed(4)}` : "",
+      ].filter(Boolean).join(" · ");
+      return `<div class="swatch" style="background:${step.hex};color:${inkFor(step.hex)}" title="${escapeHtml(title)}">
+        <strong>${step.step ?? options.index + 1}${step.clamped ? ' <span class="clamp-mark" aria-label="gamut clamped"></span>' : ""}</strong>
+        <small>${step.hex}</small>
+        ${Number.isFinite(delta) ? `<small class="delta">Δ ${delta.toFixed(3)}</small>` : ""}
+      </div>`;
+    }
+
+    function ramp(steps, deltas) {
+      return `<div class="ramp">${steps.map((step, index) => swatch(typeof step === "string" ? { step: index + 1, hex: step } : step, { index, delta: deltas?.[index] })).join("")}</div>`;
+    }
+
+    function currentState() {
+      return {
+        seedHex: elements.seed.value,
+        kind: elements.kind.value,
+        candidate: elements.candidate.value,
+        hueDrift: elements.drift.checked,
+        tintHue: Number(elements["tint-hue"].value),
+        tintChroma: Number(elements["tint-chroma"].value),
+      };
+    }
+
+    function gateMarkup(gates, neutral = false) {
+      const items = [
+        { label: neutral ? "Contrast probe" : "On solid", value: `${gates.onSolid.hex} · ${gates.onSolid.minimum.toFixed(2)}:1`, pass: gates.onSolid.pass },
+        { label: neutral ? "Text-like probe" : "Link / canvas + subtle", value: `step ${gates.link.step} · ${gates.link.minimum.toFixed(2)}:1`, pass: gates.link.pass },
+        { label: neutral ? "Indicator probe" : "Focus / canvas", value: `step ${gates.focus.step} · ${gates.focus.minimum.toFixed(2)}:1`, pass: gates.focus.pass },
+      ];
+      return items.map((item) => `<div class="readout ${item.pass ? "pass" : "fail"}"><span>${item.label}</span><strong>${item.value} · ${item.pass ? "pass" : "fail"}</strong></div>`).join("");
+    }
+
+    function renderLive() {
+      const state = currentState();
+      const generated = generateFamily(state);
+      const gates = gateReport(generated, state.kind === "neutral" ? generated : undefined);
+      const clampCount = [...generated.light, ...generated.dark].filter((step) => step.clamped).length;
+      elements.live.innerHTML = `
+        <p class="method-note"><strong>${CANDIDATES[state.candidate].label}</strong> · ${CANDIDATES[state.candidate].description} Seed OKLCH: <code>${formatOklch(generated.seed)}</code>.</p>
+        <div class="live-grid">
+          <div class="scheme-panel light"><div class="scheme-title"><strong>Light</strong><small>steps 1 → 12</small></div>${ramp(generated.light)}</div>
+          <div class="scheme-panel dark"><div class="scheme-title"><strong>Dark</strong><small>steps 1 → 12</small></div>${ramp(generated.dark)}</div>
+        </div>
+        <div class="readouts">
+          ${gateMarkup(gates, state.kind === "neutral")}
+          <div class="readout ${clampCount ? "fail" : "pass"}"><span>sRGB gamut</span><strong>${clampCount ? `${clampCount}/24 clamped` : "24/24 direct"}</strong></div>
+        </div>
+        ${generated.warnings.length ? `<ul class="warnings">${generated.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join("")}</ul>` : ""}
+        ${state.kind === "neutral" ? '<p class="method-note">Neutral gate values are diagnostic pairings only; a neutral family is not proposed as the accent.</p>' : ""}
+      `;
+    }
+
+    function associatedNeutral(name, candidate, hueDrift) {
+      const neutralName = FAMILY_DATA[name].kind === "neutral" ? name : FAMILY_DATA[name].neutral;
+      return generateFromGroundTruth(neutralName, candidate, hueDrift);
+    }
+
+    function renderGallery() {
+      const { candidate, hueDrift } = currentState();
+      elements.gallery.innerHTML = Object.keys(FAMILY_DATA).map((name) => {
+        const family = FAMILY_DATA[name];
+        const validation = validateFamily(name, candidate, hueDrift);
+        const gates = gateReport(validation.generated, associatedNeutral(name, candidate, hueDrift));
+        const clampCount = [...validation.generated.light, ...validation.generated.dark].filter((step) => step.clamped).length;
+        return `<article class="family-card">
+          <header class="family-head">
+            <h3>${name}</h3>
+            <div class="metrics">
+              <span class="pill ${family.set === "fitted" ? "fit" : "held"}">${family.set}</span>
+              <span class="pill">mean ΔE ${validation.mean.toFixed(4)}</span>
+              <span class="pill">max ${validation.max.toFixed(4)}</span>
+              <span class="pill">${clampCount} clamps</span>
+            </div>
+          </header>
+          <div class="comparison">
+            ${["light", "dark"].map((scheme) => `
+              <div class="compare-row"><div class="compare-label">${scheme}<br>original</div>${ramp(family[scheme])}</div>
+              <div class="compare-row"><div class="compare-label">${scheme}<br>generated<br>μ ${validation[scheme].mean.toFixed(3)} · max ${validation[scheme].max.toFixed(3)}</div>${ramp(validation.generated[scheme], validation[scheme].steps)}</div>
+            `).join("")}
+          </div>
+          <div class="gallery-gates">
+            ${family.kind === "neutral" ? '<span class="pill">accent gates: n/a for neutral</span>' : `
+              <span class="pill ${gates.onSolid.pass ? "fit" : "held"}">on-solid ${gates.onSolid.hex} · ${gates.onSolid.minimum.toFixed(2)}:1</span>
+              <span class="pill ${gates.link.pass ? "fit" : "held"}">link step ${gates.link.step} · ${gates.link.minimum.toFixed(2)}:1</span>
+              <span class="pill ${gates.focus.pass ? "fit" : "held"}">focus step ${gates.focus.step} · ${gates.focus.minimum.toFixed(2)}:1</span>
+            `}
+          </div>
+        </article>`;
+      }).join("");
+    }
+
+    const failureCases = [
+      { title: "Yellow topology", seedHex: "#ffe629", kind: "chromatic", note: "The shared chromatic curve underestimates the pale yellow 3–5 zone and cannot reproduce Yellow’s unusually bright step 9/10 topology from averages alone." },
+      { title: "sRGB boundary green", seedHex: "#00ff66", kind: "chromatic", note: "A legal sRGB seed can still ask the envelope for impossible pale or dark coordinates. The rule holds L/H and reports how much chroma it discards." },
+      { title: "Desaturated brand", seedHex: "#777b84", kind: "chromatic", note: "A near-neutral step 9 scales every chroma ratio toward zero. The result is coherent but cannot infer a missing brand saturation." },
+      { title: "Very dark step 9", seedHex: "#351b48", kind: "chromatic", note: "Treating an implausibly dark brand chip as step 9 compresses backgrounds and borders. The warning is deterministic; the wizard needs a user correction path." },
+      { title: "Conceptual out-of-gamut seed", seedOklch: { L: 0.72, C: 0.34, h: 150 }, seedHex: "#00c963", kind: "chromatic", note: "This conceptual OKLCH seed is outside sRGB before generation. Step 9 itself is chroma-reduced, so the emitted palette is an approximation of the requested seed." },
+      { title: "Yellow with hue-neighbour table", seedHex: "#ffe629", kind: "chromatic", forceCandidate: "adaptive", note: "The amber anchor helps Yellow substantially, but held-out max ΔE remains visible. This branch improves one hard zone without proving a universal rule." },
+    ];
+
+    function renderFailures() {
+      const state = currentState();
+      elements.failures.innerHTML = failureCases.map((item) => {
+        const generated = generateFamily({
+          seedHex: item.seedHex,
+          seedOklch: item.seedOklch,
+          kind: item.kind,
+          candidate: item.forceCandidate ?? state.candidate,
+          hueDrift: state.hueDrift,
+        });
+        const clamps = [...generated.light, ...generated.dark].filter((step) => step.clamped);
+        const worst = Math.max(0, ...clamps.map((step) => step.chromaLoss));
+        const gates = gateReport(generated);
+        return `<article class="failure-card">
+          <h3>${item.title}</h3>
+          <p>${item.note}</p>
+          ${ramp(generated.light)}
+          <div class="gallery-gates" style="padding:0.75rem 0 0">
+            <span class="pill">${item.forceCandidate ?? state.candidate}</span>
+            <span class="pill">${clamps.length}/24 clamps${clamps.length ? ` · worst ${Math.round(worst * 100)}% C loss` : ""}</span>
+            <span class="pill">on-solid ${gates.onSolid.hex} ${gates.onSolid.minimum.toFixed(2)}:1</span>
+          </div>
+          ${generated.warnings.length ? `<ul class="warnings">${generated.warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join("")}</ul>` : ""}
+        </article>`;
+      }).join("");
+    }
+
+    function renderTolerance() {
+      const baseLab = rgbToOklab(hexToRgb("#65758b"));
+      const base = gamutMap(oklabToOklch(baseLab));
+      const targets = [0.005, 0.01, 0.02, 0.04, 0.08];
+      elements.tolerance.innerHTML = targets.map((target) => {
+        const comparison = gamutMap(oklabToOklch({ ...baseLab, a: baseLab.a + target }));
+        const measured = deltaE(base.lab, comparison.lab);
+        return `<div class="pair"><div class="pair-swatches"><div style="background:${base.hex}"></div><div style="background:${comparison.hex}"></div></div><div class="pair-label">target ${target.toFixed(3)} · measured ΔE ${measured.toFixed(4)}</div></div>`;
+      }).join("");
+    }
+
+    function renderDataTable() {
+      const name = elements["data-family"].value;
+      const light = familyCurveTable(name, "light");
+      const dark = familyCurveTable(name, "dark");
+      elements["data-table"].innerHTML = `<table>
+        <thead><tr><th>Step</th><th>Light hex</th><th>L</th><th>C</th><th>H</th><th>Dark hex</th><th>L</th><th>C</th><th>H</th></tr></thead>
+        <tbody>${light.map((step, index) => `<tr><td>${index + 1}</td><td>${FAMILY_DATA[name].light[index]}</td><td>${fmt(step.L)}</td><td>${fmt(step.C)}</td><td>${fmt(step.h, 1)}°</td><td>${FAMILY_DATA[name].dark[index]}</td><td>${fmt(dark[index].L)}</td><td>${fmt(dark[index].C)}</td><td>${fmt(dark[index].h, 1)}°</td></tr>`).join("")}</tbody>
+      </table>`;
+    }
+
+    function renderAll() {
+      const neutral = elements.kind.value === "neutral";
+      elements["tint-hue-wrap"].style.opacity = neutral ? "1" : "0.35";
+      elements["tint-chroma-wrap"].style.opacity = neutral ? "1" : "0.35";
+      elements["tint-hue"].disabled = !neutral;
+      elements["tint-chroma"].disabled = !neutral;
+      elements["tint-hue-out"].value = `${elements["tint-hue"].value}°`;
+      elements["tint-chroma-out"].value = Number(elements["tint-chroma"].value).toFixed(3);
+      renderLive();
+      renderGallery();
+      renderFailures();
+    }
+
+    const presetNames = Object.keys(FAMILY_DATA);
+    elements.presets.innerHTML = presetNames.map((name) => `<button type="button" data-family="${name}">${name}</button>`).join("") + '<button type="button" data-special="edge">Gamut edge</button><button type="button" data-special="dark">Dark seed</button>';
+    elements.presets.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      const name = button.dataset.family;
+      if (name) {
+        const family = FAMILY_DATA[name];
+        const seedHex = family.light[8];
+        const seed = hexToOklch(seedHex);
+        elements.seed.value = seedHex;
+        elements["seed-text"].value = seedHex;
+        elements.kind.value = family.kind;
+        elements["tint-hue"].value = Math.round(seed.h);
+        elements["tint-chroma"].value = Math.min(0.05, seed.C).toFixed(3);
+      } else if (button.dataset.special === "edge") {
+        elements.seed.value = "#00ff66";
+        elements["seed-text"].value = "#00ff66";
+        elements.kind.value = "chromatic";
+      } else {
+        elements.seed.value = "#351b48";
+        elements["seed-text"].value = "#351b48";
+        elements.kind.value = "chromatic";
+      }
+      renderAll();
+    });
+
+    elements.seed.addEventListener("input", () => {
+      elements["seed-text"].value = elements.seed.value;
+      if (elements.kind.value === "neutral") {
+        const seed = hexToOklch(elements.seed.value);
+        elements["tint-hue"].value = Math.round(seed.h);
+        elements["tint-chroma"].value = Math.min(0.05, seed.C).toFixed(3);
+      }
+      renderAll();
+    });
+    elements["seed-text"].addEventListener("change", () => {
+      const value = elements["seed-text"].value.trim();
+      if (/^#[0-9a-f]{6}$/i.test(value)) {
+        elements.seed.value = value;
+        elements["seed-text"].value = value.toLowerCase();
+        renderAll();
+      } else {
+        elements["seed-text"].value = elements.seed.value;
+      }
+    });
+    [elements.kind, elements.candidate, elements.drift, elements["tint-hue"], elements["tint-chroma"]].forEach((element) => element.addEventListener("input", renderAll));
+
+    elements["data-family"].innerHTML = Object.keys(FAMILY_DATA).map((name) => `<option>${name}</option>`).join("");
+    elements["data-family"].addEventListener("change", renderDataTable);
+    renderTolerance();
+    renderDataTable();
+    renderAll();
+  </script>
+</body>
+</html>
