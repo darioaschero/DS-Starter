@@ -12,23 +12,32 @@
 <style>
 /* ================================================================
    MODELLO SOTTO ESAME — coordinator scratch, 2026-09-01.
-   Niente di questo file tocca ds/. I valori sono il working set:
-     famiglia testo   r = 10/7 : t14 14/20 (fisso) · body 16.8/24 → 19.6/28
-     famiglia heading r = 6/5  : 26.667/32 → 30/36
+   Niente di questo file tocca ds/. Working set (naming utente sm/md/lg):
+     famiglia testo  r = 10/7 : sm 14/20 (fisso) · md 16.8/24 → 19.6/28
+     famiglia lg     r = 6/5  : 26.667/32 → 30/36 · peso NORMAL (utente)
      tracking = % della PROPRIA size, scritto in em (auto-relativo)
      regola fluida unica: −0.5pp lungo la rampa, su OGNI stile fluido
+   Faccia di lavoro (utente): Inter — vendorizzata, vedi vendor/inter/.
    ================================================================ */
+@font-face {
+  font-family: "Inter";
+  src: local("InterVariable"), local("Inter"),
+       url("vendor/inter/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* progressione condivisa 0→1. La FONTE (slider, viewport, un giorno
-     divisione tipizzata nativa) è separata dal modello: gli stili leggono
-     solo --p. Un sottoalbero può ri-fissare --p localmente (vedi righe
-     ancorate p=0 / p=1 nello specimen). */
+  /* progressione condivisa 0→1. La FONTE (slider, viewport, divisione
+     tipizzata nativa) è separata dal modello: gli stili leggono solo --p. */
   --p: 0;
 
-  /* interruttore tracking (1 = attivo, 0 = spento) e pesi di lab */
-  --ts-track: 1;
-  --ts-w-book: 400;
-  --ts-w-head: 600;
+  /* faccia di lavoro + interruttori di lab */
+  --ts-font: "Inter", var(--ds-font-sans);
+  --ts-track: 1;      /* 1 = tracking attivo, 0 = spento */
+  --ts-w-book: 400;   /* classe book: regular/medium collassano (stesso tracking) */
+  --ts-w-lg: 400;     /* decisione utente: lg in normal, non semibold */
 }
 [data-tracking="off"] { --ts-track: 0; }
 
@@ -40,40 +49,40 @@
    portare nel futuro wiring ds/. */
 
 /* ---- gli stili come tuple complete (size, lh, classe-peso, tracking) ---- */
-.ts-t14 {
-  font-family: var(--ds-font-sans); font-weight: var(--ts-w-book);
-  font-size: 0.875rem; line-height: 1.25rem;                /* 14/20 — non fluido */
-  letter-spacing: 0em;                                       /* book: "−" = 0 (da confermare) */
+.ts-sm {
+  font-family: var(--ts-font); font-weight: var(--ts-w-book);
+  font-size: 0.875rem; line-height: 1.25rem;                 /* 14/20 — non fluido */
+  letter-spacing: 0em;                                        /* book: "−" = 0 (da confermare) */
 }
-.ts-t14-semi {
-  font-family: var(--ds-font-sans); font-weight: 600;
+.ts-sm-semi {
+  font-family: var(--ts-font); font-weight: 600;
   font-size: 0.875rem; line-height: 1.25rem;
-  letter-spacing: calc(-0.005em * var(--ts-track));          /* −0.5% */
+  letter-spacing: calc(-0.005em * var(--ts-track));           /* −0.5% */
 }
-.ts-body {
-  font-family: var(--ds-font-sans); font-weight: var(--ts-w-book);
-  font-size: calc(1.05rem + 0.175rem * var(--p));            /* 16.8 → 19.6 */
-  line-height: calc(1.5rem + 0.25rem * var(--p));            /* 24 → 28; ratio 10/7 esatto a OGNI p */
+.ts-md {
+  font-family: var(--ts-font); font-weight: var(--ts-w-book);
+  font-size: calc(1.05rem + 0.175rem * var(--p));             /* 16.8 → 19.6 */
+  line-height: calc(1.5rem + 0.25rem * var(--p));             /* 24 → 28; ratio 10/7 esatto a OGNI p */
   letter-spacing: calc((-0.005em - 0.005em * var(--p)) * var(--ts-track)); /* −0.5% → −1% */
 }
-.ts-body-semi {
-  font-family: var(--ds-font-sans); font-weight: 600;
+.ts-md-semi {
+  font-family: var(--ts-font); font-weight: 600;
   font-size: calc(1.05rem + 0.175rem * var(--p));
   line-height: calc(1.5rem + 0.25rem * var(--p));
   letter-spacing: calc((-0.01em - 0.005em * var(--p)) * var(--ts-track)); /* −1% → −1.5% */
 }
-.ts-head {
-  font-family: var(--ds-font-sans); font-weight: var(--ts-w-head);
-  font-size: calc(1.66667rem + 0.20833rem * var(--p));       /* 26.667 → 30 */
-  line-height: calc(2rem + 0.25rem * var(--p));              /* 32 → 36; ratio 6/5 esatto a OGNI p */
+.ts-lg {
+  font-family: var(--ts-font); font-weight: var(--ts-w-lg);
+  font-size: calc(1.66667rem + 0.20833rem * var(--p));        /* 26.667 → 30 */
+  line-height: calc(2rem + 0.25rem * var(--p));               /* 32 → 36; ratio 6/5 esatto a OGNI p */
   letter-spacing: calc((-0.02em - 0.005em * var(--p)) * var(--ts-track)); /* dato: −2% → −2.5% */
 }
-[data-headrule="class"] .ts-head {
-  letter-spacing: calc((-0.025em - 0.005em * var(--p)) * var(--ts-track)); /* se −2% è book: semibold −2.5% → −3% */
+[data-lgrule="class"] .ts-lg {
+  letter-spacing: calc((-0.025em - 0.005em * var(--p)) * var(--ts-track)); /* se −2% è book e lg fosse semibold: −2.5% → −3% */
 }
 
 /* variante FISSA a riposo — l'opzione "il controllo non cresce mentre la prosa scorre" */
-.ts-body-semi-fixed { font: 600 1.05rem/1.5rem var(--ds-font-sans); letter-spacing: calc(-0.01em * var(--ts-track)); }
+.ts-md-semi-fixed { font: 600 1.05rem/1.5rem var(--ts-font); letter-spacing: calc(-0.01em * var(--ts-track)); }
 
 /* ================= lab chrome (valori FISSI, indipendenti dal modello:
    un input estremo non deve rompere i propri controlli — lezione T17) ==== */
@@ -123,8 +132,9 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
       <button data-theme-set="">sistema</button>
       <button data-theme-set="light">chiaro</button>
       <button data-theme-set="dark">scuro</button>
-      <span class="note">Faccia: <code>--ds-font-sans</code> (system-ui) — su macOS è SF con ottica automatica: il tracking va rigiudicato quando C1 sceglierà la faccia.</span>
+      <span class="note" id="face-probe">Faccia: verifica in corso…</span>
     </div>
+    <div class="row note">InterVariable 4.1 vendorizzata (OFL, <code>vendor/inter/</code>): porta gli assi <code>opsz+wght</code> — l'ottica automatica è attiva, quindi il tracking qui si giudica CON l'asse ottico di Inter.</div>
   </div>
 
   <div class="panel">
@@ -140,17 +150,17 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
     </div>
     <div class="row">
       <label><input id="tracking" type="checkbox" checked> tracking attivo</label>
-      <label>peso heading:
-        <select id="head-w"><option value="400">regular</option><option value="500">medium</option><option value="600" selected>semibold</option></select>
+      <label>peso lg:
+        <select id="lg-w"><option value="400" selected>normal (deciso)</option><option value="500">medium</option><option value="600">semibold</option></select>
       </label>
-      <label>tracking heading:
-        <select id="head-rule">
+      <label>tracking lg:
+        <select id="lg-rule">
           <option value="given" selected>dato (−2% → −2.5%)</option>
           <option value="class">regola di classe se semibold (−2.5% → −3%)</option>
         </select>
       </label>
-      <label>peso body book:
-        <select id="body-w"><option value="400" selected>regular</option><option value="500">medium</option></select>
+      <label>peso md book:
+        <select id="md-w"><option value="400" selected>regular</option><option value="500">medium</option></select>
         <span class="note">(stesso tracking per regola: reg/med collassano)</span>
       </label>
     </div>
@@ -166,25 +176,25 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
   </div>
 
   <div class="frame">
-    <h1 class="ts-head" id="s-head">La città che impara a leggere il tempo</h1>
-    <p class="ts-t14 note" id="s-t14">Quaderno di quartiere · osservazioni raccolte tra giugno e settembre — t14 book</p>
-    <p class="ts-body" id="s-body">Alle sei e venti il mercato è ancora una geometria di tende chiuse. I primi furgoni entrano dalla porta nord, le biciclette tagliano la piazza e il selciato conserva la pioggia della notte. È un'ora utile per osservare come una città racconta se stessa: non con i monumenti, ma con le piccole decisioni ripetute ogni mattina.</p>
-    <p class="ts-body">Questo scritto raccoglie voci, appunti e dati di quartiere. Non vuole offrire una soluzione definitiva; prova invece a mostrare perché misurare e ascoltare siano gesti complementari, e come la distanza tra una panchina e una fermata possa valere quanto un intero regolamento.</p>
-    <p class="ts-body-semi" id="s-body-semi">Tre scale di osservazione — body semibold come sottotitolo di paragrafo.</p>
-    <p class="ts-body">Nel quartiere San Paolo le panchine più usate non sono quelle nuove, ma quelle che ricevono il sole tra le nove e le undici. La scoperta sembra ovvia soltanto dopo averla fatta: prima, il progetto comunale considerava soprattutto materiali, manutenzione e distanza dagli incroci.</p>
-    <p><span class="chip ts-body-semi-fixed">Iscriviti al taccuino</span> <span class="ts-t14 note" style="margin-inline-start:8px">← variante fissa (riposo): l'opzione "il controllo non cresce mentre la prosa scorre"</span></p>
-    <p class="ts-t14-semi" id="s-t14-semi">t14 semibold · etichetta compatta −0.5%</p>
+    <h1 class="ts-lg" id="s-lg">La città che impara a leggere il tempo</h1>
+    <p class="ts-sm note" id="s-sm">Quaderno di quartiere · osservazioni raccolte tra giugno e settembre — sm book</p>
+    <p class="ts-md" id="s-md">Alle sei e venti il mercato è ancora una geometria di tende chiuse. I primi furgoni entrano dalla porta nord, le biciclette tagliano la piazza e il selciato conserva la pioggia della notte. È un'ora utile per osservare come una città racconta se stessa: non con i monumenti, ma con le piccole decisioni ripetute ogni mattina.</p>
+    <p class="ts-md">Questo scritto raccoglie voci, appunti e dati di quartiere. Non vuole offrire una soluzione definitiva; prova invece a mostrare perché misurare e ascoltare siano gesti complementari, e come la distanza tra una panchina e una fermata possa valere quanto un intero regolamento.</p>
+    <p class="ts-md-semi" id="s-md-semi">Tre scale di osservazione — md semibold come sottotitolo di paragrafo.</p>
+    <p class="ts-md">Nel quartiere San Paolo le panchine più usate non sono quelle nuove, ma quelle che ricevono il sole tra le nove e le undici. La scoperta sembra ovvia soltanto dopo averla fatta: prima, il progetto comunale considerava soprattutto materiali, manutenzione e distanza dagli incroci.</p>
+    <p><span class="chip ts-md-semi-fixed">Iscriviti al taccuino</span> <span class="ts-sm note" style="margin-inline-start:8px">← variante fissa (riposo): l'opzione "il controllo non cresce mentre la prosa scorre"</span></p>
+    <p class="ts-sm-semi" id="s-sm-semi">sm semibold · etichetta compatta −0.5%</p>
   </div>
 
   <div class="panel">
     <h2>Righe ancorate agli estremi (il sottoalbero ri-fissa <code>--p</code>)</h2>
     <div class="anchored" style="--p:0">
-      <p class="ts-body" style="margin:0 0 6px">p=0 · body 16.8/24, tracking −0.5% — il selciato conserva la pioggia della notte.</p>
-      <p class="ts-head" style="margin:0">p=0 · heading 26.667/32, −2%</p>
+      <p class="ts-md" style="margin:0 0 6px">p=0 · md 16.8/24, tracking −0.5% — il selciato conserva la pioggia della notte.</p>
+      <p class="ts-lg" style="margin:0">p=0 · lg 26.667/32, −2%</p>
     </div>
     <div class="anchored" style="--p:1; margin-block-start:14px">
-      <p class="ts-body" style="margin:0 0 6px">p=1 · body 19.6/28, tracking −1% — il selciato conserva la pioggia della notte.</p>
-      <p class="ts-head" style="margin:0">p=1 · heading 30/36, −2.5%</p>
+      <p class="ts-md" style="margin:0 0 6px">p=1 · md 19.6/28, tracking −1% — il selciato conserva la pioggia della notte.</p>
+      <p class="ts-lg" style="margin:0">p=1 · lg 30/36, −2.5%</p>
     </div>
   </div>
 
@@ -226,26 +236,26 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
 
   /* interruttori */
   $("tracking").addEventListener("change", () => { root.dataset.tracking = $("tracking").checked ? "on" : "off"; update(); });
-  $("head-rule").addEventListener("change", () => { root.dataset.headrule = $("head-rule").value; update(); });
-  $("head-w").addEventListener("change", () => { root.style.setProperty("--ts-w-head", $("head-w").value); update(); });
-  $("body-w").addEventListener("change", () => { root.style.setProperty("--ts-w-book", $("body-w").value); update(); });
+  $("lg-rule").addEventListener("change", () => { root.dataset.lgrule = $("lg-rule").value; update(); });
+  $("lg-w").addEventListener("change", () => { root.style.setProperty("--ts-w-lg", $("lg-w").value); update(); });
+  $("md-w").addEventListener("change", () => { root.style.setProperty("--ts-w-book", $("md-w").value); update(); });
 
   /* letture */
   const rows = [
-    ["t14 book", "s-t14"], ["t14 semibold", "s-t14-semi"],
-    ["body book", "s-body"], ["body semibold", "s-body-semi"],
-    ["heading", "s-head"],
+    ["sm book", "s-sm"], ["sm semibold", "s-sm-semi"],
+    ["md book", "s-md"], ["md semibold", "s-md-semi"],
+    ["lg", "s-lg"],
   ];
   function fmt(n, d = 2) { return Number(n.toFixed(d)).toString(); }
   function update() {
     const out = [];
-    let bodyPx = 0, headPx = 0;
+    let mdPx = 0, lgPx = 0;
     for (const [label, id] of rows) {
       const cs = getComputedStyle($(id));
       const size = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
       const lsRaw = cs.letterSpacing, ls = lsRaw === "normal" ? 0 : parseFloat(lsRaw);
-      if (id === "s-body") bodyPx = size;
-      if (id === "s-head") headPx = size;
+      if (id === "s-md") mdPx = size;
+      if (id === "s-lg") lgPx = size;
       const grid = Math.abs(lh / 4 - Math.round(lh / 4)) < 0.02;
       const pct = size ? (ls / size) * 100 : 0;
       out.push(`<tr><td>${label}</td><td>${fmt(size)}px</td><td>${fmt(lh)}px</td>` +
@@ -253,7 +263,7 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
         `<td>${fmt(lh / size, 4)}</td><td>${fmt(ls, 3)}px = ${fmt(pct, 2)}%</td></tr>`);
     }
     $("readout").innerHTML = out.join("");
-    $("derived").textContent = "rapporto heading/body: " + fmt(headPx / bodyPx, 4) +
+    $("derived").textContent = "rapporto lg/md: " + fmt(lgPx / mdPx, 4) +
       " (deriva a verbale: 1.587 → 1.531) · ratio 10/7 e 6/5 restano esatti a OGNI p (proprietà del modello, non solo agli estremi)";
   }
 
@@ -277,6 +287,15 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
        parsed ? "parsata ma computed dubbio — da trattare come non supportata" :
                 "NON supportata su questo browser — fonte: slider/JS; riserva clamp(A·rem + B·vw) per stile");
   })();
+
+  /* la faccia è davvero Inter? */
+  document.fonts.ready.then(() => {
+    const ok = document.fonts.check('1rem "Inter"');
+    $("face-probe").textContent = ok
+      ? "Faccia: Inter attiva (InterVariable vendorizzata)."
+      : "Faccia: FALLBACK system-ui — InterVariable non caricata (controlla vendor/inter/).";
+    update();
+  });
 
   setP(0);
   update();
