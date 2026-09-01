@@ -13,16 +13,19 @@
 
 ```text
 ds/                     starter CSS (everything ships inside named layers)
-  index.css             the ONLY file that decides cascade order
+  core.css              content-only entry; sole owner of cascade-layer order
+  index.css             full-system composition: core + optional in-tree modules
   reset.css             minimal reset + shared focus baseline      → layer ds.reset
   tokens/scale.css      raw non-colour scales                      → layer ds.tokens
   tokens/palette.css    colour primitives (Radix light+dark ramps)
                         + active palette steps (light-dark)        → layer ds.tokens
-  tokens/semantic.css   purpose-named semantic colour roles        → layer ds.tokens
-  tokens/roles.css      typography roles                           → layer ds.roles
-  tokens/recipes.css    shared variant recipes                     → layer ds.roles
-  components/*.css      one file per component                     → layer ds.components
+  tokens/semantic.css   content colour roles + dormant module dowry → layer ds.tokens
+  tokens/roles.css      typography roles (+ dormant label dowry)   → layer ds.roles
+  tokens/recipes.css    shared variant recipes; not part of core   → layer ds.roles
+  components/rich-text.css  core semantic content adapter          → layer ds.components
+  components/*.css      optional in-tree component modules         → layer ds.components
 fixtures/               plain static HTML pages (no build; served statically)
+fixtures/corpus/        canonical core-only bench (longform, technical, perimeter)
 docs/direction.md       full direction document (rationale)
 docs/conventions.md     this file (normative)
 docs/deriving.md        derivation procedure (normative-adjacent: may not override this file)
@@ -32,9 +35,10 @@ docs/tasks/             self-contained briefs for work sessions (coordinator-aut
 
 ## 2. Cascade layers
 
-- Layer order, declared once at the top of `ds/index.css`:
+- Layer order is declared exactly once, at the top of `ds/core.css`:
   `@layer ds.reset, ds.tokens, ds.roles, ds.components, ds.exceptions;`
-- Files are pulled into their layer from `index.css` via `@import "..." layer(ds.…);`. Individual files never declare their own cascade position.
+- `core.css` imports the reset, core token files, typography roles, and rich text into their named layers via `@import "..." layer(ds.…);`. It must render standalone. Individual files never declare their own cascade position.
+- `index.css` is composition only: first `@import "core.css";` (the import edge is unlayered, so the nested statement establishes order), then recipe and optional component imports assigned to `ds.roles` / `ds.components`. `index.css` never declares layer order.
 - All starter CSS lives inside these layers. Never unlayered. Never `!important`.
 - **Consumer contract:** ordinary unlayered application CSS must win over the starter without specificity escalation, layer knowledge, or `!important`. Fixture "chrome" styles inside fixture pages count as consumer CSS: keep them minimal and clearly marked as such.
 - **Canvas ownership:** the starter never paints the application canvas — no `body` background/color/base-font rule ships in any `ds.*` layer. The page rule belongs to the consumer, written with public tokens. Fixtures demonstrate this via the canonical fixture chrome (§11).
@@ -212,6 +216,7 @@ Evergreen browsers, 2025+: native nesting, cascade layers, `@scope`, `light-dark
 
 - No build tools, no npm, no external assets, fonts, or libraries. Fixtures must work served statically (`python3 -m http.server` from the repo root).
 - Canonical fixture chrome: each fixture page has exactly ONE inline `<style>` block, commented `/* fixture chrome — unlayered consumer CSS */`, containing only the consumer page rule `body { background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-body-md); }` plus a minimal page frame (max-width, margin auto, padding). All other fixture presentation uses inline `style` attributes on specimen wrappers — never a second `<style>` block.
+- The three pages in `fixtures/corpus/` are permanent core-only batteries: they load `../../ds/core.css`, use canonical fixture chrome, and may not import optional component CSS or add fixture rules that patch uncovered elements.
 - `ds/index.css` already imports every component file. Component tasks edit ONLY their own `ds/components/<name>.css`, their own `fixtures/<name>.html`, and their findings note — never shared files.
 - Every task ends with a findings note in `docs/findings/` (copy `TEMPLATE.md`): what held, what caused friction, open questions, suggested convention changes. The prototype exists to answer §18 of direction.md — findings are a first-class deliverable.
 - **Design curation belongs to the user.** Research and design tasks deliver *options with rendered specimen pages* for the user to judge — never final design choices. Decisions are made by the user at coordinator checkpoints, and this file records them as the user's. Mechanical and measured work is delegated; taste is not.
@@ -224,7 +229,7 @@ Evergreen browsers, 2025+: native nesting, cascade layers, `@scope`, `light-dark
 
 Defined with the user at the M4 coordinator checkpoint. This block is the authoritative record; the affected file-level rules (§1, §2, §11) are rewritten as each cycle lands, not before.
 
-- **Tight-core perimeter (file granularity).** The content-only core is: `reset.css` (+ focus baseline), `tokens/scale.css`, `tokens/palette.css` (3-family §5a structure intact, danger included), `tokens/semantic.css`, `tokens/roles.css`, `components/rich-text.css` (to be extended toward full content coverage across the cycles). The five components, `tokens/recipes.css`, and component-facing tokens stay **dormant in-tree** as module dowry; token-level splitting of `semantic.css`/`roles.css` is deferred to module extraction. The judgment calls (do `--ds-accent-subtle`/`--ds-accent-text` serve content? do label roles stay core or ship with the actions module? where do danger semantic roles sleep?) are delivered as T18 options and decided by the user.
+- **Tight-core perimeter (file granularity).** The content-only core is: `reset.css` (+ focus baseline), `tokens/scale.css`, `tokens/palette.css` (3-family §5a structure intact, danger included), `tokens/semantic.css`, `tokens/roles.css`, `components/rich-text.css` (to be extended toward full content coverage across the cycles). The five components, `tokens/recipes.css`, and component-facing tokens stay **dormant in-tree** as module dowry; token-level splitting of `semantic.css`/`roles.css` is deferred to module extraction. The judgment calls (do `--ds-accent-subtle`/`--ds-accent-text` serve content? do label roles stay core or ship with the actions module? where do danger semantic roles sleep?) were delivered as T18 options; at the 2026-09-01 checkpoint the user left all three **open** — the core-vs-dowry filing is superseded by the colour-context study (see CLAUDE.md status: colour as overridable context palettes) and by the role-naming review in C1/C2. Nothing moves at file granularity meanwhile.
 - **Double entry (implemented by T18).** A new `ds/core.css` becomes the sole owner of the cascade-layer declaration (including `ds.components` / `ds.exceptions` placeholders so modules slot in later) and imports only core files; `ds/index.css` composes `core.css` plus the component imports. The core must load and render standalone. §2 wording updates when T18 lands.
 - **Font assets.** Vendored, self-hosted, open-licensed font files are **admissible as curation options**: zero network at runtime, licenses and provenance documented in-repo, rigorous fallback stacks mandatory. Adopting an actual typeface is a user decision in C1; §11's asset rule is amended when that decision lands. External/CDN assets remain forbidden.
 - **Colour identity.** Decided in C4 by rendered comparison: the current Radix-verbatim base vs 2–3 custom-seed palettes generated by the decided hybrid engine (§5a). No colour change before C4.
