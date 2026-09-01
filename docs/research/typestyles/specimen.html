@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typestyles — scratch di ragionamento</title>
+<script>
+  const requestedTheme = new URLSearchParams(location.search).get("theme");
+  if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+</script>
+<link rel="stylesheet" href="../../../ds/core.css">
+<style>
+/* ================================================================
+   MODELLO SOTTO ESAME — coordinator scratch, 2026-09-01.
+   Niente di questo file tocca ds/. I valori sono il working set:
+     famiglia testo   r = 10/7 : t14 14/20 (fisso) · body 16.8/24 → 19.6/28
+     famiglia heading r = 6/5  : 26.667/32 → 30/36
+     tracking = % della PROPRIA size, scritto in em (auto-relativo)
+     regola fluida unica: −0.5pp lungo la rampa, su OGNI stile fluido
+   ================================================================ */
+:root {
+  /* progressione condivisa 0→1. La FONTE (slider, viewport, un giorno
+     divisione tipizzata nativa) è separata dal modello: gli stili leggono
+     solo --p. Un sottoalbero può ri-fissare --p localmente (vedi righe
+     ancorate p=0 / p=1 nello specimen). */
+  --p: 0;
+
+  /* interruttore tracking (1 = attivo, 0 = spento) e pesi di lab */
+  --ts-track: 1;
+  --ts-w-book: 400;
+  --ts-w-head: 600;
+}
+[data-tracking="off"] { --ts-track: 0; }
+
+/* NOTA ARCHITETTURALE scoperta in questo scratch: le formule vivono nelle
+   regole degli stili, NON pre-risolte in token di :root. var(--p) si
+   sostituisce sull'elemento che DICHIARA la proprietà: con le formule su
+   :root un sottoalbero che ri-fissa --p erediterebbe valori già risolti e
+   il pinning locale (righe ancorate sotto) non funzionerebbe. Vincolo da
+   portare nel futuro wiring ds/. */
+
+/* ---- gli stili come tuple complete (size, lh, classe-peso, tracking) ---- */
+.ts-t14 {
+  font-family: var(--ds-font-sans); font-weight: var(--ts-w-book);
+  font-size: 0.875rem; line-height: 1.25rem;                /* 14/20 — non fluido */
+  letter-spacing: 0em;                                       /* book: "−" = 0 (da confermare) */
+}
+.ts-t14-semi {
+  font-family: var(--ds-font-sans); font-weight: 600;
+  font-size: 0.875rem; line-height: 1.25rem;
+  letter-spacing: calc(-0.005em * var(--ts-track));          /* −0.5% */
+}
+.ts-body {
+  font-family: var(--ds-font-sans); font-weight: var(--ts-w-book);
+  font-size: calc(1.05rem + 0.175rem * var(--p));            /* 16.8 → 19.6 */
+  line-height: calc(1.5rem + 0.25rem * var(--p));            /* 24 → 28; ratio 10/7 esatto a OGNI p */
+  letter-spacing: calc((-0.005em - 0.005em * var(--p)) * var(--ts-track)); /* −0.5% → −1% */
+}
+.ts-body-semi {
+  font-family: var(--ds-font-sans); font-weight: 600;
+  font-size: calc(1.05rem + 0.175rem * var(--p));
+  line-height: calc(1.5rem + 0.25rem * var(--p));
+  letter-spacing: calc((-0.01em - 0.005em * var(--p)) * var(--ts-track)); /* −1% → −1.5% */
+}
+.ts-head {
+  font-family: var(--ds-font-sans); font-weight: var(--ts-w-head);
+  font-size: calc(1.66667rem + 0.20833rem * var(--p));       /* 26.667 → 30 */
+  line-height: calc(2rem + 0.25rem * var(--p));              /* 32 → 36; ratio 6/5 esatto a OGNI p */
+  letter-spacing: calc((-0.02em - 0.005em * var(--p)) * var(--ts-track)); /* dato: −2% → −2.5% */
+}
+[data-headrule="class"] .ts-head {
+  letter-spacing: calc((-0.025em - 0.005em * var(--p)) * var(--ts-track)); /* se −2% è book: semibold −2.5% → −3% */
+}
+
+/* variante FISSA a riposo — l'opzione "il controllo non cresce mentre la prosa scorre" */
+.ts-body-semi-fixed { font: 600 1.05rem/1.5rem var(--ds-font-sans); letter-spacing: calc(-0.01em * var(--ts-track)); }
+
+/* ================= lab chrome (valori FISSI, indipendenti dal modello:
+   un input estremo non deve rompere i propri controlli — lezione T17) ==== */
+body {
+  background: var(--ds-bg-canvas); color: var(--ds-text-primary);
+  font: 400 13px/1.45 system-ui, sans-serif;
+  margin: 0; padding: 24px 20px 80px;
+}
+.lab { max-width: 76rem; margin-inline: auto; display: grid; gap: 20px; }
+.panel {
+  background: var(--ds-bg-subtle); border: 1px solid var(--ds-border-subtle);
+  border-radius: 8px; padding: 14px 16px; display: grid; gap: 10px;
+}
+.panel h2 { font: 600 13px/1.2 system-ui, sans-serif; margin: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+.row label { display: inline-flex; gap: 6px; align-items: center; }
+.note { color: var(--ds-text-muted); }
+input[type="number"] { width: 4.5em; }
+table.read { border-collapse: collapse; width: 100%; }
+table.read th, table.read td {
+  text-align: start; padding: 4px 10px 4px 0;
+  border-bottom: 1px solid var(--ds-border-subtle);
+  font: 400 12px/1.4 ui-monospace, Menlo, monospace; white-space: nowrap;
+}
+table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
+.ok { color: var(--ds-text-primary); } .ko { color: var(--ds-text-danger); }
+.frame {
+  max-width: 48rem; /* cornice LAB: la misura vera è una decisione C2, non è presa qui */
+  border: 1px dashed var(--ds-border-subtle); border-radius: 8px;
+  padding: 28px 32px; display: grid; gap: 0;
+}
+.frame > * + * { margin-block-start: 16px; } /* ritmo di lab, NON un valore di sistema */
+.anchored { border-inline-start: 3px solid var(--ds-border-subtle); padding-inline-start: 12px; }
+.chip {
+  display: inline-block; padding: 8px 16px; border-radius: 999px;
+  background: var(--ds-accent-solid); color: var(--ds-accent-on-solid);
+}
+</style>
+</head>
+<body>
+<div class="lab">
+
+  <div class="panel">
+    <h2>Typestyles — scratch di ragionamento (coordinator, nessuna modifica a <code>ds/</code>)</h2>
+    <div class="row">
+      <span>Schema:</span>
+      <button data-theme-set="">sistema</button>
+      <button data-theme-set="light">chiaro</button>
+      <button data-theme-set="dark">scuro</button>
+      <span class="note">Faccia: <code>--ds-font-sans</code> (system-ui) — su macOS è SF con ottica automatica: il tracking va rigiudicato quando C1 sceglierà la faccia.</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Rampa (progressione condivisa)</h2>
+    <div class="row">
+      <label>p = <output id="p-out">0.00</output>
+        <input id="p-slider" type="range" min="0" max="1" step="0.01" value="0" style="width:220px">
+      </label>
+      <label><input id="live" type="checkbox"> live dal viewport</label>
+      <label>da <input id="ramp-a" type="number" value="48" step="1"> rem</label>
+      <label>a <input id="ramp-b" type="number" value="90" step="1"> rem</label>
+      <span class="note">intervallo segnaposto — la decisione (quali larghezze; viewport o contenitore) è aperta</span>
+    </div>
+    <div class="row">
+      <label><input id="tracking" type="checkbox" checked> tracking attivo</label>
+      <label>peso heading:
+        <select id="head-w"><option value="400">regular</option><option value="500">medium</option><option value="600" selected>semibold</option></select>
+      </label>
+      <label>tracking heading:
+        <select id="head-rule">
+          <option value="given" selected>dato (−2% → −2.5%)</option>
+          <option value="class">regola di classe se semibold (−2.5% → −3%)</option>
+        </select>
+      </label>
+      <label>peso body book:
+        <select id="body-w"><option value="400" selected>regular</option><option value="500">medium</option></select>
+        <span class="note">(stesso tracking per regola: reg/med collassano)</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Letture live</h2>
+    <table class="read"><thead>
+      <tr><th>stile</th><th>size</th><th>lh</th><th>lh su griglia 4px</th><th>ratio</th><th>tracking</th></tr>
+    </thead><tbody id="readout"></tbody></table>
+    <div class="row note" id="derived"></div>
+    <div class="row note" id="division-probe"></div>
+  </div>
+
+  <div class="frame">
+    <h1 class="ts-head" id="s-head">La città che impara a leggere il tempo</h1>
+    <p class="ts-t14 note" id="s-t14">Quaderno di quartiere · osservazioni raccolte tra giugno e settembre — t14 book</p>
+    <p class="ts-body" id="s-body">Alle sei e venti il mercato è ancora una geometria di tende chiuse. I primi furgoni entrano dalla porta nord, le biciclette tagliano la piazza e il selciato conserva la pioggia della notte. È un'ora utile per osservare come una città racconta se stessa: non con i monumenti, ma con le piccole decisioni ripetute ogni mattina.</p>
+    <p class="ts-body">Questo scritto raccoglie voci, appunti e dati di quartiere. Non vuole offrire una soluzione definitiva; prova invece a mostrare perché misurare e ascoltare siano gesti complementari, e come la distanza tra una panchina e una fermata possa valere quanto un intero regolamento.</p>
+    <p class="ts-body-semi" id="s-body-semi">Tre scale di osservazione — body semibold come sottotitolo di paragrafo.</p>
+    <p class="ts-body">Nel quartiere San Paolo le panchine più usate non sono quelle nuove, ma quelle che ricevono il sole tra le nove e le undici. La scoperta sembra ovvia soltanto dopo averla fatta: prima, il progetto comunale considerava soprattutto materiali, manutenzione e distanza dagli incroci.</p>
+    <p><span class="chip ts-body-semi-fixed">Iscriviti al taccuino</span> <span class="ts-t14 note" style="margin-inline-start:8px">← variante fissa (riposo): l'opzione "il controllo non cresce mentre la prosa scorre"</span></p>
+    <p class="ts-t14-semi" id="s-t14-semi">t14 semibold · etichetta compatta −0.5%</p>
+  </div>
+
+  <div class="panel">
+    <h2>Righe ancorate agli estremi (il sottoalbero ri-fissa <code>--p</code>)</h2>
+    <div class="anchored" style="--p:0">
+      <p class="ts-body" style="margin:0 0 6px">p=0 · body 16.8/24, tracking −0.5% — il selciato conserva la pioggia della notte.</p>
+      <p class="ts-head" style="margin:0">p=0 · heading 26.667/32, −2%</p>
+    </div>
+    <div class="anchored" style="--p:1; margin-block-start:14px">
+      <p class="ts-body" style="margin:0 0 6px">p=1 · body 19.6/28, tracking −1% — il selciato conserva la pioggia della notte.</p>
+      <p class="ts-head" style="margin:0">p=1 · heading 30/36, −2.5%</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const root = document.documentElement;
+  const $ = id => document.getElementById(id);
+
+  /* tema */
+  document.querySelectorAll("[data-theme-set]").forEach(b => b.addEventListener("click", () => {
+    const v = b.dataset.themeSet;
+    if (v) root.dataset.theme = v; else delete root.dataset.theme;
+    requestAnimationFrame(update);
+  }));
+
+  /* rampa: slider ↔ live dal viewport (fonte separata dal modello) */
+  function setP(p) {
+    p = Math.min(1, Math.max(0, p));
+    root.style.setProperty("--p", String(p));
+    $("p-out").value = p.toFixed(2);
+    $("p-slider").value = String(p);
+  }
+  function liveP() {
+    const fs = parseFloat(getComputedStyle(root).fontSize);
+    const a = parseFloat($("ramp-a").value) * fs, b = parseFloat($("ramp-b").value) * fs;
+    return (window.innerWidth - a) / (b - a);
+  }
+  function syncMode() {
+    const live = $("live").checked;
+    $("p-slider").disabled = live;
+    if (live) setP(liveP());
+    update();
+  }
+  $("p-slider").addEventListener("input", () => { setP(parseFloat($("p-slider").value)); update(); });
+  $("live").addEventListener("change", syncMode);
+  window.addEventListener("resize", () => { if ($("live").checked) { setP(liveP()); update(); } });
+  ["ramp-a", "ramp-b"].forEach(id => $(id).addEventListener("input", () => { if ($("live").checked) { setP(liveP()); update(); } }));
+
+  /* interruttori */
+  $("tracking").addEventListener("change", () => { root.dataset.tracking = $("tracking").checked ? "on" : "off"; update(); });
+  $("head-rule").addEventListener("change", () => { root.dataset.headrule = $("head-rule").value; update(); });
+  $("head-w").addEventListener("change", () => { root.style.setProperty("--ts-w-head", $("head-w").value); update(); });
+  $("body-w").addEventListener("change", () => { root.style.setProperty("--ts-w-book", $("body-w").value); update(); });
+
+  /* letture */
+  const rows = [
+    ["t14 book", "s-t14"], ["t14 semibold", "s-t14-semi"],
+    ["body book", "s-body"], ["body semibold", "s-body-semi"],
+    ["heading", "s-head"],
+  ];
+  function fmt(n, d = 2) { return Number(n.toFixed(d)).toString(); }
+  function update() {
+    const out = [];
+    let bodyPx = 0, headPx = 0;
+    for (const [label, id] of rows) {
+      const cs = getComputedStyle($(id));
+      const size = parseFloat(cs.fontSize), lh = parseFloat(cs.lineHeight);
+      const lsRaw = cs.letterSpacing, ls = lsRaw === "normal" ? 0 : parseFloat(lsRaw);
+      if (id === "s-body") bodyPx = size;
+      if (id === "s-head") headPx = size;
+      const grid = Math.abs(lh / 4 - Math.round(lh / 4)) < 0.02;
+      const pct = size ? (ls / size) * 100 : 0;
+      out.push(`<tr><td>${label}</td><td>${fmt(size)}px</td><td>${fmt(lh)}px</td>` +
+        `<td class="${grid ? "ok" : "ko"}">${grid ? "✓" : "✗ (continuo in rampa)"}</td>` +
+        `<td>${fmt(lh / size, 4)}</td><td>${fmt(ls, 3)}px = ${fmt(pct, 2)}%</td></tr>`);
+    }
+    $("readout").innerHTML = out.join("");
+    $("derived").textContent = "rapporto heading/body: " + fmt(headPx / bodyPx, 4) +
+      " (deriva a verbale: 1.587 → 1.531) · ratio 10/7 e 6/5 restano esatti a OGNI p (proprietà del modello, non solo agli estremi)";
+  }
+
+  /* sonda: divisione tipizzata lunghezza/lunghezza in calc() — la forma nativa
+     della progressione. Se non supportata, la fonte resta slider/JS o la
+     riserva clamp(A·rem + B·vw) per stile. */
+  (function probe() {
+    const el = document.createElement("div");
+    el.style.cssText = "position:absolute;visibility:hidden;height:1px";
+    el.style.setProperty("width", "calc(1px * (100vw / 1rem))");
+    const parsed = el.style.width !== "";
+    let computedOk = false;
+    if (parsed) {
+      document.body.append(el);
+      const expected = window.innerWidth / parseFloat(getComputedStyle(root).fontSize);
+      computedOk = Math.abs(el.getBoundingClientRect().width - expected) < 1;
+      el.remove();
+    }
+    $("division-probe").textContent = "sonda calc(100vw / 1rem): " +
+      (parsed && computedOk ? "SUPPORTATA (parse + computed corretto) — la progressione può diventare CSS nativo" :
+       parsed ? "parsata ma computed dubbio — da trattare come non supportata" :
+                "NON supportata su questo browser — fonte: slider/JS; riserva clamp(A·rem + B·vw) per stile");
+  })();
+
+  setP(0);
+  update();
+</script>
+</body>
+</html>
