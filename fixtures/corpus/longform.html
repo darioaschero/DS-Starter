@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter core corpus — longform</title>
+  <script>
+    const requestedTheme = new URLSearchParams(location.search).get("theme");
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+  </script>
+  <link rel="stylesheet" href="../../ds/core.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
+      font: var(--ds-type-body-md);
+      max-inline-size: 48rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<body>
+
+  <article data-ui="rich-text">
+    <p><strong>Corpus canonico · longform</strong> — foglio caricato: <code>core.css</code> soltanto. Schema: <a href="?theme=light">chiaro</a> · <a href="?theme=dark">scuro</a> · <a href="../index.html">indice fixture</a>.</p>
+
+    <h1>La città che impara a leggere il tempo</h1>
+    <p>
+      Alle sei e venti il mercato è ancora una geometria di tende chiuse. I primi furgoni entrano
+      dalla porta nord, le biciclette tagliano la piazza e il selciato conserva la pioggia della
+      notte. È un'ora utile per osservare come una città racconta se stessa: non con i monumenti,
+      ma con le piccole decisioni ripetute ogni mattina.
+    </p>
+    <p>
+      Questo articolo raccoglie voci, appunti e dati di quartiere. Non vuole offrire una soluzione
+      definitiva; prova invece a mostrare perché <em>misurare</em> e <strong>ascoltare</strong> siano
+      gesti complementari. Il taccuino del progetto è consultabile nell'<a href="#metodo">appendice
+      metodologica</a>, mentre i dati grezzi restano indicati come <code>osservazioni[]</code>.
+    </p>
+
+    <h2>Un titolo volutamente molto lungo per capire cosa accade quando il pensiero supera la misura confortevole della pagina e continua ancora</h2>
+    <p>
+      Nel quartiere San Paolo le panchine più usate non sono quelle nuove, ma quelle che ricevono il
+      sole tra le nove e le undici. La scoperta sembra ovvia soltanto dopo averla fatta. Prima, il
+      progetto comunale considerava soprattutto materiali, manutenzione e distanza dagli incroci.
+    </p>
+
+    <blockquote>
+      «Una mappa precisa non sostituisce la conversazione: ci dice dove tornare a fare domande.»
+      <cite>— Elisa Marini, laboratorio civico Via Aperta</cite>
+    </blockquote>
+
+    <h3>Tre scale di osservazione</h3>
+    <p>Il gruppo ha ordinato il lavoro in tre livelli, ciascuno con una domanda diversa:</p>
+    <ol>
+      <li>
+        La strada, osservata per fasce orarie.
+        <ul>
+          <li>passaggi a piedi e in bicicletta;</li>
+          <li>soste brevi davanti ai negozi;</li>
+          <li>zone d'ombra e punti esposti al vento.</li>
+        </ul>
+      </li>
+      <li>
+        L'isolato, letto come rete di relazioni.
+        <ol>
+          <li>servizi raggiungibili in cinque minuti;</li>
+          <li>attraversamenti percepiti come difficili;</li>
+          <li>luoghi nominati diversamente da generazioni diverse.</li>
+        </ol>
+      </li>
+      <li>Il quartiere, confrontato con i dati amministrativi.</li>
+    </ol>
+
+    <h4>Una nota sulle parole</h4>
+    <p>
+      Termini come <em>riqualificazione</em> possono nascondere esperienze opposte. Per questo le
+      interviste conservano parole lunghe e scomode —
+      internazionalizzazionedell’informazione, controistituzionalizzazione,
+      sovrainfrastrutturazione — senza abbreviazioni pensate per adattarle alla colonna.
+    </p>
+
+    <h2>I numeri non arrivano da soli</h2>
+    <p>
+      La tabella riassume una settimana di osservazioni. I valori non pretendono di rappresentare
+      tutto l'anno: sono una fotografia dichiaratamente parziale, utile per formulare domande più
+      precise.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Luogo</th>
+          <th>Mattino</th>
+          <th>Pomeriggio</th>
+          <th>Nota ricorrente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Piazza del Mercato</td>
+          <td>184 passaggi</td>
+          <td>263 passaggi</td>
+          <td>Sosta vicino alla fontana</td>
+        </tr>
+        <tr>
+          <td>Via delle Officine</td>
+          <td>97 passaggi</td>
+          <td>141 passaggi</td>
+          <td>Marciapiede stretto</td>
+        </tr>
+        <tr>
+          <td>Giardino Nord</td>
+          <td>62 passaggi</td>
+          <td>219 passaggi</td>
+          <td>Ombra dopo le sedici</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <figure>
+      <img
+        alt="Schema astratto del quartiere: tre isolati, un percorso blu e un giardino verde"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 360'%3E%3Crect width='720' height='360' fill='%23e8e8ec'/%3E%3Crect x='48' y='42' width='190' height='108' rx='12' fill='%23b9bbc6'/%3E%3Crect x='282' y='42' width='390' height='108' rx='12' fill='%23cdced6'/%3E%3Crect x='48' y='198' width='280' height='114' rx='12' fill='%23cdced6'/%3E%3Crect x='374' y='198' width='298' height='114' rx='12' fill='%238ec8f6'/%3E%3Cpath d='M20 174 H350 Q370 174 370 194 V338' fill='none' stroke='%230090ff' stroke-width='18'/%3E%3Ccircle cx='540' cy='255' r='34' fill='%2378b159'/%3E%3C/svg%3E">
+      <figcaption>Schema di lavoro, non in scala: il percorso osservato collega mercato, officine e giardino.</figcaption>
+    </figure>
+
+    <hr>
+
+    <h2 id="metodo">Appendice metodologica</h2>
+    <p>
+      Le rilevazioni sono state annotate su carta e trascritte a fine giornata. Ogni riga conserva
+      orario, luogo e una descrizione breve; le interpretazioni sono state aggiunte soltanto dopo,
+      in un campo separato. È una precauzione semplice, simile alla distinzione tra
+      <code>dato</code> e <code>commento</code> in un archivio.
+    </p>
+    <p>
+      Il prossimo ciclo ripeterà l'osservazione in inverno. Fino ad allora, il risultato più onesto
+      non è una conclusione, ma una promessa verificabile: tornare negli stessi luoghi, alle stesse
+      ore, e chiedere alle persone se la nostra lettura somiglia alla loro.
+    </p>
+  </article>
+
+</body>
+</html>

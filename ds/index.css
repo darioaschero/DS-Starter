@@ -1,16 +1,9 @@
-/* DS-Starter — entry stylesheet; sole owner of cascade-layer order. */
+/* DS-Starter — full-system composition entry. */
 
-@layer ds.reset, ds.tokens, ds.roles, ds.components, ds.exceptions;
-
-@import "reset.css" layer(ds.reset);
-@import "tokens/scale.css" layer(ds.tokens);
-@import "tokens/palette.css" layer(ds.tokens);
-@import "tokens/semantic.css" layer(ds.tokens);
-@import "tokens/roles.css" layer(ds.roles);
+@import "core.css";
 @import "tokens/recipes.css" layer(ds.roles);
 @import "components/button.css" layer(ds.components);
 @import "components/card.css" layer(ds.components);
 @import "components/field.css" layer(ds.components);
-@import "components/rich-text.css" layer(ds.components);
 @import "components/stack.css" layer(ds.components);
 @import "components/disclosure.css" layer(ds.components);

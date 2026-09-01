@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter core corpus — perimeter</title>
+  <script>
+    const requestedTheme = new URLSearchParams(location.search).get("theme");
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+  </script>
+  <link rel="stylesheet" href="../../ds/core.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
+      font: var(--ds-type-body-md);
+      max-inline-size: 48rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<body>
+
+  <article data-ui="rich-text">
+    <p><strong>Core perimeter proof sheet</strong> · Scheme: <a href="?theme=light">light</a> · <a href="?theme=dark">dark</a> · <a href="../index.html">fixture index</a>.</p>
+    <h1>Loaded stylesheet: <code>core.css</code> only</h1>
+    <p id="stylesheet-proof">
+      This page enumerates every root token exposed by the standalone content entry. Values and
+      specimens are resolved live from the current document; no recipe or optional component
+      stylesheet is loaded.
+    </p>
+
+    <h2>Core perimeter inventory</h2>
+    <p>
+      Classification evidence lives in <code>docs/findings/core-perimeter.md</code>. This rendered
+      sheet makes the entire physical surface inspectable in the active light or dark scheme.
+    </p>
+    <div id="token-groups" style="display: grid; gap: var(--ds-space-6)"></div>
+
+    <hr>
+
+    <h2>USER DECISION 1 · Accent beyond link and focus</h2>
+    <p><strong>Option A — reserve for content.</strong> Keep <code>--ds-accent-subtle</code> and <code>--ds-accent-text</code> in the content vocabulary for a future selection tint, <code>mark</code>, or editorial callout.</p>
+    <p style="background: var(--ds-accent-subtle); color: var(--ds-accent-text); padding: var(--ds-space-3); border-radius: var(--ds-radius-sm)">
+      Simulated content use: a highlighted passage can carry quiet accent emphasis without becoming an action.
+    </p>
+    <p><strong>Option B — actions-module dowry.</strong> Record both roles as action vocabulary; core content keeps only link and focus accent roles until a measured C4/C6 need appears.</p>
+    <p>
+      Current uncurated <mark>mark rendering remains the browser default</mark>; no core rule is added by this task.
+    </p>
+
+    <h2>USER DECISION 2 · Label roles</h2>
+    <p><strong>Option A — keep in core roles.</strong> <code>--ds-type-label-sm</code> and <code>--ds-type-label-md</code> remain harmless, immediately available typography vocabulary.</p>
+    <p style="font: var(--ds-type-label-sm)">label-sm specimen · compact metadata</p>
+    <p style="font: var(--ds-type-label-md)">label-md specimen · action or interface label</p>
+    <p><strong>Option B — actions-module dowry.</strong> Record both roles for movement only when modules are physically extracted; current rendering and file bytes stay unchanged.</p>
+
+    <h2>USER DECISION 3 · Danger semantic roles</h2>
+    <p><strong>Option A — let danger sleep in core.</strong> Keep <code>--ds-text-danger</code> and <code>--ds-border-danger</code> available for future content semantics.</p>
+    <p style="color: var(--ds-text-danger); border: 2px solid var(--ds-border-danger); padding: var(--ds-space-3); border-radius: var(--ds-radius-sm)">
+      Simulated content warning: destructive meaning is visible without importing the field module.
+    </p>
+    <p><strong>Option B — field-module dowry.</strong> Record both roles as validation vocabulary and move them only with the future field module; core gains danger roles later only if content proves a need.</p>
+  </article>
+
+  <script>
+    const tokenGroups = [
+      {
+        label: "Raw non-colour scales",
+        tokens: [
+          ...Array.from({ length: 8 }, (_, index) => `--ds-space-${index + 1}`),
+          ...Array.from({ length: 6 }, (_, index) => `--ds-font-size-${index + 1}`),
+          "--ds-radius-sm", "--ds-radius-md", "--ds-radius-lg", "--ds-radius-full",
+          "--ds-font-sans", "--ds-font-mono",
+          "--ds-font-weight-normal", "--ds-font-weight-medium", "--ds-font-weight-strong"
+        ]
+      },
+      {
+        label: "Palette primitives · neutral",
+        tokens: ["light", "dark"].flatMap(appearance =>
+          Array.from({ length: 12 }, (_, index) => `--ds-neutral-${appearance}-${index + 1}`)
+        )
+      },
+      {
+        label: "Palette primitives · accent",
+        tokens: ["light", "dark"].flatMap(appearance =>
+          Array.from({ length: 12 }, (_, index) => `--ds-accent-${appearance}-${index + 1}`)
+        )
+      },
+      {
+        label: "Palette primitives · danger",
+        tokens: ["light", "dark"].flatMap(appearance =>
+          Array.from({ length: 12 }, (_, index) => `--ds-danger-${appearance}-${index + 1}`)
+        )
+      },
+      {
+        label: "Active palette steps",
+        tokens: ["neutral", "accent", "danger"].flatMap(family =>
+          Array.from({ length: 12 }, (_, index) => `--ds-${family}-${index + 1}`)
+        )
+      },
+      {
+        label: "Semantic and shared-infrastructure roles",
+        tokens: [
+          "--ds-bg-canvas", "--ds-bg-subtle", "--ds-bg-component",
+          "--ds-text-primary", "--ds-text-muted",
+          "--ds-border-subtle", "--ds-border-default",
+          "--ds-link-color", "--ds-focus-color",
+          "--ds-accent-subtle", "--ds-accent-text", "--ds-accent-solid", "--ds-accent-on-solid",
+          "--ds-text-danger", "--ds-border-danger",
+          "--ds-disabled-opacity", "--ds-state-hover-mix", "--ds-state-active-mix",
+          "--ds-focus-outline", "--ds-focus-outline-offset"
+        ]
+      },
+      {
+        label: "Typography roles",
+        tokens: [
+          "--ds-type-label-sm", "--ds-type-label-md", "--ds-type-body-md",
+          "--ds-type-heading-sm", "--ds-type-heading-md", "--ds-type-heading-lg"
+        ]
+      }
+    ];
+
+    const colorToken = /^--ds-(?:neutral|accent|danger)-(?:light-|dark-)?\d+$|^--ds-(?:bg|text|border|link|focus|accent)-(?!outline|offset)/;
+    const groupsRoot = document.querySelector("#token-groups");
+    const rootStyle = getComputedStyle(document.documentElement);
+
+    function makeSpecimen(token) {
+      const specimen = document.createElement("span");
+      specimen.style.cssText = "display:inline-grid;place-items:center;min-inline-size:7rem;min-block-size:2rem;padding:.25rem .5rem;border:1px solid var(--ds-border-subtle);border-radius:var(--ds-radius-sm);overflow:hidden";
+
+      if (colorToken.test(token) || token === "--ds-accent-on-solid") {
+        specimen.style.background = `var(${token})`;
+        specimen.textContent = "Aa";
+      } else if (token.startsWith("--ds-space-")) {
+        specimen.style.inlineSize = `var(${token})`;
+        specimen.style.minInlineSize = "0";
+        /* Bar specimen: border-box padding/border would floor the computed
+           inline-size at 18px and misreport space-1..4. */
+        specimen.style.padding = "0";
+        specimen.style.border = "0";
+        specimen.style.background = "var(--ds-accent-solid)";
+        specimen.textContent = "";
+      } else if (token.startsWith("--ds-radius-")) {
+        specimen.style.inlineSize = "5rem";
+        specimen.style.borderRadius = `var(${token})`;
+        specimen.style.background = "var(--ds-accent-subtle)";
+      } else if (token.startsWith("--ds-font-size-")) {
+        specimen.style.fontSize = `var(${token})`;
+        specimen.textContent = "Ag";
+      } else if (token.startsWith("--ds-font-weight-")) {
+        specimen.style.fontWeight = `var(${token})`;
+        specimen.textContent = "Weight";
+      } else if (token.startsWith("--ds-font-")) {
+        specimen.style.fontFamily = `var(${token})`;
+        specimen.textContent = "Font 01";
+      } else if (token.startsWith("--ds-type-")) {
+        specimen.style.font = `var(${token})`;
+        specimen.textContent = "Role specimen";
+      } else if (token === "--ds-focus-outline") {
+        specimen.style.outline = `var(${token})`;
+        specimen.style.outlineOffset = "2px";
+        specimen.textContent = "Focus";
+      } else if (token === "--ds-focus-outline-offset") {
+        specimen.style.outline = "var(--ds-focus-outline)";
+        specimen.style.outlineOffset = `var(${token})`;
+        specimen.textContent = "Offset";
+      } else if (token === "--ds-disabled-opacity") {
+        specimen.style.opacity = `var(${token})`;
+        specimen.style.background = "var(--ds-accent-solid)";
+        specimen.textContent = "Disabled";
+      } else {
+        specimen.style.background = "var(--ds-bg-subtle)";
+        specimen.textContent = rootStyle.getPropertyValue(token).trim();
+      }
+
+      return specimen;
+    }
+
+    function resolvedValue(token, specimen) {
+      const style = getComputedStyle(specimen);
+      if (colorToken.test(token) || token === "--ds-accent-on-solid") return style.backgroundColor;
+      if (token.startsWith("--ds-space-")) return style.inlineSize;
+      if (token.startsWith("--ds-radius-")) return style.borderRadius;
+      if (token.startsWith("--ds-font-size-")) return style.fontSize;
+      if (token.startsWith("--ds-font-weight-")) return style.fontWeight;
+      if (token.startsWith("--ds-font-") && !token.startsWith("--ds-font-size-") && !token.startsWith("--ds-font-weight-")) return style.fontFamily;
+      if (token.startsWith("--ds-type-")) return style.font;
+      if (token === "--ds-focus-outline") return `${style.outlineWidth} ${style.outlineStyle} ${style.outlineColor}`;
+      if (token === "--ds-focus-outline-offset") return style.outlineOffset;
+      if (token === "--ds-disabled-opacity") return style.opacity;
+      return rootStyle.getPropertyValue(token).trim();
+    }
+
+    for (const group of tokenGroups) {
+      const section = document.createElement("section");
+      section.style.cssText = "display:grid;gap:var(--ds-space-2)";
+      const heading = document.createElement("h3");
+      heading.textContent = group.label;
+      section.append(heading);
+      /* Connect the section before resolving: getComputedStyle on a
+         disconnected specimen returns empty values. */
+      groupsRoot.append(section);
+
+      for (const token of group.tokens) {
+        const row = document.createElement("div");
+        row.dataset.token = token;
+        row.style.cssText = "display:flex;align-items:center;gap:var(--ds-space-3);flex-wrap:wrap;padding-block:var(--ds-space-1);border-block-end:1px solid var(--ds-border-subtle)";
+        const name = document.createElement("code");
+        name.style.cssText = "flex:1 1 17rem";
+        name.textContent = token;
+        const specimen = makeSpecimen(token);
+        const value = document.createElement("code");
+        value.style.cssText = "flex:1 1 14rem;overflow-wrap:anywhere";
+        row.append(name, specimen, value);
+        section.append(row);
+        value.textContent = resolvedValue(token, specimen);
+      }
+    }
+
+    document.querySelector("#stylesheet-proof").dataset.tokenCount = String(
+      tokenGroups.reduce((total, group) => total + group.tokens.length, 0)
+    );
+  </script>
+
+</body>
+</html>

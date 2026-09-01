@@ -1,0 +1,11 @@
+/* DS-Starter — content-only core entry. The canonical cascade-layer order
+ * lives here so core.css and the composed index.css share one perimeter. */
+
+@layer ds.reset, ds.tokens, ds.roles, ds.components, ds.exceptions;
+
+@import "reset.css" layer(ds.reset);
+@import "tokens/scale.css" layer(ds.tokens);
+@import "tokens/palette.css" layer(ds.tokens);
+@import "tokens/semantic.css" layer(ds.tokens);
+@import "tokens/roles.css" layer(ds.roles);
+@import "components/rich-text.css" layer(ds.components);

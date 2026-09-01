@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DS-Starter core corpus — technical</title>
+  <script>
+    const requestedTheme = new URLSearchParams(location.search).get("theme");
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+  </script>
+  <link rel="stylesheet" href="../../ds/core.css">
+  <style>
+    /* fixture chrome — unlayered consumer CSS */
+    body {
+      background: var(--ds-bg-canvas);
+      color: var(--ds-text-primary);
+      font: var(--ds-type-body-md);
+      max-inline-size: 48rem;
+      margin-inline: auto;
+      padding: var(--ds-space-6) var(--ds-space-5);
+    }
+  </style>
+</head>
+<body>
+
+  <article data-ui="rich-text">
+    <p><strong>Canonical corpus · technical</strong> — loaded stylesheet: <code>core.css</code> only. Scheme: <a href="?theme=light">light</a> · <a href="?theme=dark">dark</a> · <a href="../index.html">fixture index</a>.</p>
+
+    <h1>Reliable cache invalidation at the edge</h1>
+    <p>
+      This guide describes a small purge service with explicit failure modes. It assumes an HTTP
+      cache, immutable asset names, and a control plane that can retry requests safely. Commands
+      shown with <kbd>Ctrl</kbd> + <kbd>C</kbd> use the platform's default keyboard rendering.
+    </p>
+    <p>
+      The normative keywords <strong>must</strong>, <strong>should</strong>, and <strong>may</strong>
+      follow RFC-style usage. A <mark>purge acknowledgement is not proof of eviction</mark>; it only
+      confirms that the request entered the queue.
+    </p>
+
+    <h2>Request model</h2>
+    <dl>
+      <dt>Target</dt>
+      <dd>An absolute cache key or a versioned key prefix.</dd>
+      <dt>Generation</dt>
+      <dd>A monotonically increasing integer attached to every mutation.</dd>
+      <dt>Fence</dt>
+      <dd>The minimum generation a reader is willing to accept.</dd>
+    </dl>
+
+    <h3>Reference payload</h3>
+    <pre><code>POST /v1/purges HTTP/1.1
+Host: cache-control.internal.example
+Content-Type: application/json
+Idempotency-Key: deploy_2026_09_01_frontend_01HHY7SYQ8J7M6W6KJ3P2R0X9Z
+
+{
+  "targets": [
+    "https://assets.example.test/releases/2026-09-01/application-shell-with-an-intentionally-overflow-worthy-filename.4f81c0d9.css",
+    "https://assets.example.test/releases/2026-09-01/documentation-search-worker-with-another-intentionally-long-name.99a7e1ab.js"
+  ],
+  "generation": 1844674407370955161,
+  "mode": "invalidate-and-revalidate",
+  "metadata": { "requested_by": "release-pipeline", "region_set": ["fra", "iad", "sin"] }
+}</code></pre>
+
+    <p>
+      Clients compare the returned <code>generation</code> with the requested value. A response with
+      a lower generation is <del>silently accepted</del> <ins>rejected and retried</ins>. The retry
+      budget is 2<sup>3</sup> attempts with a base delay of 250&nbsp;ms; the expected backoff is
+      approximately n<sub>attempt</sub> × jitter.
+    </p>
+
+    <h2>Compatibility matrix</h2>
+    <table id="wide-table">
+      <caption>Observed behavior across protocol and storage combinations</caption>
+      <thead>
+        <tr>
+          <th>Transport</th>
+          <th>Storage adapter</th>
+          <th>Consistency guarantee</th>
+          <th>Operational identifier</th>
+          <th>Recommended action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HTTP/2</td>
+          <td>regional-memory</td>
+          <td>read-after-write within one point of presence</td>
+          <td><code>regional-memory-europe-west-2026-09-primary</code></td>
+          <td>Poll the owning region before widening.</td>
+        </tr>
+        <tr>
+          <td>HTTP/3</td>
+          <td>replicated-object-store</td>
+          <td>eventual convergence across all configured regions</td>
+          <td><code>replicated-object-store-global-production-generation-fence</code></td>
+          <td>Require a generation fence on every reader.</td>
+        </tr>
+        <tr>
+          <td>Message bus</td>
+          <td>append-only-log</td>
+          <td>ordered delivery per cache-key partition</td>
+          <td><code>purge-events-partition-by-normalized-absolute-cache-key</code></td>
+          <td>Keep consumers idempotent and replayable.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Deployment checklist</h2>
+    <ul class="contains-task-list">
+      <li class="task-list-item"><input type="checkbox" checked disabled> Version asset filenames before deployment.</li>
+      <li class="task-list-item"><input type="checkbox" checked disabled> Verify the purge endpoint in the staging region.</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Confirm cross-region generation fences.</li>
+      <li class="task-list-item"><input type="checkbox" disabled> Archive the rollout trace.</li>
+    </ul>
+
+    <h2>Sequence overview</h2>
+    <figure>
+      <svg viewBox="0 0 720 280" role="img" aria-labelledby="sequence-title sequence-desc">
+        <title id="sequence-title">Purge request sequence</title>
+        <desc id="sequence-desc">A client sends a purge to the coordinator, which fans out to three cache regions and returns an acknowledgement.</desc>
+        <rect x="24" y="32" width="150" height="56" rx="8" fill="#8ec8f6"></rect>
+        <rect x="286" y="32" width="150" height="56" rx="8" fill="#b9bbc6"></rect>
+        <rect x="548" y="32" width="150" height="56" rx="8" fill="#8ec8f6"></rect>
+        <path d="M174 60 H286 M436 60 H548 M361 88 V216 M361 142 H548 M361 180 H548 M361 216 H548" fill="none" stroke="currentColor" stroke-width="4"></path>
+        <circle cx="576" cy="142" r="14" fill="#0090ff"></circle>
+        <circle cx="620" cy="180" r="14" fill="#0090ff"></circle>
+        <circle cx="664" cy="216" r="14" fill="#0090ff"></circle>
+        <text x="64" y="67" font-family="sans-serif" font-size="16">Client</text>
+        <text x="315" y="67" font-family="sans-serif" font-size="16">Coordinator</text>
+        <text x="578" y="67" font-family="sans-serif" font-size="16">Regions</text>
+      </svg>
+      <figcaption>The coordinator acknowledges queue admission before every regional eviction completes.</figcaption>
+    </figure>
+
+    <h2>Failure notes</h2>
+    <p>
+      A timeout is ambiguous.<sup><a href="#fn-1" id="fnref-1">1</a></sup> Query the operation by
+      idempotency key before issuing a replacement. If the control plane is unavailable, immutable
+      asset URLs remain safe while mutable document routes may serve stale content.
+    </p>
+
+    <hr>
+    <ol>
+      <li id="fn-1">
+        The request may have committed after the client stopped waiting. A status lookup avoids a
+        duplicate fan-out. <a href="#fnref-1" aria-label="Back to reference 1">↩</a>
+      </li>
+    </ol>
+  </article>
+
+</body>
+</html>
