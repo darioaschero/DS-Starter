@@ -63,6 +63,23 @@
   font-variation-settings: "opsz" 14;
 }
 
+/* smoothing (non-standard, solo macOS/Firefox-mac): auto = default con
+   dilatazione macOS (più pesante); "on" = antialiased/grayscale globale,
+   resa Figma-like; "neg" = solo superfici negative — e il riquadro positivo
+   annidato torna ad auto (stessa semantica dichiarativa della polarità). */
+[data-smoothing="on"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[data-smoothing="neg"] :is(.pol-neg, .btn-neg) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[data-smoothing="neg"] .pol-neg .pol-pos {
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
 /* NOTA ARCHITETTURALE: le formule vivono nelle regole degli stili, NON
    pre-risolte in token di :root — var(--p) e var(--ts-pol) si sostituiscono
    sull'elemento che dichiara la proprietà; solo così sottoalberi possono
@@ -180,6 +197,13 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
           <option value="pin14">pin 14 — taglio testo, come Figma statico</option>
         </select>
       </label>
+      <label>smoothing:
+        <select id="smoothing">
+          <option value="auto" selected>auto (default, dilatazione macOS)</option>
+          <option value="on">antialiased/grayscale (Figma-like)</option>
+          <option value="neg">solo su superfici negative</option>
+        </select>
+      </label>
     </div>
     <div class="row note">POLICY OTTICA APERTA: con "auto" InterVariable stringe già lg da sola (la probabile doppia correzione del −2% Figma); con "pin 14" vedi la base su cui erano tarati i valori Figma. Decidere la policy PRIMA di fissare i tracking.</div>
   </div>
@@ -288,6 +312,11 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
     requestAnimationFrame(update);
   }));
   $("opsz").addEventListener("change", () => { root.dataset.opsz = $("opsz").value; update(); });
+  $("smoothing").addEventListener("change", () => {
+    const v = $("smoothing").value;
+    if (v === "auto") delete root.dataset.smoothing; else root.dataset.smoothing = v;
+    update();
+  });
 
   /* rampa */
   function setP(p) {
@@ -366,7 +395,9 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
     }
     $("readout").innerHTML = out.join("");
     $("derived").textContent = "rapporto lg/md: " + fmt(lgPx / mdPx, 4) +
-      " · ratio 10/7 e 6/5 esatti a ogni p · opsz: " + ($("opsz").value);
+      " · ratio 10/7 e 6/5 esatti a ogni p · opsz: " + ($("opsz").value) +
+      " · smoothing md: " + getComputedStyle($("s-md")).webkitFontSmoothing +
+      " / strip neg: " + getComputedStyle($("w-neg-book").parentElement).webkitFontSmoothing;
     /* pesi effettivi nelle superfici di polarità (misurati sul contenitore etichettato) */
     const wOfEl = el => Math.round(parseFloat(getComputedStyle(el).fontWeight));
     $("w-neg-book").textContent = "(peso effettivo: " + wOfEl($("w-neg-book").parentElement) + ")";
