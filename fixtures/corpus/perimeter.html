@@ -6,7 +6,7 @@
   <title>DS-Starter core corpus — perimeter</title>
   <script>
     const requestedTheme = new URLSearchParams(location.search).get("theme");
-    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.setAttribute("data-ds-theme", requestedTheme);
   </script>
   <link rel="stylesheet" href="../../ds/core.css">
   <style>
@@ -23,7 +23,7 @@
 </head>
 <body>
 
-  <article data-ui="rich-text">
+  <article data-ds-ui="rich-text">
     <p><strong>Core perimeter proof sheet</strong> · Scheme: <a href="?theme=light">light</a> · <a href="?theme=dark">dark</a> · <a href="../index.html">fixture index</a>.</p>
     <h1>Loaded stylesheet: <code>core.css</code> only</h1>
     <p id="stylesheet-proof">

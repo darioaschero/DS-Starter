@@ -21,8 +21,8 @@
 
   <h1 style="font: var(--ds-type-heading-lg)">Rich text</h1>
   <p style="margin-block-start: var(--ds-space-2)">
-    <code>data-ui="rich-text"</code> maps semantic prose HTML to typography roles inside
-    <code>@scope (…) to (:scope [data-ui])</code>. The root carries no rule at all, so the
+    <code>data-ds-ui="rich-text"</code> maps semantic prose HTML to typography roles inside
+    <code>@scope (…) to (:scope [data-ds-ui])</code>. The root carries no rule at all, so the
     component adds nothing inheritable of its own. Note that <code>code</code> on this page,
     outside any rich-text article, renders with plain UA styling — the scoped rules do not exist out here.
   </p>
@@ -32,12 +32,12 @@
   <section style="margin-block-start: var(--ds-space-7)">
     <h2 style="font: var(--ds-type-heading-md)">1 · Full prose specimen</h2>
     <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
-      One <code>&lt;article data-ui="rich-text"&gt;</code>; everything below is styled only by scoped rules
+      One <code>&lt;article data-ds-ui="rich-text"&gt;</code>; everything below is styled only by scoped rules
       and by inheritance from this page's chrome. The dashed box near the end is the nested selector-bleed probe.
     </p>
 
     <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <article data-ui="rich-text" id="specimen">
+      <article data-ds-ui="rich-text" id="specimen">
         <h1>Field notes from a paper harbor</h1>
 
         <p>
@@ -89,7 +89,7 @@
         </p>
 
         <p>The containment rule itself, as a code block:</p>
-        <pre><code>@scope ([data-ui="rich-text"]) to (:scope [data-ui]) {
+        <pre><code>@scope ([data-ds-ui="rich-text"]) to (:scope [data-ds-ui]) {
   :where(h2) { font: var(--ds-rich-text-h2-font, var(--ds-type-heading-md)); }
   :where(p, li, dd, dt, blockquote, td, th) { font: var(--ds-rich-text-body-font, var(--ds-type-body-md)); }
   /* a deliberately long line to demonstrate that overflowing code scrolls inside the block instead of widening the article */
@@ -131,12 +131,12 @@
           </tbody>
         </table>
 
-        <!-- 2. Selector-bleed probe: nested [data-ui] boundary inside the article.
+        <!-- 2. Selector-bleed probe: nested [data-ds-ui] boundary inside the article.
              Markup below the caption span is identical to the control probe outside. -->
         <div style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
           <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">nested probe — inside the article; must render identically to the control probe below</span>
-          <section data-ui="probe" id="probe-nested">
-            <span data-part="label">Probe label part</span>
+          <section data-ds-ui="probe" id="probe-nested">
+            <span data-ds-part="label">Probe label part</span>
             <h2>Probe heading</h2>
             <p>Probe paragraph with <a href="#probe-nested">a probe link</a> that must keep UA link styling.</p>
           </section>
@@ -155,8 +155,8 @@
 
     <div style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-3); margin-block-start: var(--ds-space-6)">
       <span style="font: var(--ds-type-label-sm); color: var(--ds-text-muted)">control probe — outside every rich-text article</span>
-      <section data-ui="probe" id="probe-control">
-        <span data-part="label">Probe label part</span>
+      <section data-ds-ui="probe" id="probe-control">
+        <span data-ds-part="label">Probe label part</span>
         <h2>Probe heading</h2>
         <p>Probe paragraph with <a href="#probe-control">a probe link</a> that must keep UA link styling.</p>
       </section>
@@ -172,7 +172,7 @@
     </p>
 
     <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <article data-ui="rich-text" id="override-demo" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
+      <article data-ds-ui="rich-text" id="override-demo" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
         <h2>An h2 wearing heading-lg</h2>
         <p>
           Only the h2 mapping changes — this paragraph still resolves
@@ -200,7 +200,7 @@
     <p style="margin-block-start: var(--ds-space-3)">
       Public <code>--ds-rich-text-*</code> properties inherit like any custom property — including
       into nested components — but are inert there: only scoped rules read them, and scoped
-      selectors stop at nested <code>[data-ui]</code> boundaries.
+      selectors stop at nested <code>[data-ds-ui]</code> boundaries.
     </p>
   </section>
 

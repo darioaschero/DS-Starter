@@ -6,7 +6,7 @@
   <title>DS-Starter core corpus — longform</title>
   <script>
     const requestedTheme = new URLSearchParams(location.search).get("theme");
-    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.dataset.theme = requestedTheme;
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.setAttribute("data-ds-theme", requestedTheme);
   </script>
   <link rel="stylesheet" href="../../ds/core.css">
   <style>
@@ -23,7 +23,7 @@
 </head>
 <body>
 
-  <article data-ui="rich-text">
+  <article data-ds-ui="rich-text">
     <p><strong>Corpus canonico · longform</strong> — foglio caricato: <code>core.css</code> soltanto. Schema: <a href="?theme=light">chiaro</a> · <a href="?theme=dark">scuro</a> · <a href="../index.html">indice fixture</a>.</p>
 
     <h1>La città che impara a leggere il tempo</h1>

@@ -1,15 +1,15 @@
 /* DS-Starter — button. Reference implementation of the component recipe (conventions §6).
  *
  * Anatomy:
- *   <button data-ui="button">
- *     <svg data-part="icon" aria-hidden="true">…</svg>   optional, decorative, tracks font size
- *     <span data-part="label">…</span>                    plain text carrier, no styling of its own
+ *   <button data-ds-ui="button">
+ *     <svg data-ds-part="icon" aria-hidden="true">…</svg>   optional, decorative, tracks font size
+ *     <span data-ds-part="label">…</span>                    plain text carrier, no styling of its own
  *   </button>
  *   Parts are direct children of the root.
  *
  * Axes (per-component vocabulary; defaults are implemented ONLY in the base rule):
- *   data-variant: soft (default) | solid   → owns --_ds-button-variant-bg, --_ds-button-variant-fg
- *   data-size:    sm | md (default)        → owns --_ds-button-size-font, --_ds-button-size-padding-x,
+ *   data-ds-variant: soft (default) | solid   → owns --_ds-button-variant-bg, --_ds-button-variant-fg
+ *   data-ds-size:    sm | md (default)        → owns --_ds-button-size-font, --_ds-button-size-padding-x,
  *                                                 --_ds-button-size-height
  *
  * Public override API (instance or context; beats axis channels, loses to nothing else):
@@ -26,7 +26,7 @@
  * Note: reset.css sets `font: inherit` on buttons — the font chain below is load-bearing.
  */
 
-[data-ui="button"] {
+[data-ds-ui="button"] {
   /* Axis channel defaults — the ONLY implementation of soft + md. */
   --_ds-button-variant-bg: var(--ds-variant-soft-bg);
   --_ds-button-variant-fg: var(--ds-variant-soft-fg);
@@ -55,23 +55,23 @@
   user-select: none;
 
   /* Axis: variant — rebinds only variant channels. */
-  &[data-variant="solid"] {
+  &[data-ds-variant="solid"] {
     --_ds-button-variant-bg: var(--ds-variant-solid-bg);
     --_ds-button-variant-fg: var(--ds-variant-solid-fg);
   }
 
-  &[data-variant="soft"] {
+  &[data-ds-variant="soft"] {
     /* Default vocabulary marker. No channel rebind. */
   }
 
   /* Axis: size — rebinds only size channels. */
-  &[data-size="sm"] {
+  &[data-ds-size="sm"] {
     --_ds-button-size-font: var(--ds-type-label-sm);
     --_ds-button-size-padding-x: var(--ds-space-3);
     --_ds-button-size-height: 2.25rem;
   }
 
-  &[data-size="md"] {
+  &[data-ds-size="md"] {
     /* Default vocabulary marker. No channel rebind. */
   }
 
@@ -98,7 +98,7 @@
   }
 
   /* Parts (direct children; "label" needs no rules of its own). */
-  & > [data-part="icon"] {
+  & > [data-ds-part="icon"] {
     /* Intentional em: the icon tracks whatever font the size axis or override resolved. */
     inline-size: 1em;
     block-size: 1em;

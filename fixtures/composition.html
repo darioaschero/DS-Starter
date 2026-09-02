@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DS-Starter — composition fixture</title>
+  <script>
+    const requestedTheme = new URLSearchParams(location.search).get("theme");
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.setAttribute("data-ds-theme", requestedTheme);
+  </script>
   <link rel="stylesheet" href="../ds/index.css">
   <style>
     /* fixture chrome — unlayered consumer CSS */
@@ -40,7 +44,7 @@
       <code>[open]</code> presentation.
     </p>
     <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <article data-ui="rich-text" id="a-article">
+      <article data-ds-ui="rich-text" id="a-article">
         <h2 id="a-h2">Rich-text heading</h2>
         <p id="a-p1">
           Introductory Markdown content with <strong id="a-strong">strong text</strong>,
@@ -50,30 +54,30 @@
         <p id="a-p2">
           A second paragraph, so the prose rhythm above and below the embedded card is visible.
         </p>
-        <form data-ui="card" id="a-card">
-          <h3 data-part="title" id="a-title">Card title</h3>
-          <p data-part="body" id="a-body">
+        <form data-ds-ui="card" id="a-card">
+          <h3 data-ds-part="title" id="a-title">Card title</h3>
+          <p data-ds-part="body" id="a-body">
             Card content that must not receive rich-text component styling accidentally.
           </p>
-          <div data-ui="field" id="a-field">
-            <label data-part="label" for="a-input" id="a-field-label">Email address (required)</label>
-            <div data-part="control" id="a-field-control">
+          <div data-ds-ui="field" id="a-field">
+            <label data-ds-part="label" for="a-input" id="a-field-label">Email address (required)</label>
+            <div data-ds-part="control" id="a-field-control">
               <input id="a-input" name="email" type="email" required aria-describedby="a-field-description a-field-error">
             </div>
-            <p data-part="description" id="a-field-description">Used only for this native validation probe.</p>
-            <p data-part="error" id="a-field-error">Enter a valid email address.</p>
+            <p data-ds-part="description" id="a-field-description">Used only for this native validation probe.</p>
+            <p data-ds-part="error" id="a-field-error">Enter a valid email address.</p>
           </div>
-          <div data-part="actions" id="a-actions">
-            <button data-ui="button" data-size="sm" data-variant="soft" id="a-btn-sm" type="button">
-              <span data-part="label" id="a-btn-sm-label">Secondary action</span>
+          <div data-ds-part="actions" id="a-actions">
+            <button data-ds-ui="button" data-ds-size="sm" data-ds-variant="soft" id="a-btn-sm" type="button">
+              <span data-ds-part="label" id="a-btn-sm-label">Secondary action</span>
             </button>
-            <button data-ui="button" data-size="md" data-variant="solid" id="a-btn-md" type="submit">
-              <span data-part="label" id="a-btn-md-label">Validate field</span>
+            <button data-ds-ui="button" data-ds-size="md" data-ds-variant="solid" id="a-btn-md" type="submit">
+              <span data-ds-part="label" id="a-btn-md-label">Validate field</span>
             </button>
           </div>
-          <details data-ui="disclosure" id="a-details" open>
-            <summary data-part="trigger" id="a-summary">More information</summary>
-            <div data-part="content" id="a-content">Disclosure content uses the complete M2 presentation.</div>
+          <details data-ds-ui="disclosure" id="a-details" open>
+            <summary data-ds-part="trigger" id="a-summary">More information</summary>
+            <div data-ds-part="content" id="a-content">Disclosure content uses the complete M2 presentation.</div>
           </details>
         </form>
         <p id="a-p3">
@@ -98,15 +102,15 @@
         which is why the contract leans on the future linter rather than on visual breakage.
       </p>
       <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
-        <section data-ui="card" id="b1-control" style="flex: 1 1 18rem">
-          <h3 data-part="title" id="b1-control-title">Direct-child title (styled)</h3>
-          <p data-part="body">Control: canonical anatomy.</p>
+        <section data-ds-ui="card" id="b1-control" style="flex: 1 1 18rem">
+          <h3 data-ds-part="title" id="b1-control-title">Direct-child title (styled)</h3>
+          <p data-ds-part="body">Control: canonical anatomy.</p>
         </section>
-        <section data-ui="card" id="b1-card" style="flex: 1 1 18rem">
+        <section data-ds-ui="card" id="b1-card" style="flex: 1 1 18rem">
           <div>
-            <h3 data-part="title" id="b1-wrapped-title">Wrapped title (unstyled, by contract)</h3>
+            <h3 data-ds-part="title" id="b1-wrapped-title">Wrapped title (unstyled, by contract)</h3>
           </div>
-          <p data-part="body">The title above sits inside one extra plain <code>div</code>.</p>
+          <p data-ds-part="body">The title above sits inside one extra plain <code>div</code>.</p>
         </section>
       </div>
     </section>
@@ -115,19 +119,19 @@
     <section>
       <h3 style="font: var(--ds-type-heading-sm)">2.2 · Colliding part name inside a nested component</h3>
       <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
-        A <code>span data-part="title"</code> sits <em>inside a button</em> in this card's actions.
+        A <code>span data-ds-part="title"</code> sits <em>inside a button</em> in this card's actions.
         The card's title rule is a direct-child selector, so the span must not get card title
         typography (600 / 19px). Discriminating probe: the button carries an inline
         <code>--ds-button-font: 500 15px / 1.2 serif</code> — if the span computes 15px serif it is
         merely <em>inheriting</em> from the button; if it computed 600 19px sans, a card rule would
         be targeting it.
       </p>
-      <section data-ui="card" id="b2-card" style="margin-block-start: var(--ds-space-3)">
-        <h3 data-part="title" id="b2-real-title">Real card title (600 / 19px)</h3>
-        <p data-part="body">The probe button below intentionally renders in a serif face.</p>
-        <div data-part="actions" id="b2-actions">
-          <button data-ui="button" id="b2-btn" style="--ds-button-font: 500 15px / 1.2 serif">
-            <span data-part="title" id="b2-collide-title">data-part="title" in a button</span>
+      <section data-ds-ui="card" id="b2-card" style="margin-block-start: var(--ds-space-3)">
+        <h3 data-ds-part="title" id="b2-real-title">Real card title (600 / 19px)</h3>
+        <p data-ds-part="body">The probe button below intentionally renders in a serif face.</p>
+        <div data-ds-part="actions" id="b2-actions">
+          <button data-ds-ui="button" id="b2-btn" style="--ds-button-font: 500 15px / 1.2 serif">
+            <span data-ds-part="title" id="b2-collide-title">data-ds-part="title" in a button</span>
           </button>
         </div>
       </section>
@@ -143,18 +147,18 @@
         not a leak. The pair on the right is the unmodified control.
       </p>
       <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
-        <section data-ui="card" id="b3-outer" style="flex: 1 1 18rem; --ds-card-bg: var(--ds-accent-subtle)">
-          <h3 data-part="title">Outer card (override here)</h3>
-          <section data-ui="card" id="b3-inner">
-            <h3 data-part="title">Nested card</h3>
-            <p data-part="body">Recolors too — the override inherits.</p>
+        <section data-ds-ui="card" id="b3-outer" style="flex: 1 1 18rem; --ds-card-bg: var(--ds-accent-subtle)">
+          <h3 data-ds-part="title">Outer card (override here)</h3>
+          <section data-ds-ui="card" id="b3-inner">
+            <h3 data-ds-part="title">Nested card</h3>
+            <p data-ds-part="body">Recolors too — the override inherits.</p>
           </section>
         </section>
-        <section data-ui="card" id="b3-control" style="flex: 1 1 18rem">
-          <h3 data-part="title">Control card</h3>
-          <section data-ui="card" id="b3-control-inner">
-            <h3 data-part="title">Nested control</h3>
-            <p data-part="body">Default bg-subtle on both.</p>
+        <section data-ds-ui="card" id="b3-control" style="flex: 1 1 18rem">
+          <h3 data-ds-part="title">Control card</h3>
+          <section data-ds-ui="card" id="b3-control-inner">
+            <h3 data-ds-part="title">Nested control</h3>
+            <p data-ds-part="body">Default bg-subtle on both.</p>
           </section>
         </section>
       </div>
@@ -164,14 +168,14 @@
     <section>
       <h3 style="font: var(--ds-type-heading-sm)">2.4 · Dual-role element — nested root carrying an outer part name</h3>
       <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
-        A <code>div data-ui="probe" data-part="actions"</code> as a direct child of the card. Chosen
+        A <code>div data-ds-ui="probe" data-ds-part="actions"</code> as a direct child of the card. Chosen
         contract (T3, direct-child combinators): the outer card <strong>may</strong> style this
         element as its own part — it gets the actions-row treatment (flex, space-2 gap) even though
         it is simultaneously the root of a made-up, inert nested component.
       </p>
-      <section data-ui="card" id="b4-card" style="margin-block-start: var(--ds-space-3)">
-        <h3 data-part="title">Card with a dual-role child</h3>
-        <div data-ui="probe" data-part="actions" id="b4-probe">
+      <section data-ds-ui="card" id="b4-card" style="margin-block-start: var(--ds-space-3)">
+        <h3 data-ds-part="title">Card with a dual-role child</h3>
+        <div data-ds-ui="probe" data-ds-part="actions" id="b4-probe">
           <span style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-1) var(--ds-space-2)">probe child A</span>
           <span style="border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-sm); padding: var(--ds-space-1) var(--ds-space-2)">probe child B</span>
         </div>
@@ -189,10 +193,10 @@
         flows down; <code>@scope</code> contains only selectors.
       </p>
       <div style="margin-block-start: var(--ds-space-3); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-        <article data-ui="rich-text" id="b5-outer" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
+        <article data-ds-ui="rich-text" id="b5-outer" style="--ds-rich-text-h2-font: var(--ds-type-heading-lg)">
           <h2 id="b5-outer-h2">Outer h2 — heading-lg via override</h2>
           <p>Outer prose. The dashed frame below is a second rich-text instance.</p>
-          <article data-ui="rich-text" id="b5-inner" style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
+          <article data-ds-ui="rich-text" id="b5-inner" style="border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-md); padding: var(--ds-space-4)">
             <h2 id="b5-inner-h2">Inner h2 — also heading-lg, by inheritance</h2>
             <p>Inner prose stays body-md: the override names only the h2 mapping.</p>
           </article>
@@ -211,19 +215,19 @@
         child of the article.
       </p>
       <div style="margin-block-start: var(--ds-space-3); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-        <article data-ui="rich-text" id="b6-article">
+        <article data-ds-ui="rich-text" id="b6-article">
           <p id="b6-before-card">Paragraph before a directly embedded card.</p>
-          <section data-ui="card" id="b6-direct-card">
-            <h3 data-part="title">Direct embedded card</h3>
-            <p data-part="body">Expected leading margin: 16px.</p>
+          <section data-ds-ui="card" id="b6-direct-card">
+            <h3 data-ds-part="title">Direct embedded card</h3>
+            <p data-ds-part="body">Expected leading margin: 16px.</p>
           </section>
           <p id="b6-after-card-paragraph">Paragraph after the card. Expected leading margin: 16px.</p>
-          <section data-ui="card" id="b6-heading-card">
-            <h3 data-part="title">Second direct embedded card</h3>
-            <p data-part="body">This card also receives 16px leading rhythm.</p>
-            <section data-ui="card" id="b6-nested-card">
-              <h4 data-part="title">Nested card negative probe</h4>
-              <p data-part="body">Expected margin from rich text: 0px.</p>
+          <section data-ds-ui="card" id="b6-heading-card">
+            <h3 data-ds-part="title">Second direct embedded card</h3>
+            <p data-ds-part="body">This card also receives 16px leading rhythm.</p>
+            <section data-ds-ui="card" id="b6-nested-card">
+              <h4 data-ds-part="title">Nested card negative probe</h4>
+              <p data-ds-part="body">Expected margin from rich text: 0px.</p>
             </section>
           </section>
           <h3 id="b6-after-card-heading">Heading after a card. Expected leading margin: 32px.</h3>
@@ -244,7 +248,7 @@
       label-md intentionally coincides with the field's own label role.
     </p>
     <div id="c-wrap" style="margin-block-start: var(--ds-space-4); --ds-rich-text-body-font: var(--ds-type-label-md); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <article data-ui="rich-text" id="c-article">
+      <article data-ds-ui="rich-text" id="c-article">
         <h2 id="c-h2">Rich-text heading</h2>
         <p id="c-p1">
           Introductory Markdown content with <strong>strong text</strong>, <em>emphasis</em>, an
@@ -252,45 +256,45 @@
           paragraph now renders in label-md.
         </p>
         <p id="c-p2">A second prose paragraph, also label-md under the wrapper's override.</p>
-        <section data-ui="card" id="c-card">
-          <h3 data-part="title" id="c-title">Card title</h3>
-          <p data-part="body" id="c-body">
+        <section data-ds-ui="card" id="c-card">
+          <h3 data-ds-part="title" id="c-title">Card title</h3>
+          <p data-ds-part="body" id="c-body">
             Card content that must not receive rich-text component styling accidentally — still
             body-md (400 / 1.5).
           </p>
-          <div data-ui="field" id="c-field">
-            <label data-part="label" for="c-input" id="c-field-label">Field label stays label-md</label>
-            <div data-part="control" id="c-field-control">
+          <div data-ds-ui="field" id="c-field">
+            <label data-ds-part="label" for="c-input" id="c-field-label">Field label stays label-md</label>
+            <div data-ds-part="control" id="c-field-control">
               <input id="c-input" type="text" aria-describedby="c-field-description c-field-error">
             </div>
-            <p data-part="description" id="c-field-description">Description stays body-md, not prose label-md.</p>
-            <p data-part="error" id="c-field-error">Error stays body-md and hidden at rest.</p>
+            <p data-ds-part="description" id="c-field-description">Description stays body-md, not prose label-md.</p>
+            <p data-ds-part="error" id="c-field-error">Error stays body-md and hidden at rest.</p>
           </div>
-          <div data-part="actions">
-            <button data-ui="button" data-size="sm" data-variant="soft" id="c-btn-sm">
-              <span data-part="label" id="c-btn-sm-label">Secondary action</span>
+          <div data-ds-part="actions">
+            <button data-ds-ui="button" data-ds-size="sm" data-ds-variant="soft" id="c-btn-sm">
+              <span data-ds-part="label" id="c-btn-sm-label">Secondary action</span>
             </button>
-            <button data-ui="button" data-size="md" data-variant="solid" id="c-btn-md">
-              <span data-part="label" id="c-btn-md-label">Primary action</span>
+            <button data-ds-ui="button" data-ds-size="md" data-ds-variant="solid" id="c-btn-md">
+              <span data-ds-part="label" id="c-btn-md-label">Primary action</span>
             </button>
           </div>
-          <details data-ui="disclosure" id="c-details" open>
-            <summary data-part="trigger" id="c-summary">More information</summary>
-            <div data-part="content" id="c-content">Disclosure content.</div>
+          <details data-ds-ui="disclosure" id="c-details" open>
+            <summary data-ds-part="trigger" id="c-summary">More information</summary>
+            <div data-ds-part="content" id="c-content">Disclosure content.</div>
           </details>
         </section>
       </article>
     </div>
     <div id="c-field-probe-wrap" style="margin-block-start: var(--ds-space-4); --ds-rich-text-body-font: var(--ds-type-heading-sm); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <article data-ui="rich-text" id="c-field-probe-article">
+      <article data-ds-ui="rich-text" id="c-field-probe-article">
         <p id="c-field-probe-prose">Discriminator prose: heading-sm (600 / 19px).</p>
-        <section data-ui="card" id="c-field-probe-card">
-          <h3 data-part="title">Field containment discriminator</h3>
-          <div data-ui="field" id="c-field-probe">
-            <label data-part="label" for="c-field-probe-input" id="c-field-probe-label">Label stays label-md</label>
-            <div data-part="control"><input id="c-field-probe-input" type="text" disabled></div>
-            <p data-part="description" id="c-field-probe-description">Description stays body-md.</p>
-            <p data-part="error" id="c-field-probe-error">Error stays body-md and hidden.</p>
+        <section data-ds-ui="card" id="c-field-probe-card">
+          <h3 data-ds-part="title">Field containment discriminator</h3>
+          <div data-ds-ui="field" id="c-field-probe">
+            <label data-ds-part="label" for="c-field-probe-input" id="c-field-probe-label">Label stays label-md</label>
+            <div data-ds-part="control"><input id="c-field-probe-input" type="text" disabled></div>
+            <p data-ds-part="description" id="c-field-probe-description">Description stays body-md.</p>
+            <p data-ds-part="error" id="c-field-probe-error">Error stays body-md and hidden.</p>
           </div>
         </section>
       </article>
@@ -339,37 +343,37 @@
       deeper six-component tree.
     </p>
     <div style="margin-block-start: var(--ds-space-4); border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-6)">
-      <div data-ui="stack" data-gap="lg" id="d-stack">
-        <section data-ui="card" id="d-card-one">
-          <h3 data-part="title" id="d-card-one-title">Account details</h3>
-          <p data-part="body" id="d-card-one-body">Card one composes field, actions, and disclosure.</p>
-          <div data-ui="field" id="d-field-one">
-            <label data-part="label" for="d-input-one">Display name</label>
-            <div data-part="control" id="d-control-one"><input id="d-input-one" type="text"></div>
-            <p data-part="description">Shown to other members.</p>
-            <p data-part="error">Enter a display name.</p>
+      <div data-ds-ui="stack" data-ds-gap="lg" id="d-stack">
+        <section data-ds-ui="card" id="d-card-one">
+          <h3 data-ds-part="title" id="d-card-one-title">Account details</h3>
+          <p data-ds-part="body" id="d-card-one-body">Card one composes field, actions, and disclosure.</p>
+          <div data-ds-ui="field" id="d-field-one">
+            <label data-ds-part="label" for="d-input-one">Display name</label>
+            <div data-ds-part="control" id="d-control-one"><input id="d-input-one" type="text"></div>
+            <p data-ds-part="description">Shown to other members.</p>
+            <p data-ds-part="error">Enter a display name.</p>
           </div>
-          <div data-part="actions">
-            <button data-ui="button" data-size="sm" id="d-card-one-secondary" type="button"><span data-part="label">Cancel</span></button>
-            <button data-ui="button" data-variant="solid" id="d-card-one-primary" type="button"><span data-part="label">Save</span></button>
+          <div data-ds-part="actions">
+            <button data-ds-ui="button" data-ds-size="sm" id="d-card-one-secondary" type="button"><span data-ds-part="label">Cancel</span></button>
+            <button data-ds-ui="button" data-ds-variant="solid" id="d-card-one-primary" type="button"><span data-ds-part="label">Save</span></button>
           </div>
-          <details data-ui="disclosure" id="d-disclosure" open>
-            <summary data-part="trigger" id="d-summary">Advanced options</summary>
-            <div data-part="content" id="d-content">The disclosure remains contained by its own root.</div>
+          <details data-ds-ui="disclosure" id="d-disclosure" open>
+            <summary data-ds-part="trigger" id="d-summary">Advanced options</summary>
+            <div data-ds-part="content" id="d-content">The disclosure remains contained by its own root.</div>
           </details>
         </section>
-        <section data-ui="card" id="d-card-two">
-          <h3 data-part="title" id="d-card-two-title">Delivery details</h3>
-          <p data-part="body" id="d-card-two-body">Card two proves the stack treats each card as one child.</p>
-          <div data-ui="field" id="d-field-two">
-            <label data-part="label" for="d-input-two">City</label>
-            <div data-part="control" id="d-control-two"><input id="d-input-two" type="text"></div>
-            <p data-part="description">Used to estimate delivery time.</p>
-            <p data-part="error">Enter a city.</p>
+        <section data-ds-ui="card" id="d-card-two">
+          <h3 data-ds-part="title" id="d-card-two-title">Delivery details</h3>
+          <p data-ds-part="body" id="d-card-two-body">Card two proves the stack treats each card as one child.</p>
+          <div data-ds-ui="field" id="d-field-two">
+            <label data-ds-part="label" for="d-input-two">City</label>
+            <div data-ds-part="control" id="d-control-two"><input id="d-input-two" type="text"></div>
+            <p data-ds-part="description">Used to estimate delivery time.</p>
+            <p data-ds-part="error">Enter a city.</p>
           </div>
-          <div data-part="actions">
-            <button data-ui="button" data-size="sm" id="d-card-two-secondary" type="button"><span data-part="label">Back</span></button>
-            <button data-ui="button" data-variant="solid" id="d-card-two-primary" type="button"><span data-part="label">Continue</span></button>
+          <div data-ds-part="actions">
+            <button data-ds-ui="button" data-ds-size="sm" id="d-card-two-secondary" type="button"><span data-ds-part="label">Back</span></button>
+            <button data-ds-ui="button" data-ds-variant="solid" id="d-card-two-primary" type="button"><span data-ds-part="label">Continue</span></button>
           </div>
         </section>
       </div>
@@ -386,30 +390,30 @@
       decision.
     </p>
     <div style="margin-block-start: var(--ds-space-4); display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--ds-space-4)">
-      <section data-ui="card" id="e-card-outer">
-        <h3 data-part="title">Card on card</h3>
-        <p data-part="body">Deliberate non-consumer: both cards stay bg-subtle; borders carry containment.</p>
-        <section data-ui="card" id="e-card-inner">
-          <h4 data-part="title">Nested card</h4>
-          <p data-part="body">Same-surface collapse remains visible here.</p>
+      <section data-ds-ui="card" id="e-card-outer">
+        <h3 data-ds-part="title">Card on card</h3>
+        <p data-ds-part="body">Deliberate non-consumer: both cards stay bg-subtle; borders carry containment.</p>
+        <section data-ds-ui="card" id="e-card-inner">
+          <h4 data-ds-part="title">Nested card</h4>
+          <p data-ds-part="body">Same-surface collapse remains visible here.</p>
         </section>
       </section>
-      <section data-ui="card" id="e-disclosure-card">
-        <h3 data-part="title">Disclosure content on card</h3>
-        <p data-part="body">Candidate consumer: the content needs a component-depth surface.</p>
-        <details data-ui="disclosure" id="e-disclosure" open>
-          <summary data-part="trigger" id="e-summary">Open disclosure</summary>
-          <div data-part="content" id="e-disclosure-content">This surface is the measured token consumer.</div>
+      <section data-ds-ui="card" id="e-disclosure-card">
+        <h3 data-ds-part="title">Disclosure content on card</h3>
+        <p data-ds-part="body">Candidate consumer: the content needs a component-depth surface.</p>
+        <details data-ds-ui="disclosure" id="e-disclosure" open>
+          <summary data-ds-part="trigger" id="e-summary">Open disclosure</summary>
+          <div data-ds-part="content" id="e-disclosure-content">This surface is the measured token consumer.</div>
         </details>
       </section>
-      <section data-ui="card" id="e-field-card">
-        <h3 data-part="title">Transparent field frame on card</h3>
-        <p data-part="body">Deliberate non-consumer: transparent resting paint keeps the outline recipe backdrop-aware.</p>
-        <div data-ui="field" id="e-field">
-          <label data-part="label" for="e-input">Disabled field specimen</label>
-          <div data-part="control" id="e-field-control"><input id="e-input" type="text" disabled value="Card surface shows through"></div>
-          <p data-part="description">The border, not an opaque fill, carries the control frame.</p>
-          <p data-part="error">Not part of this resting-state probe.</p>
+      <section data-ds-ui="card" id="e-field-card">
+        <h3 data-ds-part="title">Transparent field frame on card</h3>
+        <p data-ds-part="body">Deliberate non-consumer: transparent resting paint keeps the outline recipe backdrop-aware.</p>
+        <div data-ds-ui="field" id="e-field">
+          <label data-ds-part="label" for="e-input">Disabled field specimen</label>
+          <div data-ds-part="control" id="e-field-control"><input id="e-input" type="text" disabled value="Card surface shows through"></div>
+          <p data-ds-part="description">The border, not an opaque fill, carries the control frame.</p>
+          <p data-ds-part="error">Not part of this resting-state probe.</p>
         </div>
       </section>
     </div>

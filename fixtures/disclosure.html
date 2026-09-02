@@ -31,16 +31,16 @@
       foreground tint over its transparent resting background.
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-4); align-items: start">
-      <details data-ui="disclosure" id="disclosure-closed">
-        <summary data-part="trigger" id="trigger-closed">Closed disclosure</summary>
-        <div data-part="content">
+      <details data-ds-ui="disclosure" id="disclosure-closed">
+        <summary data-ds-part="trigger" id="trigger-closed">Closed disclosure</summary>
+        <div data-ds-part="content">
           <p>This content becomes visible through the platform-owned open state.</p>
         </div>
       </details>
 
-      <details data-ui="disclosure" open id="disclosure-open">
-        <summary data-part="trigger" id="trigger-open">Open disclosure</summary>
-        <div data-part="content">
+      <details data-ds-ui="disclosure" open id="disclosure-open">
+        <summary data-ds-part="trigger" id="trigger-open">Open disclosure</summary>
+        <div data-ds-part="content">
           <p>The stronger trigger and bottom hairline are the presentation of <code>[open]</code>.</p>
         </div>
       </details>
@@ -52,9 +52,9 @@
     <p style="color: var(--ds-text-muted); margin-block: var(--ds-space-2) var(--ds-space-3)">
       The content part is a component boundary, so its body role must not depend on rich-text styling.
     </p>
-    <details data-ui="disclosure" open id="disclosure-long" style="max-inline-size: 46rem">
-      <summary data-part="trigger">Why is the content typography explicit?</summary>
-      <div data-part="content" id="content-long">
+    <details data-ds-ui="disclosure" open id="disclosure-long" style="max-inline-size: 46rem">
+      <summary data-ds-part="trigger">Why is the content typography explicit?</summary>
+      <div data-ds-part="content" id="content-long">
         <p>A disclosure may appear inside ordinary application chrome, a card, or a rich-text article. In every location, this paragraph uses the same body role.</p>
         <p>The content remains readable across several paragraphs without borrowing prose selectors. Spacing comes from the content part's own layout.</p>
         <p>Colors may change with the active scheme, but the font family, size, weight, and line height stay component-owned.</p>
@@ -67,13 +67,13 @@
     <p style="color: var(--ds-text-muted); margin-block: var(--ds-space-2) var(--ds-space-3)">
       Direct-child part selectors stop the outer instance from styling the inner parts.
     </p>
-    <details data-ui="disclosure" open id="disclosure-outer" style="max-inline-size: 46rem">
-      <summary data-part="trigger">Outer disclosure</summary>
-      <div data-part="content">
+    <details data-ds-ui="disclosure" open id="disclosure-outer" style="max-inline-size: 46rem">
+      <summary data-ds-part="trigger">Outer disclosure</summary>
+      <div data-ds-part="content">
         <p>The nested instance resolves its own channels and native state.</p>
-        <details data-ui="disclosure" id="disclosure-inner">
-          <summary data-part="trigger">Inner disclosure</summary>
-          <div data-part="content">
+        <details data-ds-ui="disclosure" id="disclosure-inner">
+          <summary data-ds-part="trigger">Inner disclosure</summary>
+          <div data-ds-part="content">
             <p>Inner content is contained by the nearest disclosure boundary.</p>
           </div>
         </details>
@@ -87,12 +87,12 @@
       Both the card and the open disclosure content use <code>--ds-bg-subtle</code>. This makes the
       surface-depth question visible instead of hiding it with fixture-only decoration.
     </p>
-    <section data-ui="card" id="disclosure-card" style="max-inline-size: 46rem">
-      <h3 data-part="title">Account details</h3>
-      <div data-part="body">
-        <details data-ui="disclosure" open id="disclosure-on-card">
-          <summary data-part="trigger">Stored profile data</summary>
-          <div data-part="content">
+    <section data-ds-ui="card" id="disclosure-card" style="max-inline-size: 46rem">
+      <h3 data-ds-part="title">Account details</h3>
+      <div data-ds-part="body">
+        <details data-ds-ui="disclosure" open id="disclosure-on-card">
+          <summary data-ds-part="trigger">Stored profile data</summary>
+          <div data-ds-part="content">
             <p>The content surface merges with the card surface; the disclosure border carries the nesting distinction.</p>
           </div>
         </details>
@@ -106,17 +106,17 @@
       All three siblings share <code>name="faq"</code>. Opening one closes the previously open sibling with no script or additional CSS.
     </p>
     <div style="display: grid; gap: var(--ds-space-2); max-inline-size: 46rem" id="exclusive-accordion">
-      <details data-ui="disclosure" name="faq" open id="faq-one">
-        <summary data-part="trigger">What owns exclusivity?</summary>
-        <div data-part="content"><p>The native shared <code>name</code> attribute.</p></div>
+      <details data-ds-ui="disclosure" name="faq" open id="faq-one">
+        <summary data-ds-part="trigger">What owns exclusivity?</summary>
+        <div data-ds-part="content"><p>The native shared <code>name</code> attribute.</p></div>
       </details>
-      <details data-ui="disclosure" name="faq" id="faq-two">
-        <summary data-part="trigger">Does CSS coordinate the panels?</summary>
-        <div data-part="content"><p>No. CSS only presents whichever element currently has <code>open</code>.</p></div>
+      <details data-ds-ui="disclosure" name="faq" id="faq-two">
+        <summary data-ds-part="trigger">Does CSS coordinate the panels?</summary>
+        <div data-ds-part="content"><p>No. CSS only presents whichever element currently has <code>open</code>.</p></div>
       </details>
-      <details data-ui="disclosure" name="faq" id="faq-three">
-        <summary data-part="trigger">Is JavaScript required?</summary>
-        <div data-part="content"><p>No. This fixture uses platform behavior only.</p></div>
+      <details data-ds-ui="disclosure" name="faq" id="faq-three">
+        <summary data-ds-part="trigger">Is JavaScript required?</summary>
+        <div data-ds-part="content"><p>No. This fixture uses platform behavior only.</p></div>
       </details>
     </div>
   </section>
@@ -124,16 +124,16 @@
   <section style="margin-block-start: var(--ds-space-6)">
     <h2>6 · Unsupported attribute robustness</h2>
     <p style="color: var(--ds-text-muted); margin-block: var(--ds-space-2) var(--ds-space-3)">
-      Disclosure has no axes. <code>data-size="md"</code> is unsupported and must change nothing.
+      Disclosure has no axes. <code>data-ds-size="md"</code> is unsupported and must change nothing.
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-4); align-items: start">
-      <details data-ui="disclosure" open id="no-axis-control">
-        <summary data-part="trigger">No configuration attribute</summary>
-        <div data-part="content"><p>Canonical base presentation.</p></div>
+      <details data-ds-ui="disclosure" open id="no-axis-control">
+        <summary data-ds-part="trigger">No configuration attribute</summary>
+        <div data-ds-part="content"><p>Canonical base presentation.</p></div>
       </details>
-      <details data-ui="disclosure" data-size="md" open id="unsupported-size">
-        <summary data-part="trigger">Unsupported data-size="md"</summary>
-        <div data-part="content"><p>Must compute identically to the control.</p></div>
+      <details data-ds-ui="disclosure" data-ds-size="md" open id="unsupported-size">
+        <summary data-ds-part="trigger">Unsupported data-ds-size="md"</summary>
+        <div data-ds-part="content"><p>Must compute identically to the control.</p></div>
       </details>
     </div>
   </section>
@@ -144,18 +144,18 @@
       Typography remains identical while semantic colors follow the nearest theme subtree.
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: var(--ds-space-4); align-items: start">
-      <div data-theme="light" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
-        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-theme="light"</p>
-        <details data-ui="disclosure" open id="theme-light">
-          <summary data-part="trigger">Light subtree</summary>
-          <div data-part="content" id="content-theme-light"><p>Body typography is scheme-independent.</p></div>
+      <div data-ds-theme="light" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-ds-theme="light"</p>
+        <details data-ds-ui="disclosure" open id="theme-light">
+          <summary data-ds-part="trigger">Light subtree</summary>
+          <div data-ds-part="content" id="content-theme-light"><p>Body typography is scheme-independent.</p></div>
         </details>
       </div>
-      <div data-theme="dark" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
-        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-theme="dark"</p>
-        <details data-ui="disclosure" open id="theme-dark">
-          <summary data-part="trigger">Dark subtree</summary>
-          <div data-part="content" id="content-theme-dark"><p>Only semantic colors switch.</p></div>
+      <div data-ds-theme="dark" style="background: var(--ds-bg-canvas); color: var(--ds-text-primary); border: 1px solid var(--ds-border-subtle); padding: var(--ds-space-4)">
+        <p style="font: var(--ds-type-label-sm); color: var(--ds-text-muted); margin-block-end: var(--ds-space-2)">data-ds-theme="dark"</p>
+        <details data-ds-ui="disclosure" open id="theme-dark">
+          <summary data-ds-part="trigger">Dark subtree</summary>
+          <div data-ds-part="content" id="content-theme-dark"><p>Only semantic colors switch.</p></div>
         </details>
       </div>
     </div>

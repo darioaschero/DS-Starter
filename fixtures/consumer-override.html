@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DS-Starter — consumer-override fixture</title>
+  <script>
+    const requestedTheme = new URLSearchParams(location.search).get("theme");
+    if (requestedTheme === "light" || requestedTheme === "dark") document.documentElement.setAttribute("data-ds-theme", requestedTheme);
+  </script>
   <link rel="stylesheet" href="../ds/index.css">
   <style>
     /* fixture chrome — unlayered consumer CSS */
@@ -41,7 +45,7 @@
     }
 
     /* Case 3 — zero-specificity consumer rule (0,0,0) STILL beats the starter's
-       [data-ui="card"] (0,1,0): layer order decides, not specificity. */
+       [data-ds-ui="card"] (0,1,0): layer order decides, not specificity. */
     :where(.quiet-card) {
       background: var(--ds-neutral-3);
     }
@@ -82,11 +86,11 @@
       against the starter's layered <code>border-radius: var(--ds-radius-full)</code>.
     </p>
     <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
-      <button data-ui="button" data-variant="solid" class="checkout-action" id="case1-test">
-        <span data-part="label">Checkout (6px radius)</span>
+      <button data-ds-ui="button" data-ds-variant="solid" class="checkout-action" id="case1-test">
+        <span data-ds-part="label">Checkout (6px radius)</span>
       </button>
-      <button data-ui="button" data-variant="solid" id="case1-control">
-        <span data-part="label">Control (pill)</span>
+      <button data-ds-ui="button" data-ds-variant="solid" id="case1-control">
+        <span data-ds-part="label">Control (pill)</span>
       </button>
     </div>
   </section>
@@ -102,11 +106,11 @@
     </p>
     <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
       <div id="case-2" style="display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
-        <button data-ui="button" data-variant="soft" id="case2-soft"><span data-part="label">Soft, recolored</span></button>
-        <button data-ui="button" data-variant="solid" id="case2-solid"><span data-part="label">Solid, recolored</span></button>
+        <button data-ds-ui="button" data-ds-variant="soft" id="case2-soft"><span data-ds-part="label">Soft, recolored</span></button>
+        <button data-ds-ui="button" data-ds-variant="solid" id="case2-solid"><span data-ds-part="label">Solid, recolored</span></button>
       </div>
-      <button data-ui="button" data-variant="soft" id="case2-control-soft"><span data-part="label">Control soft</span></button>
-      <button data-ui="button" data-variant="solid" id="case2-control-solid"><span data-part="label">Control solid</span></button>
+      <button data-ds-ui="button" data-ds-variant="soft" id="case2-control-soft"><span data-ds-part="label">Control soft</span></button>
+      <button data-ds-ui="button" data-ds-variant="solid" id="case2-control-solid"><span data-ds-part="label">Control solid</span></button>
     </div>
   </section>
 
@@ -115,17 +119,17 @@
     <h2 style="font: var(--ds-type-heading-md)">3 · Zero-specificity consumer rule still wins (0,0,0)</h2>
     <p style="margin-block-start: var(--ds-space-2); color: var(--ds-text-muted)">
       <code>:where(.quiet-card) { background: … }</code> has specificity 0,0,0 — <em>lower</em> than
-      the starter's own <code>[data-ui="card"]</code> (0,1,0) — and still wins: unlayered beats
+      the starter's own <code>[data-ds-ui="card"]</code> (0,1,0) — and still wins: unlayered beats
       layered before specificity is compared. Layer order decides, not specificity.
     </p>
     <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
-      <section data-ui="card" class="quiet-card" id="case3-test" style="flex: 1 1 18rem">
-        <h3 data-part="title">Quiet card</h3>
-        <p data-part="body">Amber background from a zero-specificity consumer rule.</p>
+      <section data-ds-ui="card" class="quiet-card" id="case3-test" style="flex: 1 1 18rem">
+        <h3 data-ds-part="title">Quiet card</h3>
+        <p data-ds-part="body">Amber background from a zero-specificity consumer rule.</p>
       </section>
-      <section data-ui="card" id="case3-control" style="flex: 1 1 18rem">
-        <h3 data-part="title">Control card</h3>
-        <p data-part="body">Default bg-subtle.</p>
+      <section data-ds-ui="card" id="case3-control" style="flex: 1 1 18rem">
+        <h3 data-ds-part="title">Control card</h3>
+        <p data-ds-part="body">Default bg-subtle.</p>
       </section>
     </div>
   </section>
@@ -140,11 +144,11 @@
       selectors ignore the starter's scope boundaries entirely.
     </p>
     <div style="margin-block-start: var(--ds-space-3); display: flex; flex-wrap: wrap; gap: var(--ds-space-4)">
-      <article data-ui="rich-text" class="marketing" id="case4-test" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
+      <article data-ds-ui="rich-text" class="marketing" id="case4-test" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
         <h3>Marketing prose</h3>
         <p>A paragraph with <a id="case4-link" href="#case4-test">a rethemed link</a> in it.</p>
       </article>
-      <article data-ui="rich-text" id="case4-control" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
+      <article data-ds-ui="rich-text" id="case4-control" style="flex: 1 1 18rem; border: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg); padding: var(--ds-space-4)">
         <h3>Control prose</h3>
         <p>A paragraph with <a id="case4-control-link" href="#case4-control">a default link</a> (accent link color).</p>
       </article>
@@ -164,9 +168,9 @@
       public property.
     </p>
     <div style="margin-block-start: var(--ds-space-3); display: flex; align-items: center; gap: var(--ds-space-4); flex-wrap: wrap">
-      <button data-ui="button" class="consumer-way" id="case5-css"><span data-part="label">Plain CSS (static hover)</span></button>
-      <button data-ui="button" id="case5-prop" style="--ds-button-bg: var(--ds-danger-3)"><span data-part="label">--ds-button-bg (live hover)</span></button>
-      <button data-ui="button" id="case5-control"><span data-part="label">Control soft</span></button>
+      <button data-ds-ui="button" class="consumer-way" id="case5-css"><span data-ds-part="label">Plain CSS (static hover)</span></button>
+      <button data-ds-ui="button" id="case5-prop" style="--ds-button-bg: var(--ds-danger-3)"><span data-ds-part="label">--ds-button-bg (live hover)</span></button>
+      <button data-ds-ui="button" id="case5-control"><span data-ds-part="label">Control soft</span></button>
     </div>
   </section>
 

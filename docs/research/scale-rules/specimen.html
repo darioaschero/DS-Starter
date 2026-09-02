@@ -293,13 +293,13 @@
       gap: var(--ds-space-6);
     }
 
-    .composition-sample > [data-ui="rich-text"] {
+    .composition-sample > [data-ds-ui="rich-text"] {
       padding: var(--ds-space-4);
       border: 1px dashed var(--ds-border-subtle);
       border-radius: var(--ds-radius-lg);
     }
 
-    .composition-sample > [data-ui="card"] { min-inline-size: 0; }
+    .composition-sample > [data-ds-ui="card"] { min-inline-size: 0; }
 
     .sample-stack-heading {
       margin: 0 0 var(--ds-space-2);
@@ -356,8 +356,8 @@
     .preset-card .composition-sample,
     .breakage-card .composition-sample { gap: var(--ds-space-4); }
 
-    .preset-card .composition-sample > [data-ui="rich-text"],
-    .breakage-card .composition-sample > [data-ui="rich-text"] { padding: var(--ds-space-3); }
+    .preset-card .composition-sample > [data-ds-ui="rich-text"],
+    .breakage-card .composition-sample > [data-ds-ui="rich-text"] { padding: var(--ds-space-3); }
 
     .breakage-card .scheme-panel { border-radius: 0; border-inline: 0; border-block-end: 0; }
 
@@ -844,7 +844,7 @@
       const inputId = `${safe}-email`;
       return `
         <div class="composition-sample">
-          <article data-ui="rich-text">
+          <article data-ds-ui="rich-text">
             <h2>Generated rhythm</h2>
             <p>Body copy makes the relation between type size, leading, and <code>space-4</code> visible. The scale must support reading as well as controls.</p>
             <ul>
@@ -854,34 +854,34 @@
             <pre><code class="sample-code">scale = relation × value</code></pre>
           </article>
 
-          <form data-ui="card" onsubmit="return false">
-            <h3 data-part="title">Account details</h3>
-            <p data-part="body">The card, field, buttons, and disclosure all consume the generated values.</p>
-            <div data-ui="field">
-              <label data-part="label" for="${inputId}">Email address</label>
-              <div data-part="control"><input id="${inputId}" type="email" value="reader@example.com"></div>
-              <p data-part="description">44px field height remains fixed.</p>
+          <form data-ds-ui="card" onsubmit="return false">
+            <h3 data-ds-part="title">Account details</h3>
+            <p data-ds-part="body">The card, field, buttons, and disclosure all consume the generated values.</p>
+            <div data-ds-ui="field">
+              <label data-ds-part="label" for="${inputId}">Email address</label>
+              <div data-ds-part="control"><input id="${inputId}" type="email" value="reader@example.com"></div>
+              <p data-ds-part="description">44px field height remains fixed.</p>
             </div>
-            <div data-part="actions">
-              <button data-ui="button" data-size="sm" type="button">Secondary</button>
-              <button data-ui="button" data-variant="solid" type="button">Continue</button>
+            <div data-ds-part="actions">
+              <button data-ds-ui="button" data-ds-size="sm" type="button">Secondary</button>
+              <button data-ds-ui="button" data-ds-variant="solid" type="button">Continue</button>
             </div>
-            <details data-ui="disclosure" open>
-              <summary data-part="trigger">Scale consequences</summary>
-              <div data-part="content">Open state must retain the 500→600 label-weight cue.</div>
+            <details data-ds-ui="disclosure" open>
+              <summary data-ds-part="trigger">Scale consequences</summary>
+              <div data-ds-part="content">Open state must retain the 500→600 label-weight cue.</div>
             </details>
           </form>
 
           <section>
             <h3 class="sample-stack-heading">Stack md · space-4</h3>
-            <div data-ui="stack" data-gap="md">
-              <section data-ui="card" data-size="sm">
-                <h4 data-part="title">First card</h4>
-                <p data-part="body">Stack presets map to steps 2, 4, and 6.</p>
+            <div data-ds-ui="stack" data-ds-gap="md">
+              <section data-ds-ui="card" data-ds-size="sm">
+                <h4 data-ds-part="title">First card</h4>
+                <p data-ds-part="body">Stack presets map to steps 2, 4, and 6.</p>
               </section>
               <div class="sample-card-row">
-                <section data-ui="card" data-size="sm"><h4 data-part="title">Second</h4><p data-part="body">Radius lg.</p></section>
-                <section data-ui="card" data-size="sm"><h4 data-part="title">Third</h4><p data-part="body">Space-3 pad.</p></section>
+                <section data-ds-ui="card" data-ds-size="sm"><h4 data-ds-part="title">Second</h4><p data-ds-part="body">Radius lg.</p></section>
+                <section data-ds-ui="card" data-ds-size="sm"><h4 data-ds-part="title">Third</h4><p data-ds-part="body">Space-3 pad.</p></section>
               </div>
             </div>
           </section>
@@ -889,7 +889,7 @@
     }
 
     function schemePanel(scheme, key, label = scheme) {
-      return `<section class="scheme-panel" data-theme="${scheme}">
+      return `<section class="scheme-panel" data-ds-theme="${scheme}">
         <div class="scheme-label"><span>${label}</span><span>${scheme} scheme</span></div>
         ${compositionMarkup(`${key}-${scheme}`)}
       </section>`;

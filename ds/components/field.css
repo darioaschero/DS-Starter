@@ -1,14 +1,14 @@
 /* DS-Starter — field component.
  *
  * Anatomy (parts are DIRECT CHILDREN of the root):
- *   [data-ui="field"]
- *     [data-part="label"]        native label
- *     [data-part="control"]      visual frame around one native input or textarea
- *     [data-part="description"]  optional helper text
- *     [data-part="error"]        optional validation message
+ *   [data-ds-ui="field"]
+ *     [data-ds-part="label"]        native label
+ *     [data-ds-part="control"]      visual frame around one native input or textarea
+ *     [data-ds-part="description"]  optional helper text
+ *     [data-ds-part="error"]        optional validation message
  *
  * Axis (default implemented ONLY in the base rule):
- *   data-size: sm | md (default)
+ *   data-ds-size: sm | md (default)
  *     owns: --_ds-field-size-control-height, --_ds-field-size-control-padding-inline
  *   Typography remains body-md at both sizes; this axis changes geometry only.
  *
@@ -18,12 +18,12 @@
  *   Public border overrides deliberately beat native-state frame rebinds.
  *
  * State and focus:
- *   :focus-within, :user-invalid, and :disabled are driven by native descendants.
+ *   :focus, :user-invalid, and :disabled are driven by the direct native control.
  *   Invalid follows focus in source order so danger wins when both states apply.
  *   The inner focus-visible outline is relocated to the control frame, never removed.
  */
 
-[data-ui="field"] {
+[data-ds-ui="field"] {
   /* Frame channel defaults — the shared outline recipe is the base look. */
   --_ds-field-frame-bg: var(--ds-variant-outline-bg);
   --_ds-field-frame-fg: var(--ds-variant-outline-fg);
@@ -43,22 +43,22 @@
   gap: var(--ds-space-1);
 
   /* Axis: size — geometry only; rebind every channel owned by the axis. */
-  &[data-size="sm"] {
+  &[data-ds-size="sm"] {
     --_ds-field-size-control-height: 2.25rem;
     --_ds-field-size-control-padding-inline: var(--ds-space-2);
   }
 
-  &[data-size="md"] {
+  &[data-ds-size="md"] {
     /* Default vocabulary marker. No channel rebind. */
   }
 
   /* Parts — direct children only. */
-  & > [data-part="label"] {
+  & > [data-ds-part="label"] {
     color: var(--ds-text-primary);
     font: var(--ds-type-label-md);
   }
 
-  & > [data-part="control"] {
+  & > [data-ds-part="control"] {
     display: flex;
     align-items: center;
     min-block-size: var(--_ds-field-size-control-height);
@@ -69,24 +69,24 @@
     border-radius: var(--ds-radius-md);
   }
 
-  & > [data-part="control"]:has(> textarea) {
+  & > [data-ds-part="control"]:has(> textarea) {
     align-items: stretch;
     padding-block: var(--ds-space-2);
   }
 
-  & > [data-part="description"] {
+  & > [data-ds-part="description"] {
     color: var(--ds-text-muted);
     font: var(--ds-type-body-md);
   }
 
-  & > [data-part="error"] {
+  & > [data-ds-part="error"] {
     display: none;
     color: var(--ds-text-danger);
     font: var(--ds-type-body-md);
   }
 
   /* The frame owns all visual chrome; the native control remains semantic. */
-  & > [data-part="control"] > :is(input, textarea) {
+  & > [data-ds-part="control"] > :is(input, textarea) {
     display: block;
     inline-size: 100%;
     min-inline-size: 0;
@@ -98,52 +98,49 @@
     font: var(--ds-type-body-md);
   }
 
-  & > [data-part="control"] > textarea {
+  & > [data-ds-part="control"] > textarea {
     min-block-size: 5lh;
     resize: vertical;
   }
 
   /* Axis-independent native state. Invalid comes later and wins over focus. */
-  &:focus-within {
+  &:has(> [data-ds-part="control"] > :is(input, textarea):focus) {
     --_ds-field-frame-border-color: var(--ds-focus-color);
   }
 
-  &:has(input:user-invalid),
-  &:has(textarea:user-invalid) {
+  &:has(> [data-ds-part="control"] > :is(input, textarea):user-invalid) {
     --_ds-field-frame-border-color: var(--ds-border-danger);
 
-    & > [data-part="label"] {
+    & > [data-ds-part="label"] {
       color: var(--ds-text-danger);
     }
 
-    & > [data-part="error"] {
+    & > [data-ds-part="error"] {
       display: block;
     }
   }
 
-  &:has(input:disabled),
-  &:has(textarea:disabled) {
-    & > [data-part="label"] {
+  &:has(> [data-ds-part="control"] > :is(input, textarea):disabled) {
+    & > [data-ds-part="label"] {
       color: var(--ds-text-muted);
     }
 
-    & > [data-part="control"] {
+    & > [data-ds-part="control"] {
       opacity: var(--ds-disabled-opacity);
       cursor: default;
     }
 
-    & > [data-part="control"] > :is(input, textarea) {
+    & > [data-ds-part="control"] > :is(input, textarea) {
       cursor: default;
     }
   }
 
   /* Relocate the shared keyboard-only ring from the bare control to its frame. */
-  & > [data-part="control"] > :is(input, textarea):focus-visible {
+  & > [data-ds-part="control"] > :is(input, textarea):focus-visible {
     outline: none;
   }
 
-  &:has(input:focus-visible) > [data-part="control"],
-  &:has(textarea:focus-visible) > [data-part="control"] {
+  &:has(> [data-ds-part="control"] > :is(input, textarea):focus-visible) > [data-ds-part="control"] {
     outline: var(--ds-focus-outline);
     outline-offset: var(--ds-focus-outline-offset);
   }

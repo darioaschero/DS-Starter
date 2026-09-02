@@ -2,7 +2,7 @@
  * roles, and the reference implementation of @scope containment
  * (conventions §9, direction §13).
  *
- * Root: [data-ui="rich-text"] — typically <article> around rendered Markdown.
+ * Root: [data-ds-ui="rich-text"] — typically <article> around rendered Markdown.
  * Axes: none in this prototype. Parts: none.
  *
  * Public override API (font-only; each resolves public override → role):
@@ -13,7 +13,7 @@
  *                                                      → --ds-type-body-md
  *
  * Containment doctrine:
- * - Everything lives in ONE @scope block; any nested [data-ui] is a lower
+ * - Everything lives in ONE @scope block; any nested [data-ds-ui] is a lower
  *   boundary, so prose selectors cannot reach into embedded components
  *   (selector containment).
  * - There is deliberately NO rule on the root itself: @scope stops selectors,
@@ -28,7 +28,7 @@
  *   @scope prelude itself adds none, and :scope is never used in subjects).
  */
 
-@scope ([data-ui="rich-text"]) to (:scope [data-ui]) {
+@scope ([data-ds-ui="rich-text"]) to (:scope [data-ds-ui]) {
   /* ---- Block typography: complete font roles ---- */
 
   :where(h1) {
@@ -161,6 +161,6 @@
 
 /* Embedded-component rhythm contract (conventions §9): the scoped donut
    excludes boundary roots, so the content-level relationship lives outside it. */
-[data-ui="rich-text"] > :where(* + [data-ui]) {
+[data-ds-ui="rich-text"] > :where(* + [data-ds-ui]) {
   margin-block-start: var(--ds-space-4);
 }

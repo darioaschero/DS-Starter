@@ -29,10 +29,10 @@
 }
 
 /* Subtree theme switch: active palette steps follow the inherited scheme. */
-[data-theme="light"] {
+[data-ds-theme="light"] {
   color-scheme: light;
 }
 
-[data-theme="dark"] {
+[data-ds-theme="dark"] {
   color-scheme: dark;
 }

@@ -1,9 +1,9 @@
 /* DS-Starter — stack layout primitive.
  *
- * Root: [data-ui="stack"] — any grouping element. Parts: none.
+ * Root: [data-ds-ui="stack"] — any grouping element. Parts: none.
  *
  * Axis:
- *   data-gap: sm | md (default) | lg
+ *   data-ds-gap: sm | md (default) | lg
  *     owns: --_ds-stack-gap-size
  *     maps: sm → --ds-space-2, md → --ds-space-4, lg → --ds-space-6
  *
@@ -15,7 +15,7 @@
  * paint, typography, or child-style opinions.
  */
 
-[data-ui="stack"] {
+[data-ds-ui="stack"] {
   --_ds-stack-gap-size: var(--ds-space-4);
 
   display: flex;
@@ -23,15 +23,15 @@
   align-items: stretch;
   gap: var(--ds-stack-gap, var(--_ds-stack-gap-size));
 
-  &[data-gap="sm"] {
+  &[data-ds-gap="sm"] {
     --_ds-stack-gap-size: var(--ds-space-2);
   }
 
-  &[data-gap="md"] {
+  &[data-ds-gap="md"] {
     /* Default vocabulary marker. No channel rebind. */
   }
 
-  &[data-gap="lg"] {
+  &[data-ds-gap="lg"] {
     --_ds-stack-gap-size: var(--ds-space-6);
   }
 }
