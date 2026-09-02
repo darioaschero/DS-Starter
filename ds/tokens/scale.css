@@ -23,7 +23,7 @@
   --ds-radius-lg: 0.75rem;
   --ds-radius-full: 999rem;
 
-  --ds-font-sans: system-ui, sans-serif;
+  --ds-font-sans: "Inter", system-ui, sans-serif;
   --ds-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   --ds-font-weight-normal: 400;

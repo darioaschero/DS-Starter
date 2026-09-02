@@ -1,6 +1,9 @@
 /* DS-Starter — purpose-named semantic colour roles. */
 
 :root {
+  /* Surfaces declare this inherited delta; typestyle consumers add it once. */
+  --ds-polarity-wght: 0;
+
   --ds-bg-canvas: var(--ds-neutral-1);
   --ds-bg-subtle: var(--ds-neutral-2);
   --ds-bg-component: var(--ds-neutral-3); /* Radix step 3: component backgrounds. */
@@ -28,11 +31,21 @@
   --ds-focus-outline-offset: 2px;
 }
 
-/* Subtree theme switch: active palette steps follow the inherited scheme. */
+/* The system-default dark canvas is a negative surface. The explicit theme
+   hooks below re-declare polarity so nested surfaces set rather than add. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ds-polarity-wght: -20;
+  }
+}
+
+/* Subtree theme switch: active palette steps and polarity follow the scheme. */
 [data-ds-theme="light"] {
   color-scheme: light;
+  --ds-polarity-wght: 0;
 }
 
 [data-ds-theme="dark"] {
   color-scheme: dark;
+  --ds-polarity-wght: -20;
 }

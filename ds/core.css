@@ -5,6 +5,7 @@
 
 @import "reset.css" layer(ds.reset);
 @import "tokens/scale.css" layer(ds.tokens);
+@import "tokens/typestyles.css" layer(ds.tokens);
 @import "tokens/palette.css" layer(ds.tokens);
 @import "tokens/semantic.css" layer(ds.tokens);
 @import "tokens/roles.css" layer(ds.roles);

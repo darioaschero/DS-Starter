@@ -1,0 +1,53 @@
+/* DS-Starter — user-approved typestyle constants (2026-09-02).
+ *
+ * The viewport ramp has one recorded source: 37.5rem -> 87.5rem
+ * (600px -> 1400px at the default 16px root). Shipped consumers expand that
+ * interval into baseline-safe per-style clamps so the formulas still resolve
+ * on the element that consumes the tuple.
+ *
+ * Upgrade path once typed length division is interoperable beyond Chromium:
+ *   progress = clamp(0, (100vw - 37.5rem) / 50rem, 1)
+ * Keep that progress and every dependent formula at the consumption point;
+ * pre-resolving them on :root would prevent subtree re-pinning.
+ */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/inter/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --ds-type-ramp-min: 37.5rem;
+  --ds-type-ramp-max: 87.5rem;
+
+  --ds-type-sm-size: 0.875rem;
+  --ds-type-sm-line-height: 1.25rem;
+  --ds-type-sm-weight-book: 400;
+  --ds-type-sm-weight-medium: 500;
+  --ds-type-sm-weight-semibold: 600;
+  --ds-type-sm-tracking-book: -0.0075em;
+  --ds-type-sm-tracking-semibold: -0.005em;
+
+  --ds-type-md-size-min: 1.05rem;
+  --ds-type-md-size-max: 1.225rem;
+  --ds-type-md-line-height-min: 1.5rem;
+  --ds-type-md-line-height-max: 1.75rem;
+  --ds-type-md-weight-book: 400;
+  --ds-type-md-weight-medium: 500;
+  --ds-type-md-weight-semibold: 600;
+  --ds-type-md-tracking-book-min: -0.0125em;
+  --ds-type-md-tracking-book-max: -0.0175em;
+  --ds-type-md-tracking-semibold-min: -0.0075em;
+  --ds-type-md-tracking-semibold-max: -0.0125em;
+
+  --ds-type-lg-size-min: 1.66667rem;
+  --ds-type-lg-size-max: 1.875rem;
+  --ds-type-lg-line-height-min: 2rem;
+  --ds-type-lg-line-height-max: 2.25rem;
+  --ds-type-lg-weight-normal: 400;
+  --ds-type-lg-tracking-min: -0.004em;
+  --ds-type-lg-tracking-max: -0.009em;
+}

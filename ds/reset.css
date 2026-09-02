@@ -11,6 +11,13 @@
   margin: 0;
 }
 
+/* User decision 2026-09-02: macOS-only smoothing lever; ignored elsewhere
+   and deliberately left consumer-overridable by the layer contract. */
+:root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Readable default for text not yet covered by a typography role. */
 body {
   line-height: 1.5;
