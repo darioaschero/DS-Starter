@@ -1,9 +1,10 @@
-# Conventions (v6 — provisional)
+# Conventions (v7 — provisional)
 
 > **Status:** provisional prototype conventions, distilled from [direction.md](direction.md) (rev 0.2, mainly §16 plus hard rules throughout).
 > v3 (2026-08-28) adopts the colour architecture agreed in [findings/color-theme-architecture.md](findings/color-theme-architecture.md): Radix-flattened light/dark ramps, active palette steps, purpose-named semantic vocabulary, shared variant recipes, resolved channels, and state-mix tokens. Implemented by task T6.
 > v4 (2026-08-31) promotes the rules earned by the M2 component tasks (findings: field, disclosure, stack): native-state channel rebinding and public-vs-state precedence, focus relocation, authoritative state selection, transparent-bg derived states, finite geometry axes, layout-primitive doctrine, and relationship rules outside scope limits.
 > v5 (2026-09-01) adopts the M3 derivation-synthesis proposals ([findings/m3-synthesis.md](findings/m3-synthesis.md) §6): the §5a structure/content split, font-slot extension points, the fixture-copy drift policy, and `docs/deriving.md` as the normative-adjacent derivation procedure.
+> v7 (2026-09-02) lands the §12 typestyle decision into the file rules (T20): §5b is rewritten around the sm/md/lg tuples, viewport ramp, consumption-point rule, polarity, and smoothing; §11's asset rule now admits vendored self-hosted open-licensed fonts (Inter Variable 4.1 ships in `ds/fonts/`).
 > v6 (2026-09-02) executes the two adopted 2026-09 API-review decisions (T19, [docs/reviews/api-review-2026-09.md](reviews/api-review-2026-09.md)): the public markup protocol is namespaced `data-ds-*` (identity, parts, axes, theme switch) with the axis-compound invariant, and state hooks name complete anatomical paths (state-reach rule; `:focus-within` reserved for intentional any-descendant aggregation).
 > §12 (2026-09-01) records the M4 tight-core user decisions (perimeter, double entry, font-asset admissibility, colour-in-C4, curation workflow, M5 definition); the affected file-level rules (§1, §2, §11) are updated as each cycle lands.
 > They are **binding for every task** in the current prototype, and deliberately cheap to reverse later.
@@ -108,13 +109,16 @@ Colour rules:
 - `--ds-accent-on-solid` is the one semantic value not drawn from a ramp (Radix prescribes white text over Blue 9); define it literally, with a comment.
 - Semantic asymmetry (`light-dark()` at the semantic level) is the exception, not the rule, and every use carries a justifying comment.
 
-### 5b. Non-colour scales and typography roles
+### 5b. Non-colour scales and typestyles (v7 — T20 landing)
 
-- **Raw scales** (`tokens/scale.css`), all in `:root`, no component meaning: `--ds-space-1..8`, `--ds-font-size-1..6` (rem), `--ds-radius-sm|md|lg|full`, `--ds-font-sans`, `--ds-font-mono`, `--ds-font-weight-normal|medium|strong` — plus the optional font-slot extension points `--ds-font-serif` and `--ds-font-display` (recognized derivation extension slots; their presence never authorizes external font assets).
-- **Typography roles** (`tokens/roles.css`) — font-only, each one a single value for the native `font` shorthand: `--ds-type-label-sm|md`, `--ds-type-body-md`, `--ds-type-heading-sm|md|lg`.
-- Role font sizes use `rem` (stability under nesting). `em` only for intentionally context-relative adjustments (e.g. inline `code` at `0.9em`).
-- Roles carry ONLY what `font` carries. `letter-spacing`, `text-transform`, color, truncation, clamping are **not** part of a role. No sidecar properties in this prototype.
-- Components select their intrinsic typography role in their own CSS — never via markup attributes.
+- **Raw scales** (`tokens/scale.css`), all in `:root`, no component meaning: `--ds-space-1..8`, `--ds-radius-sm|md|lg|full`, `--ds-font-sans` (now `"Inter", system-ui, sans-serif` — vendored face, §11), `--ds-font-mono`, `--ds-font-weight-normal|medium|strong`, plus the optional `--ds-font-serif` / `--ds-font-display` slots. The legacy `--ds-font-size-1..6` scale remains in the file as **dormant module dowry** (consumed only by the legacy roles) pending a separate removal decision.
+- **Typestyles** (`tokens/typestyles.css`, layer `ds.tokens`; the user-approved instance lives in §12): core typography is three complete **tuples** — `sm` (fixed) · `md` · `lg` (fluid) — each owning size (rem), line-height (rem), weight class, tracking, and optical policy. Tracking is an `em` fraction of the element's own size (the sanctioned self-relative `em`, alongside inline `code` 0.9em); sizes and line-heights stay `rem`. `font-optical-sizing: auto` is stated explicitly where tuples are consumed — longhand resets are intentional acts, never accidents of a shorthand.
+- **One recorded ramp** (viewport, `37.5rem → 87.5rem`) is the sole fluid source; shipped form = per-style baseline `clamp()` expansions derived from it; the native shared-progress form (typed length division) is a commented upgrade path, not shipped CSS, until it is interoperable beyond Chromium.
+- **Consumption-point rule:** every fluid formula resolves on the element that consumes the tuple (adapter/component rules) — NEVER pre-resolved on `:root`, which freezes the ramp value and prevents subtree re-pinning.
+- **Polarity:** surfaces declare the inherited `--ds-polarity-wght` delta — set, never accumulate (light re-declares `0`; negative/dark declares `−20`; user decision 2026-09-02, approved **"ok per ora"** — provisional, revisitable). Tuple consumers add the delta exactly once at the weight consumption point. Numbers cannot ride `light-dark()`, so scheme wiring uses the selector + media pair.
+- **Smoothing:** the root declares `-webkit-font-smoothing: antialiased` + `-moz-osx-font-smoothing: grayscale` (user decision 2026-09-02; macOS-only lever, ignored elsewhere, consumer-overridable through the layer contract).
+- **Legacy typography roles** (`tokens/roles.css`): dormant module dowry — components still consume them via `index.css`; rich text consumes tuples only. No new consumer may adopt a legacy role.
+- **Tuple token naming is under review** with the user (viewport-endpoint `min|max` suffixes vs position-based names); treat the current names as functional, not frozen.
 
 ## 6. Component recipe pattern
 
@@ -217,7 +221,7 @@ Evergreen browsers, 2025+: native nesting, cascade layers, `@scope`, `light-dark
 
 ## 11. Process rules (for tasks/agents)
 
-- No build tools, no npm, no external assets, fonts, or libraries. Fixtures must work served statically (`python3 -m http.server` from the repo root).
+- No build tools, no npm, no external/CDN assets or libraries at runtime. **Vendored, self-hosted, open-licensed font assets are permitted in `ds/fonts/`** when the exact upstream release, license, byte size, and sha256 are recorded beside the asset (current: Inter Variable 4.1, SIL OFL, rigorous `system-ui, sans-serif` fallback). Fixtures must work served statically (`python3 -m http.server` from the repo root).
 - Canonical fixture chrome: each fixture page has exactly ONE inline `<style>` block, commented `/* fixture chrome — unlayered consumer CSS */`, containing only the consumer page rule `body { background: var(--ds-bg-canvas); color: var(--ds-text-primary); font: var(--ds-type-body-md); }` plus a minimal page frame (max-width, margin auto, padding). All other fixture presentation uses inline `style` attributes on specimen wrappers — never a second `<style>` block.
 - The three pages in `fixtures/corpus/` are permanent core-only batteries: they load `../../ds/core.css`, use canonical fixture chrome, and may not import optional component CSS or add fixture rules that patch uncovered elements.
 - Fixture/research scheme toggles set exactly `data-ds-theme`. Research-local hooks must not collide with protocol attribute names (exact-match boundary; substring lookalikes such as `data-theme-set` are outside the protocol and stay legal).
