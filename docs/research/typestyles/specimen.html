@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" data-smoothing="on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +34,7 @@
 
 :root {
   /* progressione condivisa 0→1 (fonte separata dal modello) */
-  --p: 0;
+  --p: 1; /* default = p=1: lo stato in cui l'utente ha giudicato il working set */
 
   /* faccia + interruttori di lab */
   --ts-font: "Inter", var(--ds-font-sans);
@@ -42,12 +42,14 @@
   --ts-w-book: 400;   /* classe book: regular/medium collassano */
   --ts-w-lg: 400;     /* decisione utente: lg in normal */
 
-  /* tracking di riposo — REGOLABILI (default = riferimento Figma) */
-  --ts-ls-sm: 0em;
+  /* tracking di riposo — REGOLABILI.
+     Default = WORKING SET utente 2026-09-02 (giudicato a p=1, opsz auto,
+     antialiased); il bottone "reset ai valori Figma" riporta al riferimento. */
+  --ts-ls-sm: -0.0075em;
   --ts-ls-sm-semi: -0.005em;
-  --ts-ls-md: -0.005em;
-  --ts-ls-md-semi: -0.01em;
-  --ts-ls-lg: -0.02em;
+  --ts-ls-md: -0.0125em;
+  --ts-ls-md-semi: -0.0075em;
+  --ts-ls-lg: -0.004em;
 
   /* polarità: delta di peso per superfici negative (slider); le superfici
      lo DICHIARANO (set, mai add) via --ts-pol */
@@ -199,8 +201,8 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
       </label>
       <label>smoothing:
         <select id="smoothing">
-          <option value="auto" selected>auto (default, dilatazione macOS)</option>
-          <option value="on">antialiased/grayscale (Figma-like)</option>
+          <option value="auto">auto (dilatazione macOS)</option>
+          <option value="on" selected>antialiased/grayscale (DECISO)</option>
           <option value="neg">solo su superfici negative</option>
         </select>
       </label>
@@ -234,11 +236,11 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
   <div class="panel">
     <h2>Tracking — revisione a occhio (riposo, in % della size; il fluido −0.5pp resta sopra)</h2>
     <div class="row">
-      <label>sm book <input class="ls" type="range" id="ls-sm" min="-3.5" max="1" step="0.05" value="0"> <output id="ls-sm-out">0%</output></label>
+      <label>sm book <input class="ls" type="range" id="ls-sm" min="-3.5" max="1" step="0.05" value="-0.75"> <output id="ls-sm-out">−0.75%</output></label>
       <label>sm semi <input class="ls" type="range" id="ls-sm-semi" min="-3.5" max="1" step="0.05" value="-0.5"> <output id="ls-sm-semi-out">−0.5%</output></label>
-      <label>md book <input class="ls" type="range" id="ls-md" min="-3.5" max="1" step="0.05" value="-0.5"> <output id="ls-md-out">−0.5%</output></label>
-      <label>md semi <input class="ls" type="range" id="ls-md-semi" min="-3.5" max="1" step="0.05" value="-1"> <output id="ls-md-semi-out">−1%</output></label>
-      <label>lg <input class="ls" type="range" id="ls-lg" min="-3.5" max="1" step="0.05" value="-2"> <output id="ls-lg-out">−2%</output></label>
+      <label>md book <input class="ls" type="range" id="ls-md" min="-3.5" max="1" step="0.05" value="-1.25"> <output id="ls-md-out">−1.25%</output></label>
+      <label>md semi <input class="ls" type="range" id="ls-md-semi" min="-3.5" max="1" step="0.05" value="-0.75"> <output id="ls-md-semi-out">−0.75%</output></label>
+      <label>lg <input class="ls" type="range" id="ls-lg" min="-3.5" max="1" step="0.05" value="-0.4"> <output id="ls-lg-out">−0.4%</output></label>
       <button id="ls-reset">reset ai valori Figma</button>
     </div>
     <div class="row note">Nel browser il semibold può volere PIÙ aria del book (l'opposto dei test Figma): muovi gli slider senza vincolo di segno — la regola di classe sopravvive con qualunque delta.</div>
@@ -435,7 +437,7 @@ table.read th { font-weight: 600; font-family: system-ui, sans-serif; }
   });
 
   root.style.setProperty("--ts-wdelta", "-20");
-  setP(0);
+  setP(1); /* apertura a p=1: lo stato del working set utente */
   update();
 </script>
 </body>
