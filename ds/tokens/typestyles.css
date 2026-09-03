@@ -20,8 +20,8 @@
 }
 
 :root {
-  --ds-type-ramp-min: 37.5rem;
-  --ds-type-ramp-max: 87.5rem;
+  --ds-type-ramp-rest: 37.5rem;
+  --ds-type-ramp-end: 87.5rem;
 
   --ds-type-sm-size: 0.875rem;
   --ds-type-sm-line-height: 1.25rem;
@@ -31,23 +31,23 @@
   --ds-type-sm-tracking-book: -0.0075em;
   --ds-type-sm-tracking-semibold: -0.005em;
 
-  --ds-type-md-size-min: 1.05rem;
-  --ds-type-md-size-max: 1.225rem;
-  --ds-type-md-line-height-min: 1.5rem;
-  --ds-type-md-line-height-max: 1.75rem;
+  --ds-type-md-size-rest: 1.05rem;
+  --ds-type-md-size-end: 1.225rem;
+  --ds-type-md-line-height-rest: 1.5rem;
+  --ds-type-md-line-height-end: 1.75rem;
   --ds-type-md-weight-book: 400;
   --ds-type-md-weight-medium: 500;
   --ds-type-md-weight-semibold: 600;
-  --ds-type-md-tracking-book-min: -0.0125em;
-  --ds-type-md-tracking-book-max: -0.0175em;
-  --ds-type-md-tracking-semibold-min: -0.0075em;
-  --ds-type-md-tracking-semibold-max: -0.0125em;
+  --ds-type-md-tracking-book-rest: -0.0125em;
+  --ds-type-md-tracking-book-end: -0.0175em;
+  --ds-type-md-tracking-semibold-rest: -0.0075em;
+  --ds-type-md-tracking-semibold-end: -0.0125em;
 
-  --ds-type-lg-size-min: 1.66667rem;
-  --ds-type-lg-size-max: 1.875rem;
-  --ds-type-lg-line-height-min: 2rem;
-  --ds-type-lg-line-height-max: 2.25rem;
+  --ds-type-lg-size-rest: 1.66667rem;
+  --ds-type-lg-size-end: 1.875rem;
+  --ds-type-lg-line-height-rest: 2rem;
+  --ds-type-lg-line-height-end: 2.25rem;
   --ds-type-lg-weight-normal: 400;
-  --ds-type-lg-tracking-min: -0.004em;
-  --ds-type-lg-tracking-max: -0.009em;
+  --ds-type-lg-tracking-rest: -0.004em;
+  --ds-type-lg-tracking-end: -0.009em;
 }

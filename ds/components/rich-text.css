@@ -31,19 +31,19 @@
     font-family: var(--ds-font-sans);
     font-weight: calc(var(--ds-type-lg-weight-normal) + var(--ds-polarity-wght, 0));
     font-size: clamp(
-      var(--ds-type-lg-size-min),
+      var(--ds-type-lg-size-rest),
       calc(1.5104225rem + 0.41666vw),
-      var(--ds-type-lg-size-max)
+      var(--ds-type-lg-size-end)
     );
     line-height: clamp(
-      var(--ds-type-lg-line-height-min),
+      var(--ds-type-lg-line-height-rest),
       calc(1.8125rem + 0.5vw),
-      var(--ds-type-lg-line-height-max)
+      var(--ds-type-lg-line-height-end)
     );
     letter-spacing: clamp(
-      var(--ds-type-lg-tracking-max),
+      var(--ds-type-lg-tracking-end),
       calc(0.000655154em - 0.020689617vw),
-      var(--ds-type-lg-tracking-min)
+      var(--ds-type-lg-tracking-rest)
     );
     font-optical-sizing: auto;
   }
@@ -52,19 +52,19 @@
     font-family: var(--ds-font-sans);
     font-weight: calc(var(--ds-type-md-weight-semibold) + var(--ds-polarity-wght, 0));
     font-size: clamp(
-      var(--ds-type-md-size-min),
+      var(--ds-type-md-size-rest),
       calc(0.91875rem + 0.35vw),
-      var(--ds-type-md-size-max)
+      var(--ds-type-md-size-end)
     );
     line-height: clamp(
-      var(--ds-type-md-line-height-min),
+      var(--ds-type-md-line-height-rest),
       calc(1.3125rem + 0.5vw),
-      var(--ds-type-md-line-height-max)
+      var(--ds-type-md-line-height-end)
     );
     letter-spacing: clamp(
-      var(--ds-type-md-tracking-semibold-max),
+      var(--ds-type-md-tracking-semibold-end),
       calc(-0.0025em - 0.014vw),
-      var(--ds-type-md-tracking-semibold-min)
+      var(--ds-type-md-tracking-semibold-rest)
     );
     font-optical-sizing: auto;
   }
@@ -73,19 +73,19 @@
     font-family: var(--ds-font-sans);
     font-weight: calc(var(--ds-type-md-weight-book) + var(--ds-polarity-wght, 0));
     font-size: clamp(
-      var(--ds-type-md-size-min),
+      var(--ds-type-md-size-rest),
       calc(0.91875rem + 0.35vw),
-      var(--ds-type-md-size-max)
+      var(--ds-type-md-size-end)
     );
     line-height: clamp(
-      var(--ds-type-md-line-height-min),
+      var(--ds-type-md-line-height-rest),
       calc(1.3125rem + 0.5vw),
-      var(--ds-type-md-line-height-max)
+      var(--ds-type-md-line-height-end)
     );
     letter-spacing: clamp(
-      var(--ds-type-md-tracking-book-max),
+      var(--ds-type-md-tracking-book-end),
       calc(-0.0075em - 0.014vw),
-      var(--ds-type-md-tracking-book-min)
+      var(--ds-type-md-tracking-book-rest)
     );
     font-optical-sizing: auto;
   }
@@ -95,9 +95,9 @@
   :where(strong) {
     font-weight: calc(var(--ds-type-md-weight-semibold) + var(--ds-polarity-wght, 0));
     letter-spacing: clamp(
-      var(--ds-type-md-tracking-semibold-max),
+      var(--ds-type-md-tracking-semibold-end),
       calc(-0.0025em - 0.014vw),
-      var(--ds-type-md-tracking-semibold-min)
+      var(--ds-type-md-tracking-semibold-rest)
     );
   }
 
@@ -204,9 +204,9 @@
   :where(th) {
     font-weight: calc(var(--ds-type-md-weight-semibold) + var(--ds-polarity-wght, 0));
     letter-spacing: clamp(
-      var(--ds-type-md-tracking-semibold-max),
+      var(--ds-type-md-tracking-semibold-end),
       calc(-0.0025em - 0.014vw),
-      var(--ds-type-md-tracking-semibold-min)
+      var(--ds-type-md-tracking-semibold-rest)
     );
     text-align: start;
   }

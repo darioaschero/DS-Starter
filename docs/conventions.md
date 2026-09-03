@@ -118,7 +118,7 @@ Colour rules:
 - **Polarity:** surfaces declare the inherited `--ds-polarity-wght` delta — set, never accumulate (light re-declares `0`; negative/dark declares `−20`; user decision 2026-09-02, approved **"ok per ora"** — provisional, revisitable). Tuple consumers add the delta exactly once at the weight consumption point. Numbers cannot ride `light-dark()`, so scheme wiring uses the selector + media pair.
 - **Smoothing:** the root declares `-webkit-font-smoothing: antialiased` + `-moz-osx-font-smoothing: grayscale` (user decision 2026-09-02; macOS-only lever, ignored elsewhere, consumer-overridable through the layer contract).
 - **Legacy typography roles** (`tokens/roles.css`): dormant module dowry — components still consume them via `index.css`; rich text consumes tuples only. No new consumer may adopt a legacy role.
-- **Tuple token naming is under review** with the user (viewport-endpoint `min|max` suffixes vs position-based names); treat the current names as functional, not frozen.
+- **Tuple token naming (user decision, 2026-09-03): position-based `rest|end` suffixes.** `-rest` = ramp start (≤ 37.5rem — the style *at rest*); `-end` = ramp end (≥ 87.5rem). Applied uniformly to every fluid pair and to the interval tokens (`--ds-type-ramp-rest|end`). Suffixes name the position on the ramp, never numeric ordering — chosen because tracking grows more negative along the ramp, making `min|max` ambiguous and inverting inside `clamp()`.
 
 ## 6. Component recipe pattern
 
