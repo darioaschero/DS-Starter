@@ -19,7 +19,7 @@ Più che uno starter personalizzabile, l'utente vuole **un tool per creare un DS
 
 ## 2. Cosa esiste già, e come si riposiziona sotto questa visione
 
-Leggere prima: `CLAUDE.md` (stato completo), `docs/conventions.md` v7 (in particolare §12), `docs/findings/m3-synthesis.md`, `docs/findings/scale-rules.md`, `docs/reviews/api-review-2026-09.md`, `docs/findings/typestyle-landing.md`.
+Leggere prima: `CLAUDE.md` (stato completo), `docs/conventions.md` v7 (in particolare §12), `docs/findings/m3-synthesis.md`, `docs/findings/scale-rules.md`, `docs/reviews/api-review-2026-09.md`, `docs/findings/typestyle-landing.md`, e **`docs/reviews/composer-comment-2026-09.md`** — un commento architetturale esterno (senza contesto di progetto) registrato verbatim con triage del coordinator: adozioni proposte (contratti locali/porte, 5 tipi di arco, overlay anonimo + doppio bottone inspector, materials/policy, LLM-autore-di-patch, MVP a tre operazioni), posizioni prese su questioni QUI aperte (model-owns-truth; var hashate vs §4), e punti ciechi (i gates già misurati; il loop di giudizio umano sottopesato; il protocollo v7 come target).
 
 | Asset esistente | Ruolo nella visione composer |
 |---|---|
@@ -41,7 +41,7 @@ Leggere prima: `CLAUDE.md` (stato completo), `docs/conventions.md` v7 (in partic
 4. **Contesti come primitiva unica.** Unificare: palette di contesto (T18), polarità (decisa, "ok per ora"), trattamenti condizionali (gloss su image-card). Cosa può portare un contesto (binding di palette, correzioni tipografiche, trattamenti); come si dichiarano e ri-materializzano (meccanismo già provato); come si compongono e annidano senza accumulo.
 5. **L'emettitore.** Target = protocollo v7, contratto consumer invariato (CSS-only, zero build, layer, override unlayered). Emissione guidata dalla conformance. Il livello di authoring: var-pair oggi, `@mixin/@apply` nativo quando interoperabile; pivot PostCSS sconsigliato dal coordinator (§5) ma discutibile come ramo, a costi dichiarati.
 6. **Il loop UI + LLM.** Produttizzare il ciclo manuale: proposta → resa live su corpus/specimen → giudizio umano → registrazione con provenienza. Cosa resta SEMPRE umano (il gusto — §11). Che forma ha la prima UI (anche solo: chat + browser pane + file, come già oggi)?
-7. **Taglio MVP.** Il loop chiuso più piccolo che prova la tesi. Candidato da discutere: modulo tipografico + modulo palette + contesti → componi → emetti → renderizza sul corpus → forka → confronta variante. CLI/file-based prima della UI?
+7. **Taglio MVP.** Candidato preferito (dal commento esterno, condiviso dal coordinator): dimostrare **tre operazioni difficili** invece di trenta componenti — (a) overlay parziale senza duplicazione (serif solo nel rich-text); (b) due topologie di palette a confronto (2 colori vs gradazioni) sotto lo stesso contratto; (c) una policy contestuale trasversale (soft → glass su image surface). CLI/file-based prima della UI? Il render di verifica usa il corpus esistente.
 8. **Rapporto con la roadmap in corso.** Cosa continua invariato (T21 diventa PIÙ centrale; C3 ritmo produce l'istanza di riferimento), cosa si riposiziona (C4–C6 come moduli/contesti del composer?), cosa si parcheggia.
 9. **Prior art** — scan fresco e posizionamento, non imitazione: Style Dictionary / Tokens Studio (pipeline di token, senza composizione né contesti), Knapsack/Supernova (piattaforme docs/governance), Radix Themes (anatomia fissa), Panda/vanilla-extract (build-time, developer-facing), theme-ui (constraint-based, il più vicino nello spirito), shadcn (l'anti-modello dichiarato dall'utente). Cosa manca a tutti: composizione con grafo + contesti + LLM-in-the-loop con giudizio su resa + emissione zero-runtime.
 
@@ -53,6 +53,8 @@ Leggere prima: `CLAUDE.md` (stato completo), `docs/conventions.md` v7 (in partic
 4. Sistema **brutalist a 2 colori** che passa la conformance con un'anatomia minima.
 5. **Card con image background** = contesto: gli elementi a palette soft (button, alert, segment) prendono un gloss background — senza cambi di API dei componenti.
 6. Header section a tinta piena o pastello = contesto: testo e bottoni si adattano da soli (palette + polarità + correzioni).
+7. **Il sistema typestyle T20** (tuple sm/md/lg, rampa registrata, tracking em, polarità, consumption-point) **deve essere esprimibile come modulo del modello** — se lo schema nodi/archi non lo esprime, lo schema è incompleto.
+8. Overlay anonimo con impact report: cambiare la family del body del rich-text senza creare uno stile visibile, vedendo prima "modifica la sorgente — N usi / sovrascrivi solo qui — 1 uso".
 
 ## 5. Paletti già decisi (non ri-litigare, ma si può proporre di riaprirli con motivazione)
 
